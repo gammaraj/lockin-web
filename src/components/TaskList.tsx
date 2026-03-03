@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Task, Project, DEFAULT_PROJECT, DEFAULT_PROJECT_ID } from "@/lib/types";
+import { Task, Project, DEFAULT_PROJECT, DEFAULT_PROJECT_ID, Subtask } from "@/lib/types";
 import { loadTasks, saveTasks, loadProjects, saveProjects, loadSelectedProjectId, saveSelectedProjectId } from "@/lib/storage";
 import { TASK_TEMPLATES, templateToTasks } from "@/lib/templates";
 
@@ -41,6 +41,8 @@ export default function TaskList({
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
   const [editProjectName, setEditProjectName] = useState("");
   const [showTemplateMenu, setShowTemplateMenu] = useState(false);
+  const [expandedTaskId, setExpandedTaskId] = useState<string | null>(null);
+  const [newSubtaskTitle, setNewSubtaskTitle] = useState("");
   const projectMenuRef = useRef<HTMLDivElement>(null);
   const templateMenuRef = useRef<HTMLDivElement>(null);
 
@@ -70,9 +72,9 @@ export default function TaskList({
         // Load tasks — migrate old tasks without projectId
         if (existing.length === 0) {
           const samples: Task[] = [
-            { id: crypto.randomUUID(), title: "Review project requirements", completed: false, sessions: 0, timeSpent: 0, createdAt: Date.now(), projectId: DEFAULT_PROJECT_ID },
-            { id: crypto.randomUUID(), title: "Draft design mockups", completed: false, sessions: 0, timeSpent: 0, createdAt: Date.now(), projectId: DEFAULT_PROJECT_ID },
-            { id: crypto.randomUUID(), title: "Write unit tests", completed: false, sessions: 0, timeSpent: 0, createdAt: Date.now(), projectId: DEFAULT_PROJECT_ID },
+            { id: crypto.randomUUID(), title: "Review project requirements", completed: false, sessions: 0, timeSpent: 0, createdAt: Date.now(), projectId: DEFAULT_PROJECT_ID, subtasks: [] },
+            { id: crypto.randomUUID(), title: "Draft design mockups", completed: false, sessions: 0, timeSpent: 0, createdAt: Date.now(), projectId: DEFAULT_PROJECT_ID, subtasks: [] },
+            { id: crypto.randomUUID(), title: "Write unit tests", completed: false, sessions: 0, timeSpent: 0, createdAt: Date.now(), projectId: DEFAULT_PROJECT_ID, subtasks: [] },
           ];
           saveTasks(samples);
           setTasks(samples);
@@ -163,6 +165,7 @@ export default function TaskList({
       timeSpent: 0,
       createdAt: Date.now(),
       projectId: selectedProjectId,
+      subtasks: [],
     };
 
     persist([...tasks, task]);
@@ -203,6 +206,41 @@ export default function TaskList({
 
   const clearCompleted = () => {
     persist(tasks.filter((t) => !(t.completed && t.projectId === selectedProjectId)));
+  };
+
+  // Subtask helpers
+  const addSubtask = (taskId: string) => {
+    const title = newSubtaskTitle.trim();
+    if (!title) return;
+    const subtask: Subtask = { id: crypto.randomUUID(), title, completed: false };
+    const updated = tasks.map((t) =>
+      t.id === taskId ? { ...t, subtasks: [...(t.subtasks || []), subtask] } : t
+    );
+    persist(updated);
+    setNewSubtaskTitle("");
+  };
+
+  const toggleSubtask = (taskId: string, subtaskId: string) => {
+    const updated = tasks.map((t) =>
+      t.id === taskId
+        ? {
+            ...t,
+            subtasks: (t.subtasks || []).map((s) =>
+              s.id === subtaskId ? { ...s, completed: !s.completed } : s
+            ),
+          }
+        : t
+    );
+    persist(updated);
+  };
+
+  const deleteSubtask = (taskId: string, subtaskId: string) => {
+    const updated = tasks.map((t) =>
+      t.id === taskId
+        ? { ...t, subtasks: (t.subtasks || []).filter((s) => s.id !== subtaskId) }
+        : t
+    );
+    persist(updated);
   };
 
   // Filter tasks for the selected project
@@ -449,14 +487,20 @@ export default function TaskList({
         )}
 
         <div className="space-y-2">
-          {pendingTasks.map((task) => (
+          {pendingTasks.map((task) => {
+            const subtasks = task.subtasks || [];
+            const completedSubtasks = subtasks.filter((s) => s.completed).length;
+            const hasSubtasks = subtasks.length > 0;
+            const isExpanded = expandedTaskId === task.id;
+
+            return (
+            <div key={task.id}>
             <div
-              key={task.id}
               className={`group flex items-center gap-3 p-3.5 rounded-xl border transition-colors ${
                 activeTaskId === task.id
                   ? "border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/20"
                   : "border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50"
-              }`}
+              } ${isExpanded ? "rounded-b-none" : ""}`}
             >
               {/* Checkbox */}
               <button
@@ -488,18 +532,46 @@ export default function TaskList({
                     {task.title}
                   </div>
                 )}
-                {(task.sessions > 0 || (task.timeSpent || 0) > 0) && (
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    {task.sessions > 0 && (
-                      <span>{task.sessions} session{task.sessions !== 1 ? "s" : ""}</span>
-                    )}
-                    {task.sessions > 0 && (task.timeSpent || 0) > 0 && " · "}
-                    {(task.timeSpent || 0) > 0 && (
-                      <span>{formatDuration(task.timeSpent)}</span>
-                    )}
-                  </div>
-                )}
+                <div className="flex items-center gap-2 mt-0.5">
+                  {hasSubtasks && (
+                    <span className="text-xs text-slate-500 dark:text-slate-400">
+                      {completedSubtasks}/{subtasks.length} subtask{subtasks.length !== 1 ? "s" : ""}
+                    </span>
+                  )}
+                  {hasSubtasks && (task.sessions > 0 || (task.timeSpent || 0) > 0) && (
+                    <span className="text-xs text-slate-300 dark:text-slate-600">·</span>
+                  )}
+                  {(task.sessions > 0 || (task.timeSpent || 0) > 0) && (
+                    <span className="text-xs text-slate-500 dark:text-slate-400">
+                      {task.sessions > 0 && (
+                        <>{task.sessions} session{task.sessions !== 1 ? "s" : ""}</>
+                      )}
+                      {task.sessions > 0 && (task.timeSpent || 0) > 0 && " · "}
+                      {(task.timeSpent || 0) > 0 && formatDuration(task.timeSpent)}
+                    </span>
+                  )}
+                </div>
               </div>
+
+              {/* Expand subtasks toggle */}
+              <button
+                onClick={() => {
+                  setExpandedTaskId(isExpanded ? null : task.id);
+                  setNewSubtaskTitle("");
+                }}
+                className={`flex-shrink-0 p-1 rounded-md transition-all ${
+                  isExpanded
+                    ? "text-blue-500 dark:text-blue-400"
+                    : hasSubtasks
+                      ? "text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-400"
+                      : "text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-400 opacity-0 group-hover:opacity-100"
+                }`}
+                title={isExpanded ? "Collapse subtasks" : "Add subtask"}
+              >
+                <svg className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-45" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+              </button>
 
               {/* Start / Stop button */}
               {!isTimerRunning && (
@@ -545,7 +617,7 @@ export default function TaskList({
               {!isTimerRunning && (
                 <button
                   onClick={() => deleteTask(task.id)}
-                  className="flex-shrink-0 text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
+                  className="flex-shrink-0 p-1 rounded-md text-slate-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all"
                   aria-label={`Delete "${task.title}"`}
                 >
                   <svg
@@ -564,7 +636,83 @@ export default function TaskList({
                 </button>
               )}
             </div>
-          ))}
+
+            {/* Subtasks panel */}
+            {isExpanded && (
+              <div className={`border border-t-0 rounded-b-xl px-4 py-3 space-y-2 ${
+                activeTaskId === task.id
+                  ? "border-blue-300 dark:border-blue-700 bg-blue-50/50 dark:bg-blue-900/10"
+                  : "border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30"
+              }`}>
+                {/* Existing subtasks */}
+                {subtasks.map((sub) => (
+                  <div key={sub.id} className="group/sub flex items-center gap-2.5 py-1">
+                    <button
+                      onClick={() => toggleSubtask(task.id, sub.id)}
+                      className={`flex-shrink-0 w-4 h-4 rounded border-[1.5px] transition-colors flex items-center justify-center ${
+                        sub.completed
+                          ? "border-green-400 bg-green-500"
+                          : "border-slate-300 dark:border-slate-600 hover:border-blue-500"
+                      }`}
+                    >
+                      {sub.completed && (
+                        <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                    </button>
+                    <span className={`flex-1 text-sm ${
+                      sub.completed
+                        ? "text-slate-400 dark:text-slate-500 line-through"
+                        : "text-slate-700 dark:text-slate-200"
+                    }`}>
+                      {sub.title}
+                    </span>
+                    <button
+                      onClick={() => deleteSubtask(task.id, sub.id)}
+                      className="flex-shrink-0 text-slate-300 hover:text-red-500 opacity-0 group-hover/sub:opacity-100 transition-all"
+                      aria-label={`Delete subtask "${sub.title}"`}
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                ))}
+
+                {/* Add subtask input */}
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    addSubtask(task.id);
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  <div className="flex-shrink-0 w-4 h-4 flex items-center justify-center">
+                    <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                  </div>
+                  <input
+                    type="text"
+                    value={newSubtaskTitle}
+                    onChange={(e) => setNewSubtaskTitle(e.target.value)}
+                    placeholder="Add a subtask..."
+                    className="flex-1 px-2 py-1 text-sm border border-slate-200 dark:border-slate-700 rounded-md bg-white dark:bg-gray-800 dark:text-white focus:border-blue-400 outline-none"
+                  />
+                  <button
+                    type="submit"
+                    disabled={!newSubtaskTitle.trim()}
+                    className="px-2 py-1 text-xs font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Add
+                  </button>
+                </form>
+              </div>
+            )}
+            </div>
+            );
+          })}
         </div>
 
         {/* Completed tasks */}

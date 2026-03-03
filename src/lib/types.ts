@@ -49,6 +49,12 @@ export const DEFAULT_PROJECT: Project = {
   createdAt: 0,
 };
 
+export interface Subtask {
+  id: string;
+  title: string;
+  completed: boolean;
+}
+
 export interface Task {
   id: string;
   title: string;
@@ -57,6 +63,7 @@ export interface Task {
   timeSpent: number; // total milliseconds spent on this task
   createdAt: number;
   projectId: string; // which project this task belongs to
+  subtasks?: Subtask[];
 }
 
 export const DEFAULT_SETTINGS: Settings = {

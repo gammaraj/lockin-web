@@ -95,5 +95,6 @@ export function templateToTasks(
     timeSpent: 0,
     createdAt: Date.now(),
     projectId,
+    subtasks: [],
   }));
 }
