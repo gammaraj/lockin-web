@@ -68,15 +68,17 @@ export function useTimer(): TimerState {
 
   // Load persisted data on mount
   useEffect(() => {
-    const loaded = loadSettings();
-    setSettings(loaded);
-    settingsRef.current = loaded;
-    totalDurationRef.current = loaded.workDuration;
-    setRemainingTime(loaded.workDuration);
+    loadSettings().then((loaded) => {
+      setSettings(loaded);
+      settingsRef.current = loaded;
+      totalDurationRef.current = loaded.workDuration;
+      setRemainingTime(loaded.workDuration);
 
-    const goal = loadDailyGoalData(loaded.dailyGoal);
-    setDailyGoalData(goal);
-    dailyGoalRef.current = goal;
+      loadDailyGoalData(loaded.dailyGoal).then((goal) => {
+        setDailyGoalData(goal);
+        dailyGoalRef.current = goal;
+      });
+    });
   }, []);
 
   // Sync refs

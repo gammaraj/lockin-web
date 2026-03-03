@@ -26,7 +26,7 @@ export default function DailyProgress({
 
   useEffect(() => {
     if (showCalendar) {
-      setStreakHistory(loadStreakHistory());
+      loadStreakHistory().then(setStreakHistory);
     }
   }, [showCalendar, dailyGoalData]);
 

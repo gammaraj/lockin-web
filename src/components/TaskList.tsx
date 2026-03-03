@@ -54,37 +54,39 @@ export default function TaskList({
 
   useEffect(() => {
     // Load projects
-    const existingProjects = loadProjects();
-    setProjects(existingProjects);
-    const savedProjectId = loadSelectedProjectId();
-    // Ensure saved project still exists
-    if (existingProjects.find((p) => p.id === savedProjectId)) {
-      setSelectedProjectId(savedProjectId);
-    }
+    Promise.all([loadProjects(), loadSelectedProjectId(), loadTasks()]).then(
+      ([existingProjects, savedProjectId, existing]) => {
+        setProjects(existingProjects);
+        if (existingProjects.find((p) => p.id === savedProjectId)) {
+          setSelectedProjectId(savedProjectId);
+        }
 
-    // Load tasks — migrate old tasks without projectId
-    const existing = loadTasks();
-    if (existing.length === 0) {
-      const samples: Task[] = [
-        { id: crypto.randomUUID(), title: "Review project requirements", completed: false, sessions: 0, timeSpent: 0, createdAt: Date.now(), projectId: DEFAULT_PROJECT_ID },
-        { id: crypto.randomUUID(), title: "Draft design mockups", completed: false, sessions: 0, timeSpent: 0, createdAt: Date.now(), projectId: DEFAULT_PROJECT_ID },
-        { id: crypto.randomUUID(), title: "Write unit tests", completed: false, sessions: 0, timeSpent: 0, createdAt: Date.now(), projectId: DEFAULT_PROJECT_ID },
-      ];
-      saveTasks(samples);
-      setTasks(samples);
-    } else {
-      // Migrate tasks missing projectId
-      const migrated = existing.map((t) => ({
-        ...t,
-        projectId: t.projectId || DEFAULT_PROJECT_ID,
-      }));
-      if (migrated.some((t, i) => t.projectId !== existing[i]?.projectId)) {
-        saveTasks(migrated);
+        // Load tasks — migrate old tasks without projectId
+        if (existing.length === 0) {
+          const samples: Task[] = [
+            { id: crypto.randomUUID(), title: "Review project requirements", completed: false, sessions: 0, timeSpent: 0, createdAt: Date.now(), projectId: DEFAULT_PROJECT_ID },
+            { id: crypto.randomUUID(), title: "Draft design mockups", completed: false, sessions: 0, timeSpent: 0, createdAt: Date.now(), projectId: DEFAULT_PROJECT_ID },
+            { id: crypto.randomUUID(), title: "Write unit tests", completed: false, sessions: 0, timeSpent: 0, createdAt: Date.now(), projectId: DEFAULT_PROJECT_ID },
+          ];
+          saveTasks(samples);
+          setTasks(samples);
+        } else {
+          // Migrate tasks missing projectId
+          const migrated = existing.map((t) => ({
+            ...t,
+            projectId: t.projectId || DEFAULT_PROJECT_ID,
+          }));
+          if (migrated.some((t, i) => t.projectId !== existing[i]?.projectId)) {
+            saveTasks(migrated);
+          }
+          setTasks(migrated);
+        }
       }
-      setTasks(migrated);
-    }
+    );
 
-    const handleUpdate = () => setTasks(loadTasks());
+    const handleUpdate = () => {
+      loadTasks().then(setTasks);
+    };
     window.addEventListener("lockin-tasks-updated", handleUpdate);
     return () => window.removeEventListener("lockin-tasks-updated", handleUpdate);
   }, []);

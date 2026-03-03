@@ -39,14 +39,15 @@ export default function HomePage() {
       const taskId = activeTaskIdRef.current;
       if (!taskId) return;
       const elapsed = timer.settings.workDuration; // full session completed
-      const tasks = loadTasks();
-      const updated = tasks.map((t) =>
-        t.id === taskId
-          ? { ...t, sessions: t.sessions + 1, timeSpent: (t.timeSpent || 0) + elapsed }
-          : t
-      );
-      saveTasks(updated);
-      window.dispatchEvent(new Event("lockin-tasks-updated"));
+      loadTasks().then((tasks) => {
+        const updated = tasks.map((t) =>
+          t.id === taskId
+            ? { ...t, sessions: t.sessions + 1, timeSpent: (t.timeSpent || 0) + elapsed }
+            : t
+        );
+        saveTasks(updated);
+        window.dispatchEvent(new Event("lockin-tasks-updated"));
+      });
     });
     return () => timer.setOnSessionCompleteCallback(null);
   }, [timer]);
@@ -71,12 +72,13 @@ export default function HomePage() {
   const handleCompleteTask = useCallback((taskId: string) => {
     const elapsed = timer.getElapsedWorkTime();
     if (elapsed > 0) {
-      const tasks = loadTasks();
-      const updated = tasks.map((t) =>
-        t.id === taskId ? { ...t, timeSpent: (t.timeSpent || 0) + elapsed } : t
-      );
-      saveTasks(updated);
-      window.dispatchEvent(new Event("lockin-tasks-updated"));
+      loadTasks().then((tasks) => {
+        const updated = tasks.map((t) =>
+          t.id === taskId ? { ...t, timeSpent: (t.timeSpent || 0) + elapsed } : t
+        );
+        saveTasks(updated);
+        window.dispatchEvent(new Event("lockin-tasks-updated"));
+      });
     }
     if (timer.status === "running" || timer.status === "paused") {
       timer.reset();
@@ -264,9 +266,10 @@ function ActiveTaskBanner({
   const [title, setTitle] = useState("");
 
   useEffect(() => {
-    const tasks = loadTasks();
-    const t = tasks.find((task) => task.id === taskId);
-    setTitle(t?.title ?? "");
+    loadTasks().then((tasks) => {
+      const t = tasks.find((task) => task.id === taskId);
+      setTitle(t?.title ?? "");
+    });
   }, [taskId]);
 
   if (!title) return null;
