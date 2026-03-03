@@ -37,6 +37,8 @@ export interface TimerState {
   pause: () => void;
   reset: () => void;
   saveSettings: (s: Settings) => void;
+  setOnSessionCompleteCallback: (cb: (() => void) | null) => void;
+  getElapsedWorkTime: () => number;
 }
 
 export function useTimer(): TimerState {
@@ -62,6 +64,7 @@ export function useTimer(): TimerState {
   const dailyGoalRef = useRef<DailyGoalData>(dailyGoalData);
   const isBreakModeRef = useRef(false);
   const statusRef = useRef<TimerStatus>("idle");
+  const onSessionCompleteCbRef = useRef<(() => void) | null>(null);
 
   // Load persisted data on mount
   useEffect(() => {
@@ -151,6 +154,11 @@ export function useTimer(): TimerState {
     const quote = getRandomQuote();
     setLastQuote(quote);
     showNotification(quote, goalMet, dgd.sessionCount, s.dailyGoal);
+
+    // Notify external callback (e.g. task list)
+    if (onSessionCompleteCbRef.current) {
+      onSessionCompleteCbRef.current();
+    }
 
     // Enter break mode
     setIsBreakMode(true);
@@ -309,6 +317,27 @@ export function useTimer(): TimerState {
     }
   }, []);
 
+  const setOnSessionCompleteCallback = useCallback(
+    (cb: (() => void) | null) => {
+      onSessionCompleteCbRef.current = cb;
+    },
+    []
+  );
+
+  /** Returns ms of work time elapsed in the current session (0 during break/idle). */
+  const getElapsedWorkTime = useCallback(() => {
+    if (isBreakModeRef.current) return 0;
+    const s = statusRef.current;
+    if (s === "running" && startTimeRef.current) {
+      return Date.now() - startTimeRef.current;
+    }
+    if (s === "paused") {
+      // totalDurationRef holds the remaining time at pause start
+      return settingsRef.current.workDuration - remainingTime;
+    }
+    return 0;
+  }, [remainingTime]);
+
   return {
     remainingTime,
     totalDuration: totalDurationRef.current,
@@ -323,5 +352,7 @@ export function useTimer(): TimerState {
     pause,
     reset,
     saveSettings: handleSaveSettings,
+    setOnSessionCompleteCallback,
+    getElapsedWorkTime,
   };
 }

@@ -2,12 +2,18 @@ import {
   Settings,
   DailyGoalData,
   StreakHistory,
+  Task,
+  Project,
   DEFAULT_SETTINGS,
+  DEFAULT_PROJECT,
 } from "./types";
 
 const SETTINGS_KEY = "lockin_settings";
 const DAILY_GOAL_KEY = "lockin_daily_goal";
 const STREAK_HISTORY_KEY = "lockin_streak_history";
+const TASKS_KEY = "lockin_tasks";
+const PROJECTS_KEY = "lockin_projects";
+const SELECTED_PROJECT_KEY = "lockin_selected_project";
 
 function isBrowser(): boolean {
   return typeof window !== "undefined";
@@ -142,4 +148,55 @@ export function recordDayCompletion(
     timestamp: Date.now(),
   };
   saveStreakHistory(history);
+}
+
+// ===== Tasks =====
+
+export function loadTasks(): Task[] {
+  if (!isBrowser()) return [];
+  try {
+    const raw = localStorage.getItem(TASKS_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw);
+  } catch {
+    return [];
+  }
+}
+
+export function saveTasks(tasks: Task[]): void {
+  if (!isBrowser()) return;
+  localStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
+}
+
+// ===== Projects =====
+
+export function loadProjects(): Project[] {
+  if (!isBrowser()) return [DEFAULT_PROJECT];
+  try {
+    const raw = localStorage.getItem(PROJECTS_KEY);
+    if (!raw) return [DEFAULT_PROJECT];
+    const projects: Project[] = JSON.parse(raw);
+    // Ensure default project always exists
+    if (!projects.find((p) => p.id === DEFAULT_PROJECT.id)) {
+      return [DEFAULT_PROJECT, ...projects];
+    }
+    return projects;
+  } catch {
+    return [DEFAULT_PROJECT];
+  }
+}
+
+export function saveProjects(projects: Project[]): void {
+  if (!isBrowser()) return;
+  localStorage.setItem(PROJECTS_KEY, JSON.stringify(projects));
+}
+
+export function loadSelectedProjectId(): string {
+  if (!isBrowser()) return DEFAULT_PROJECT.id;
+  return localStorage.getItem(SELECTED_PROJECT_KEY) || DEFAULT_PROJECT.id;
+}
+
+export function saveSelectedProjectId(id: string): void {
+  if (!isBrowser()) return;
+  localStorage.setItem(SELECTED_PROJECT_KEY, id);
 }

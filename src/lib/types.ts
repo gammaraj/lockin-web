@@ -35,6 +35,30 @@ export type TimerStatus =
   | "break"
   | "completed";
 
+export interface Project {
+  id: string;
+  name: string;
+  createdAt: number;
+}
+
+export const DEFAULT_PROJECT_ID = "__general__";
+
+export const DEFAULT_PROJECT: Project = {
+  id: DEFAULT_PROJECT_ID,
+  name: "General",
+  createdAt: 0,
+};
+
+export interface Task {
+  id: string;
+  title: string;
+  completed: boolean;
+  sessions: number; // number of sessions spent on this task
+  timeSpent: number; // total milliseconds spent on this task
+  createdAt: number;
+  projectId: string; // which project this task belongs to
+}
+
 export const DEFAULT_SETTINGS: Settings = {
   workDuration: 30 * 60 * 1000, // 30 minutes
   breakDuration: 5 * 60 * 1000, // 5 minutes
