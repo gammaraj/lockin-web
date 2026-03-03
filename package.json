@@ -1,7 +1,7 @@
 {
-  "name": "lockin-web",
+  "name": "tempo-web",
   "version": "1.0.0",
-  "description": "LockIn - Productivity Timer Web App",
+  "description": "Tempo - Productivity Timer Web App",
   "private": true,
   "scripts": {
     "dev": "next dev",

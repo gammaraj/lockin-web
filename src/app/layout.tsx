@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "LockIn - Focus Timer",
+  title: "Tempo - Focus Timer",
   description:
     "A productivity timer app that helps you stay focused and maintain healthy work-break cycles.",
   icons: {

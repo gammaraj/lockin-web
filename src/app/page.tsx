@@ -46,7 +46,7 @@ export default function HomePage() {
             : t
         );
         saveTasks(updated);
-        window.dispatchEvent(new Event("lockin-tasks-updated"));
+        window.dispatchEvent(new Event("tempo-tasks-updated"));
       });
     });
     return () => timer.setOnSessionCompleteCallback(null);
@@ -77,7 +77,7 @@ export default function HomePage() {
           t.id === taskId ? { ...t, timeSpent: (t.timeSpent || 0) + elapsed } : t
         );
         saveTasks(updated);
-        window.dispatchEvent(new Event("lockin-tasks-updated"));
+        window.dispatchEvent(new Event("tempo-tasks-updated"));
       });
     }
     if (timer.status === "running" || timer.status === "paused") {
@@ -141,7 +141,7 @@ export default function HomePage() {
                     />
                   </svg>
                 </div>
-                <h1 className="text-xl font-bold ml-3">LockIn</h1>
+                <h1 className="text-xl font-bold ml-3">Tempo</h1>
               </div>
 
               <button

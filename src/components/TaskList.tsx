@@ -87,8 +87,8 @@ export default function TaskList({
     const handleUpdate = () => {
       loadTasks().then(setTasks);
     };
-    window.addEventListener("lockin-tasks-updated", handleUpdate);
-    return () => window.removeEventListener("lockin-tasks-updated", handleUpdate);
+    window.addEventListener("tempo-tasks-updated", handleUpdate);
+    return () => window.removeEventListener("tempo-tasks-updated", handleUpdate);
   }, []);
 
   const persist = useCallback((updated: Task[]) => {

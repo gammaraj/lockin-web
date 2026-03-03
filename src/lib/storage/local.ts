@@ -9,16 +9,36 @@ import {
 } from "../types";
 import type { StorageAdapter } from "./types";
 
-const SETTINGS_KEY = "lockin_settings";
-const DAILY_GOAL_KEY = "lockin_daily_goal";
-const STREAK_HISTORY_KEY = "lockin_streak_history";
-const TASKS_KEY = "lockin_tasks";
-const PROJECTS_KEY = "lockin_projects";
-const SELECTED_PROJECT_KEY = "lockin_selected_project";
+const SETTINGS_KEY = "tempo_settings";
+const DAILY_GOAL_KEY = "tempo_daily_goal";
+const STREAK_HISTORY_KEY = "tempo_streak_history";
+const TASKS_KEY = "tempo_tasks";
+const PROJECTS_KEY = "tempo_projects";
+const SELECTED_PROJECT_KEY = "tempo_selected_project";
 
 function isBrowser(): boolean {
   return typeof window !== "undefined";
 }
+
+/** One-time migration from old "lockin_*" keys to "tempo_*" keys */
+function migrateFromLockIn(): void {
+  if (!isBrowser()) return;
+  const OLD_PREFIX = "lockin_";
+  const NEW_PREFIX = "tempo_";
+  const suffixes = ["settings", "daily_goal", "streak_history", "tasks", "projects", "selected_project"];
+  for (const suffix of suffixes) {
+    const oldKey = OLD_PREFIX + suffix;
+    const newKey = NEW_PREFIX + suffix;
+    const existing = localStorage.getItem(oldKey);
+    if (existing !== null && localStorage.getItem(newKey) === null) {
+      localStorage.setItem(newKey, existing);
+      localStorage.removeItem(oldKey);
+    }
+  }
+}
+
+// Run migration eagerly on module load
+migrateFromLockIn();
 
 function getToday(): string {
   return new Date().toDateString();
