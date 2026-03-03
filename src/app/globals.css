@@ -21,8 +21,8 @@ body {
 /* ===== Circular Timer ===== */
 .circular-timer-container {
   position: relative;
-  width: 280px;
-  height: 280px;
+  width: min(280px, 70vw);
+  height: min(280px, 70vw);
   margin: 0 auto;
 }
 
@@ -81,8 +81,8 @@ body {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
   border-radius: 50%;
-  width: 200px;
-  height: 200px;
+  width: min(200px, 50vw);
+  height: min(200px, 50vw);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -105,6 +105,8 @@ body {
   background: #475569;
   color: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  min-width: 48px;
+  min-height: 48px;
 }
 
 .pause-button:hover {
@@ -137,6 +139,8 @@ body {
   color: #64748b;
   border: 1px solid #e2e8f0;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  min-width: 48px;
+  min-height: 48px;
 }
 
 .reset-button:hover {
@@ -177,6 +181,18 @@ body {
   border: none;
 }
 
+@media (max-width: 480px) {
+  .settings-panel {
+    width: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 0;
+    top: 0;
+    left: 0;
+    transform: none;
+  }
+}
+
 /* ===== Calendar ===== */
 .calendar-day {
   width: 32px;
@@ -189,6 +205,14 @@ body {
   font-weight: 500;
   cursor: default;
   transition: all 0.2s;
+}
+
+@media (max-width: 480px) {
+  .calendar-day {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+  }
 }
 
 /* ===== Animations ===== */

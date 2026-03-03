@@ -215,7 +215,7 @@ export default function TaskList({
     <div className="bg-white/80 dark:bg-gray-900 backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200/60 dark:border-gray-800 overflow-visible">
       {/* Header */}
       <div
-        className="px-5 py-4 text-white rounded-t-2xl"
+        className="px-4 sm:px-5 py-4 text-white rounded-t-2xl"
         style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)" }}
       >
         <h2 className="text-lg font-bold flex items-center gap-2">
