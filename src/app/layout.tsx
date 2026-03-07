@@ -114,6 +114,8 @@ const faqJsonLd = {
   ],
 };
 
+import { AuthProvider } from "@/components/AuthProvider";
+
 export default function RootLayout({
   children,
 }: {
@@ -122,6 +124,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5RNV83Q1KD" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-5RNV83Q1KD');`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -132,7 +140,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/50 to-indigo-50 dark:from-gray-900 dark:to-gray-950">
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

@@ -50,10 +50,10 @@ export default function CircularTimer({
             {isBreak ? "🎉 " : ""}
             {label}
           </div>
-          <div className="text-4xl font-bold text-gray-900 dark:text-white leading-none tracking-tight">
+          <div className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white leading-none tracking-tight">
             {displayTime}
           </div>
-          <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+          <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
             {statusText}
           </div>
         </div>

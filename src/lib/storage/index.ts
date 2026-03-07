@@ -1,48 +1,71 @@
 /**
  * Storage barrel — thin wrapper around the active StorageAdapter.
  *
- * Currently uses LocalStorageAdapter. To switch to Postgres (or any remote DB):
- *   1. Create a class that implements StorageAdapter (e.g. PostgresAdapter).
- *   2. Swap the adapter instantiation below.
- *   3. Existing call-sites already use the async API, so no further changes needed.
+ * Uses SupabaseStorageAdapter when the user is authenticated,
+ * falls back to LocalStorageAdapter otherwise.
  */
 
 export type { StorageAdapter } from "./types";
 export { LocalStorageAdapter } from "./local";
+export { SupabaseStorageAdapter } from "./supabase";
 
 import { LocalStorageAdapter } from "./local";
+import { SupabaseStorageAdapter } from "./supabase";
 import type { StorageAdapter } from "./types";
+import { createClient } from "../supabase/client";
 
-// ── Active adapter (swap this line to change backend) ───
-const adapter: StorageAdapter = new LocalStorageAdapter();
+// ── Adapter registry ────────────────────────────────────
+const localAdapter = new LocalStorageAdapter();
+let supabaseAdapter: SupabaseStorageAdapter | null = null;
+let currentAdapter: StorageAdapter = localAdapter;
 
-// ── Public API (async, delegates to adapter) ────────────
-export const storage = adapter;
+/**
+ * Switch to the Supabase adapter (call after user logs in).
+ */
+export function activateSupabaseStorage(): void {
+  const supabase = createClient();
+  supabaseAdapter = new SupabaseStorageAdapter(supabase);
+  currentAdapter = supabaseAdapter;
+}
 
-// ── Convenience re-exports for backward compatibility ───
-// All consumers can import these directly:
-export const loadSettings = () => adapter.loadSettings();
+/**
+ * Switch back to localStorage (call after user logs out).
+ */
+export function activateLocalStorage(): void {
+  supabaseAdapter = null;
+  currentAdapter = localAdapter;
+}
+
+/**
+ * Returns the currently active adapter.
+ */
+export function getStorage(): StorageAdapter {
+  return currentAdapter;
+}
+
+// ── Public API (async, delegates to active adapter) ─────
+export const loadSettings = () => currentAdapter.loadSettings();
 export const saveSettings = (...args: Parameters<StorageAdapter["saveSettings"]>) =>
-  adapter.saveSettings(...args);
+  currentAdapter.saveSettings(...args);
 
 export const loadDailyGoalData = (...args: Parameters<StorageAdapter["loadDailyGoalData"]>) =>
-  adapter.loadDailyGoalData(...args);
+  currentAdapter.loadDailyGoalData(...args);
 export const saveDailyGoalData = (...args: Parameters<StorageAdapter["saveDailyGoalData"]>) =>
-  adapter.saveDailyGoalData(...args);
+  currentAdapter.saveDailyGoalData(...args);
 
-export const loadStreakHistory = () => adapter.loadStreakHistory();
+export const loadStreakHistory = () => currentAdapter.loadStreakHistory();
 export const saveStreakHistory = (...args: Parameters<StorageAdapter["saveStreakHistory"]>) =>
-  adapter.saveStreakHistory(...args);
+  currentAdapter.saveStreakHistory(...args);
 export const recordDayCompletion = (...args: Parameters<StorageAdapter["recordDayCompletion"]>) =>
-  adapter.recordDayCompletion(...args);
+  currentAdapter.recordDayCompletion(...args);
 
-export const loadTasks = () => adapter.loadTasks();
+export const loadTasks = () => currentAdapter.loadTasks();
 export const saveTasks = (...args: Parameters<StorageAdapter["saveTasks"]>) =>
-  adapter.saveTasks(...args);
+  currentAdapter.saveTasks(...args);
 
-export const loadProjects = () => adapter.loadProjects();
+export const loadProjects = () => currentAdapter.loadProjects();
 export const saveProjects = (...args: Parameters<StorageAdapter["saveProjects"]>) =>
-  adapter.saveProjects(...args);
-export const loadSelectedProjectId = () => adapter.loadSelectedProjectId();
+  currentAdapter.saveProjects(...args);
+export const loadSelectedProjectId = () => currentAdapter.loadSelectedProjectId();
 export const saveSelectedProjectId = (...args: Parameters<StorageAdapter["saveSelectedProjectId"]>) =>
-  adapter.saveSelectedProjectId(...args);
+  currentAdapter.saveSelectedProjectId(...args);
