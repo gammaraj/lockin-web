@@ -1,31 +1,75 @@
 # Tempo – Focus Timer & Pomodoro Productivity App
 
-> Tempo is a free, open-source Pomodoro-style focus timer web app built with Next.js, React, and Tailwind CSS. It helps users stay productive through customizable work-break cycles, task management, daily session goals, and motivational quotes.
+> Tempo is a free, open-source Pomodoro-style focus timer web app built with Next.js, React, and Tailwind CSS. It helps users stay productive through customizable work-break cycles, task management, daily session goals, streak tracking, and motivational quotes. No sign-up required — works instantly in any modern browser.
 
-## Features
+## What is Tempo?
 
-- **Circular Timer**: A visual countdown timer with smooth animations for work and break sessions.
-- **Customizable Durations**: Set your own work duration, break duration, and inactivity threshold.
-- **Task Tracking**: Create, start, complete, and delete tasks. Track sessions and time spent per task.
+Tempo is an online Pomodoro focus timer designed for students, developers, writers, and anyone who wants to manage their time more effectively. It implements the Pomodoro technique — focused work intervals followed by short breaks — with a beautiful, minimal interface. Tempo is completely free, works offline, and requires no account to get started.
+
+## Key Features
+
+- **Circular Timer**: A visual SVG-based countdown timer with smooth animations for work and break sessions.
+- **Customizable Durations**: Set your own work duration (default 25 min), break duration (default 5 min), and inactivity threshold.
+- **Task Tracking**: Create, start, complete, and delete tasks. Track sessions and total time spent per task.
 - **Daily Goals & Streaks**: Set a daily session goal and track your streak of consecutive productive days.
-- **Auto-Start**: Optionally auto-start the next session when a break ends.
-- **Notifications**: Browser notifications when a session or break completes.
-- **Motivational Quotes**: Rotating inspirational quotes displayed during sessions.
-- **Dark Mode**: Supports light and dark themes via system preference.
-- **Local Storage Persistence**: All data (settings, tasks, progress, streaks) persists in the browser.
+- **Auto-Start**: Optionally auto-start the next work session when a break ends.
+- **Browser Notifications**: Get notified when a work session or break completes.
+- **Motivational Quotes**: Rotating inspirational quotes displayed during sessions to keep you motivated.
+- **Dark Mode**: Full light and dark theme support based on system preference.
+- **Offline Support**: Works as a Progressive Web App — use Tempo without an internet connection.
+- **Cloud Sync**: Optionally sign up to sync settings, tasks, and progress across devices via Supabase.
+- **Data Privacy**: All data is stored locally by default. No tracking, no ads.
+
+## How to Use Tempo
+
+1. Visit https://usetempo.app and click "Try without account" or sign up for free.
+2. Open Settings to configure your work duration, break duration, and daily session goal.
+3. Create tasks you want to focus on.
+4. Select a task and press Start to begin a focused work session.
+5. When the timer ends, take a break. Tempo handles the transition automatically.
+6. Track completed sessions, daily progress, and streaks over time.
+
+## Frequently Asked Questions
+
+**Q: Is Tempo free?**
+A: Yes, Tempo is 100% free with no premium tiers, ads, or hidden costs.
+
+**Q: Do I need an account?**
+A: No. You can use Tempo immediately without signing up. Create an account only if you want to sync data across devices.
+
+**Q: Does Tempo work offline?**
+A: Yes. Tempo is a Progressive Web App that works fully offline after the first load.
+
+**Q: What is the Pomodoro technique?**
+A: The Pomodoro technique is a time management method that alternates focused work intervals (typically 25 minutes) with short breaks (typically 5 minutes). After four cycles, take a longer break. It helps maintain concentration and prevent burnout.
+
+**Q: Can I customize the timer?**
+A: Yes. You can adjust work duration, break duration, and daily session goals in the Settings panel.
+
+**Q: How does task tracking work?**
+A: Create tasks in the task list, select one before starting the timer, and Tempo automatically logs sessions and time spent on that task.
+
+**Q: Where is my data stored?**
+A: By default, all data is stored in your browser's local storage. If you sign up, data is synced to a secure Supabase backend.
+
+**Q: What browsers are supported?**
+A: Tempo works in all modern browsers including Chrome, Firefox, Safari, and Edge.
 
 ## Tech Stack
 
-- Next.js (App Router)
+- Next.js 15 (App Router)
 - React 19
 - TypeScript
 - Tailwind CSS 4
-- Local Storage for data persistence
+- Supabase (optional cloud sync)
+- Local Storage for offline persistence
 
 ## Architecture
 
-- `src/app/layout.tsx` – Root layout with SEO metadata.
-- `src/app/page.tsx` – Main single-page app with timer, controls, tasks, and settings.
+- `src/app/layout.tsx` – Root layout with SEO metadata and structured data.
+- `src/app/page.tsx` – Landing page with feature overview.
+- `src/app/app/page.tsx` – Main app with timer, controls, tasks, and settings.
+- `src/app/login/page.tsx` – Authentication page.
 - `src/components/CircularTimer.tsx` – SVG-based circular countdown display.
 - `src/components/TimerControls.tsx` – Start, pause, and reset buttons.
 - `src/components/DailyProgress.tsx` – Daily goal progress bar and streak display.
@@ -34,8 +78,11 @@
 - `src/hooks/useTimer.ts` – Core timer logic hook (work/break cycles, callbacks).
 - `src/lib/types.ts` – TypeScript type definitions (Settings, Task, TimerStatus, etc.).
 - `src/lib/quotes.ts` – Array of motivational quotes.
-- `src/lib/storage/` – Local storage utilities for tasks, settings, and daily progress.
+- `src/lib/storage/` – Storage abstraction layer (local + Supabase).
+- `src/lib/supabase/` – Supabase client utilities for auth and cloud sync.
 
 ## URL
 
 - Homepage: https://usetempo.app
+- App: https://usetempo.app/app
+- Login: https://usetempo.app/login
