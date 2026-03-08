@@ -85,4 +85,9 @@ A: Tempo works in all modern browsers including Chrome, Firefox, Safari, and Edg
 
 - Homepage: https://usetempo.app
 - App: https://usetempo.app/app
+- Blog: https://usetempo.app/blog
 - Login: https://usetempo.app/login
+
+## Blog
+
+Tempo publishes articles about the Pomodoro technique, focus strategies, and time management. Blog posts are available at https://usetempo.app/blog.
