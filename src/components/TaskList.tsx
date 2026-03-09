@@ -304,22 +304,47 @@ export default function TaskList({
         </h2>
       </div>
 
-      {/* Project selector */}
+      {/* Project tabs */}
       <div className="px-4 pt-3 pb-1 relative" ref={projectMenuRef}>
-        <button
-          onClick={() => setShowProjectMenu(!showProjectMenu)}
-          className="flex items-center gap-2 w-full px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-100 bg-slate-50 dark:bg-[#131d30] border border-slate-200 dark:border-[#243350] rounded-lg hover:bg-slate-100 dark:hover:bg-[#1a2744] transition-colors"
-        >
-          <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-          </svg>
-          <span className="flex-1 text-left truncate">{currentProject?.name ?? "General"}</span>
-          <svg className={`w-4 h-4 text-slate-400 transition-transform ${showProjectMenu ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
+        <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide">
+          {projects.slice(0, 5).map((p) => (
+            <button
+              key={p.id}
+              onClick={() => selectProject(p.id)}
+              className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+                p.id === selectedProjectId
+                  ? "bg-blue-600 text-white"
+                  : "text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-[#131d30] hover:bg-slate-200 dark:hover:bg-[#1a2744]"
+              }`}
+            >
+              <span className="truncate max-w-[100px]">{p.name}</span>
+              <span className={`text-xs ${
+                p.id === selectedProjectId
+                  ? "text-blue-200"
+                  : "text-slate-400 dark:text-slate-500"
+              }`}>
+                {tasks.filter((t) => t.projectId === p.id && !t.completed).length}
+              </span>
+            </button>
+          ))}
 
-        {/* Dropdown */}
+          {/* More / manage button */}
+          <button
+            onClick={() => setShowProjectMenu(!showProjectMenu)}
+            className={`flex-shrink-0 p-1.5 rounded-lg transition-colors ${
+              showProjectMenu
+                ? "bg-slate-200 dark:bg-[#1a2744] text-slate-700 dark:text-slate-200"
+                : "text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-[#131d30] hover:text-slate-600 dark:hover:text-slate-300"
+            }`}
+            title="Manage projects"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v.01M12 12v.01M12 18v.01" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Dropdown for managing projects + overflow */}
         {showProjectMenu && (
           <div className="absolute left-4 right-4 top-full mt-1 bg-white dark:bg-[#131d30] border border-slate-200 dark:border-[#243350] rounded-lg shadow-lg z-50 overflow-hidden">
             <div className="max-h-48 overflow-y-auto">
