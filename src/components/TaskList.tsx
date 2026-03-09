@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Task, Project, DEFAULT_PROJECT, DEFAULT_PROJECT_ID, Subtask } from "@/lib/types";
 import { loadTasks, saveTasks, loadProjects, saveProjects, loadSelectedProjectId, saveSelectedProjectId } from "@/lib/storage";
 import { TASK_TEMPLATES, templateToTasks } from "@/lib/templates";
+import { useAuth } from "@/components/AuthProvider";
 
 function formatDuration(ms: number): string {
   const totalMin = Math.floor(ms / 60000);
@@ -29,6 +30,7 @@ export default function TaskList({
   isTimerRunning,
 }: TaskListProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const { user, loading: authLoading } = useAuth();
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editTitle, setEditTitle] = useState("");
@@ -43,6 +45,8 @@ export default function TaskList({
   const [showTemplateMenu, setShowTemplateMenu] = useState(false);
   const [expandedTaskId, setExpandedTaskId] = useState<string | null>(null);
   const [newSubtaskTitle, setNewSubtaskTitle] = useState("");
+  const [editingSubtaskId, setEditingSubtaskId] = useState<string | null>(null);
+  const [editSubtaskTitle, setEditSubtaskTitle] = useState("");
   const projectMenuRef = useRef<HTMLDivElement>(null);
   const templateMenuRef = useRef<HTMLDivElement>(null);
 
@@ -61,6 +65,9 @@ export default function TaskList({
   }, []);
 
   useEffect(() => {
+    // Wait until auth has resolved so we use the correct adapter (Supabase vs localStorage)
+    if (authLoading) return;
+
     // Load projects
     Promise.all([loadProjects(), loadSelectedProjectId(), loadTasks()]).then(
       ([existingProjects, savedProjectId, existing]) => {
@@ -69,8 +76,8 @@ export default function TaskList({
           setSelectedProjectId(savedProjectId);
         }
 
-        // Load tasks — migrate old tasks without projectId
-        if (existing.length === 0) {
+        // Seed sample tasks only for logged-out users with no tasks
+        if (existing.length === 0 && !user) {
           const samples: Task[] = [
             { id: crypto.randomUUID(), title: "Review project requirements", completed: false, sessions: 0, timeSpent: 0, createdAt: Date.now(), projectId: DEFAULT_PROJECT_ID, subtasks: [] },
             { id: crypto.randomUUID(), title: "Draft design mockups", completed: false, sessions: 0, timeSpent: 0, createdAt: Date.now(), projectId: DEFAULT_PROJECT_ID, subtasks: [] },
@@ -97,7 +104,8 @@ export default function TaskList({
     };
     window.addEventListener("tempo-tasks-updated", handleUpdate);
     return () => window.removeEventListener("tempo-tasks-updated", handleUpdate);
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authLoading, user]);
 
   const persist = useCallback((updated: Task[]) => {
     setTasks(updated);
@@ -241,6 +249,28 @@ export default function TaskList({
         : t
     );
     persist(updated);
+  };
+
+  const startEditingSubtask = (sub: Subtask) => {
+    setEditingSubtaskId(sub.id);
+    setEditSubtaskTitle(sub.title);
+  };
+
+  const saveSubtaskEdit = (taskId: string, subtaskId: string) => {
+    const title = editSubtaskTitle.trim();
+    if (!title) { setEditingSubtaskId(null); return; }
+    const updated = tasks.map((t) =>
+      t.id === taskId
+        ? {
+            ...t,
+            subtasks: (t.subtasks || []).map((s) =>
+              s.id === subtaskId ? { ...s, title } : s
+            ),
+          }
+        : t
+    );
+    persist(updated);
+    setEditingSubtaskId(null);
   };
 
   // Filter tasks for the selected project
@@ -639,14 +669,14 @@ export default function TaskList({
 
             {/* Subtasks panel */}
             {isExpanded && (
-              <div className={`border border-t-0 rounded-b-xl px-4 py-3 space-y-2 ${
+              <div className={`border border-t-0 rounded-b-xl py-3 space-y-1 ${
                 activeTaskId === task.id
                   ? "border-blue-300 dark:border-blue-600 bg-blue-50/50 dark:bg-blue-900/10"
                   : "border-slate-200 dark:border-[#1e3050] bg-slate-50/50 dark:bg-[#0e1829]/50"
               }`}>
                 {/* Existing subtasks */}
                 {subtasks.map((sub) => (
-                  <div key={sub.id} className="group/sub flex items-center gap-2.5 py-1">
+                  <div key={sub.id} className="group/sub flex items-center gap-2.5 py-1 pl-6 pr-4 ml-4 border-l-2 border-slate-200 dark:border-[#243350]">
                     <button
                       onClick={() => toggleSubtask(task.id, sub.id)}
                       className={`flex-shrink-0 w-4 h-4 rounded border-[1.5px] transition-colors flex items-center justify-center ${
@@ -661,13 +691,31 @@ export default function TaskList({
                         </svg>
                       )}
                     </button>
-                    <span className={`flex-1 text-sm ${
+                    {editingSubtaskId === sub.id ? (
+                      <input
+                        type="text"
+                        value={editSubtaskTitle}
+                        onChange={(e) => setEditSubtaskTitle(e.target.value)}
+                        onBlur={() => saveSubtaskEdit(task.id, sub.id)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") saveSubtaskEdit(task.id, sub.id);
+                          if (e.key === "Escape") setEditingSubtaskId(null);
+                        }}
+                        className="flex-1 px-1 py-0.5 text-sm border border-blue-300 rounded bg-white dark:bg-[#131d30] dark:text-white outline-none"
+                        autoFocus
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    ) : (
+                    <span className={`flex-1 text-sm cursor-pointer ${
                       sub.completed
                         ? "text-slate-400 dark:text-slate-500 line-through"
                         : "text-slate-700 dark:text-slate-200"
-                    }`}>
+                    }`}
+                      onDoubleClick={() => startEditingSubtask(sub)}
+                    >
                       {sub.title}
                     </span>
+                    )}
                     <button
                       onClick={() => deleteSubtask(task.id, sub.id)}
                       className="flex-shrink-0 text-slate-300 hover:text-red-500 opacity-0 group-hover/sub:opacity-100 transition-all"
@@ -686,7 +734,7 @@ export default function TaskList({
                     e.preventDefault();
                     addSubtask(task.id);
                   }}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 pl-6 pr-4 ml-4 border-l-2 border-slate-200 dark:border-[#243350] pt-1"
                 >
                   <div className="flex-shrink-0 w-4 h-4 flex items-center justify-center">
                     <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
