@@ -1,0 +1,328 @@
+# Tempo – Focus Timer & Pomodoro Productivity App
+
+> Tempo is a free, open-source Pomodoro-style focus timer web app built with Next.js, React, and Tailwind CSS. It helps users stay productive through customizable work-break cycles, task management, daily session goals, streak tracking, and motivational quotes. No sign-up required — works instantly in any modern browser.
+
+## What is Tempo?
+
+Tempo is an online Pomodoro focus timer designed for students, developers, writers, and anyone who wants to manage their time more effectively. It implements the Pomodoro technique — focused work intervals followed by short breaks — with a beautiful, minimal interface. Tempo is completely free, works offline, and requires no account to get started.
+
+## Key Features
+
+- **Circular Timer**: A visual SVG-based countdown timer with smooth animations for work and break sessions.
+- **Customizable Durations**: Set your own work duration (default 25 min), break duration (default 5 min), and inactivity threshold.
+- **Task Tracking**: Create, start, complete, and delete tasks. Track sessions and total time spent per task.
+- **Daily Goals & Streaks**: Set a daily session goal and track your streak of consecutive productive days.
+- **Auto-Start**: Optionally auto-start the next work session when a break ends.
+- **Browser Notifications**: Get notified when a work session or break completes.
+- **Motivational Quotes**: Rotating inspirational quotes displayed during sessions to keep you motivated.
+- **Dark Mode**: Full light and dark theme support based on system preference.
+- **Offline Support**: Works as a Progressive Web App — use Tempo without an internet connection.
+- **Cloud Sync**: Optionally sign up to sync settings, tasks, and progress across devices via Supabase.
+- **Data Privacy**: All data is stored locally by default. No tracking, no ads.
+
+## How to Use Tempo
+
+1. Visit https://usetempo.app and click "Try without account" or sign up for free.
+2. Open Settings to configure your work duration, break duration, and daily session goal.
+3. Create tasks you want to focus on.
+4. Select a task and press Start to begin a focused work session.
+5. When the timer ends, take a break. Tempo handles the transition automatically.
+6. Track completed sessions, daily progress, and streaks over time.
+
+## Frequently Asked Questions
+
+**Q: Is Tempo free?**
+A: Yes, Tempo is 100% free with no premium tiers, ads, or hidden costs.
+
+**Q: Do I need an account?**
+A: No. You can use Tempo immediately without signing up. Create an account only if you want to sync data across devices.
+
+**Q: Does Tempo work offline?**
+A: Yes. Tempo is a Progressive Web App that works fully offline after the first load.
+
+**Q: What is the Pomodoro technique?**
+A: The Pomodoro technique is a time management method that alternates focused work intervals (typically 25 minutes) with short breaks (typically 5 minutes). After four cycles, take a longer break. It helps maintain concentration and prevent burnout.
+
+**Q: Can I customize the timer?**
+A: Yes. You can adjust work duration, break duration, and daily session goals in the Settings panel.
+
+**Q: How does task tracking work?**
+A: Create tasks in the task list, select one before starting the timer, and Tempo automatically logs sessions and time spent on that task.
+
+**Q: Where is my data stored?**
+A: By default, all data is stored in your browser's local storage. If you sign up, data is synced to a secure Supabase backend.
+
+**Q: What browsers are supported?**
+A: Tempo works in all modern browsers including Chrome, Firefox, Safari, and Edge.
+
+## Tech Stack
+
+- Next.js 15 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Supabase (optional cloud sync)
+- Local Storage for offline persistence
+
+## Architecture
+
+- `src/app/layout.tsx` – Root layout with SEO metadata and structured data.
+- `src/app/page.tsx` – Landing page with feature overview.
+- `src/app/app/page.tsx` – Main app with timer, controls, tasks, and settings.
+- `src/app/login/page.tsx` – Authentication page.
+- `src/components/CircularTimer.tsx` – SVG-based circular countdown display.
+- `src/components/TimerControls.tsx` – Start, pause, and reset buttons.
+- `src/components/DailyProgress.tsx` – Daily goal progress bar and streak display.
+- `src/components/SettingsPanel.tsx` – Settings modal for durations, goals, notifications.
+- `src/components/TaskList.tsx` – Task creation, listing, and time tracking.
+- `src/hooks/useTimer.ts` – Core timer logic hook (work/break cycles, callbacks).
+- `src/lib/types.ts` – TypeScript type definitions (Settings, Task, TimerStatus, etc.).
+- `src/lib/quotes.ts` – Array of motivational quotes.
+- `src/lib/storage/` – Storage abstraction layer (local + Supabase).
+- `src/lib/supabase/` – Supabase client utilities for auth and cloud sync.
+
+## URL
+
+- Homepage: https://usetempo.app
+- App: https://usetempo.app/app
+- Blog: https://usetempo.app/blog
+- Login: https://usetempo.app/login
+
+---
+
+## Blog Posts
+
+### What Is the Pomodoro Technique? A Complete Guide
+
+> URL: https://usetempo.app/blog/pomodoro-technique-guide
+> Date: 2026-03-01 | Reading time: 6 min read
+> Tags: pomodoro, productivity, focus, time management
+
+The Pomodoro technique is one of the most popular time management methods in the world — and for good reason. It's dead simple, backed by research on attention and fatigue, and works for nearly any kind of focused work.
+
+#### How it works
+
+The core idea is straightforward:
+
+1. **Pick a task** you want to work on
+2. **Set a timer for 25 minutes** (one "pomodoro")
+3. **Work with full focus** until the timer rings
+4. **Take a 5-minute break**
+5. **Repeat** — after four pomodoros, take a longer 15–30 minute break
+
+That's it. No complex system, no elaborate setup. Just focused work, then rest.
+
+#### Why 25 minutes?
+
+Francesco Cirillo, who developed the technique in the late 1980s, found that 25 minutes is long enough to make meaningful progress but short enough to sustain intense concentration. Research on ultradian rhythms supports this — our brains naturally cycle between periods of high and low alertness throughout the day.
+
+The key insight is that **working for shorter, focused bursts with intentional breaks produces more output than grinding through hours of unfocused work**. A 2011 study from the University of Illinois found that brief diversions from a task dramatically improved a person's ability to focus on that task for prolonged periods.
+
+#### Who should use it?
+
+The Pomodoro technique works well for:
+
+- **Students** studying for exams or writing papers
+- **Developers** coding features or fixing bugs
+- **Writers** working on articles, books, or documentation
+- **Remote workers** who struggle with home distractions
+- **Anyone** who finds themselves procrastinating or losing focus
+
+#### Common mistakes
+
+**Skipping breaks.** The breaks aren't optional — they're how the technique works. Your brain needs recovery time to sustain focus across multiple sessions.
+
+**Interrupting the timer.** If you remember something mid-session, write it down and deal with it later. The whole point is unbroken focus.
+
+**Using it for everything.** Some tasks — like meetings, brainstorming, or creative exploration — don't suit rigid time blocks. Use Pomodoro for deep work, not everything.
+
+#### How Tempo helps
+
+Tempo automates the entire Pomodoro cycle. Set your work and break durations, pick a task, and press start. Tempo handles the countdown, transitions, notifications, and progress tracking — so you can focus on the work itself.
+
+Features designed for Pomodoro:
+
+- **Customizable durations** — adjust work sessions from 15 to 60 minutes
+- **Task tracking** — log sessions and time spent per task automatically
+- **Daily goals** — set a target number of sessions and track streaks
+- **Offline support** — works anywhere, no internet required
+- **No account needed** — start immediately, completely free
+
+#### Getting started
+
+The best way to start is to commit to three pomodoros tomorrow morning on your most important task. Don't overthink the setup — 25 minutes of work, 5 minutes of rest. See how it feels.
+
+---
+
+### How to Stay Focused While Studying: 7 Proven Strategies
+
+> URL: https://usetempo.app/blog/how-to-stay-focused-while-studying
+> Date: 2026-03-04 | Reading time: 7 min read
+> Tags: studying, focus, productivity, students
+
+Staying focused while studying is harder than ever. Between notifications, social media, and the constant pull of distractions, sustained concentration feels like a superpower. The good news: focus is a skill you can train, not a trait you're born with.
+
+Here are seven strategies backed by cognitive science that actually work.
+
+#### 1. Use time blocks, not marathon sessions
+
+Your brain isn't designed for three-hour study marathons. Research on attention span consistently shows that focus degrades after 20–30 minutes of sustained effort.
+
+The fix: **work in focused blocks of 25–50 minutes, then take a real break.** The Pomodoro technique (25 min work / 5 min break) is the most popular version of this. After four blocks, take a longer 15–30 minute break.
+
+This aligns with how your brain's prefrontal cortex manages attention — it needs periodic recovery to maintain performance.
+
+#### 2. Eliminate distractions before they happen
+
+"Resisting" distraction costs willpower. Every time you see a notification and choose not to check it, you burn mental energy. The smart move is to remove the temptation entirely:
+
+- **Put your phone in another room** (not just face-down)
+- **Close all browser tabs** unrelated to your study topic
+- **Use a website blocker** during study sessions
+- **Tell people around you** when you'll be unavailable
+
+The idea is to make focused work the path of least resistance.
+
+#### 3. Start with the hardest task
+
+Willpower and focus are highest in the morning (or whenever your day starts). Use that peak energy for the material you find most challenging or least enjoyable.
+
+This is sometimes called "eating the frog" — tackle the thing you're most likely to procrastinate on while your brain is freshest. Save easier, more enjoyable material for later in the day.
+
+#### 4. Use active recall, not passive reading
+
+Simply re-reading notes or highlighting text feels productive but doesn't build strong memories. **Active recall** — forcing yourself to retrieve information from memory — is far more effective.
+
+Practical methods:
+- **Close your notes and write down everything you remember** about the topic
+- **Use flashcards** (digital or physical)
+- **Teach the concept out loud** as if explaining it to someone else
+- **Practice problems** instead of reviewing solved examples
+
+Active recall also helps you identify gaps in your understanding, so you can focus your study time where it matters most.
+
+#### 5. Move your body during breaks
+
+When your timer goes off, don't switch from studying to scrolling your phone. Your brain needs a genuine break — which means different neural activity.
+
+During breaks:
+- Walk around for a few minutes
+- Do stretches or light exercises
+- Look out a window at a distant point (reduces eye strain)
+- Get water or a snack
+
+The worst break activities are other screen-based tasks — social media, videos, or games. These compete for the same cognitive resources your brain is trying to recover.
+
+#### 6. Study at consistent times
+
+Your brain is a pattern machine. When you study at the same time each day, your mind begins to anticipate focus mode — making it easier to settle in and concentrate.
+
+Pick a study schedule and defend it. Even two or three consistent time blocks per week create a rhythm that compounds over time.
+
+#### 7. Track your sessions
+
+What gets measured gets managed. Tracking how many focused sessions you complete each day creates accountability and reveals patterns.
+
+You might discover that you're most productive in the morning, or that Wednesdays are consistently unproductive, or that you tend to abandon sessions after 20 minutes.
+
+Tempo makes this effortless — it automatically tracks completed sessions, time spent per task, daily progress toward your goal, and streaks of consecutive productive days. Patterns emerge quickly, and the streak counter provides gentle motivation to show up consistently.
+
+#### Putting it together
+
+You don't need to implement all seven strategies at once. Start with two:
+
+1. **Use a timer** to work in focused blocks
+2. **Put your phone in another room** during study sessions
+
+Those two changes alone will significantly improve your focus. Add the others over time as habits form.
+
+---
+
+### Pomodoro vs. Flowtime vs. 52/17: Which Focus Technique Is Best?
+
+> URL: https://usetempo.app/blog/pomodoro-vs-flowtime-vs-52-17
+> Date: 2026-03-07 | Reading time: 5 min read
+> Tags: pomodoro, flowtime, focus, productivity, time management
+
+Not all focus techniques are created equal — and the best one depends on how you work. Let's compare three of the most popular methods: the Pomodoro technique, the Flowtime technique, and the 52/17 method.
+
+#### The Pomodoro Technique
+
+**Format:** 25 minutes work → 5 minutes break → repeat (longer break after 4 cycles)
+
+The Pomodoro technique is the most widely used timed focus method. Developed by Francesco Cirillo in the late 1980s, it uses short, fixed intervals to maintain high concentration without burnout.
+
+**Best for:**
+- Tasks that are easy to procrastinate on
+- Studying or learning new material
+- Work that benefits from deadline pressure
+- People who need external structure
+
+**Drawbacks:**
+- The 25-minute window can feel restrictive when you're in deep flow
+- Frequent breaks may disrupt momentum on complex tasks
+
+#### The Flowtime Technique
+
+**Format:** Work until your focus naturally fades → take a proportional break
+
+Flowtime removes the fixed timer. You start working and keep going for as long as you feel focused. When you notice your attention slipping, you stop and take a break proportional to how long you worked (roughly 5 minutes for every 25 minutes worked).
+
+**Best for:**
+- Creative work (writing, design, music)
+- Programming or complex problem-solving
+- People who dislike rigid time constraints
+- Tasks where interruptions are costly
+
+**Drawbacks:**
+- Requires honest self-awareness about when focus fades
+- Easy to skip breaks or work too long without realizing it
+- Harder to track and set daily goals
+
+#### The 52/17 Method
+
+**Format:** 52 minutes work → 17 minutes break
+
+This method comes from a 2014 study by the Draugiem Group, which used time-tracking software to study the habits of their most productive employees. The top performers worked in focused bursts of about 52 minutes, followed by genuine 17-minute breaks.
+
+**Best for:**
+- Professional work that requires sustained thinking
+- People who find 25 minutes too short
+- Tasks that need deeper immersion time
+- Workers in offices or structured environments
+
+**Drawbacks:**
+- 52 minutes is a long stretch for some people
+- 17-minute breaks can feel too long and lead to distraction
+- Less flexibility than the other methods
+
+#### Side-by-side comparison
+
+| Aspect | Pomodoro | Flowtime | 52/17 |
+|--------|----------|----------|-------|
+| Work interval | 25 min (fixed) | Variable | 52 min (fixed) |
+| Break length | 5 min | Proportional | 17 min |
+| Structure | High | Low | Medium |
+| Best for | Procrastinators, students | Creatives, developers | Knowledge workers |
+| Tracking ease | Easy | Hard | Easy |
+| Flow-friendly | Moderate | High | High |
+
+#### Which should you choose?
+
+**Choose Pomodoro if** you struggle with procrastination, need clear structure, or want easy progress tracking. The short intervals create urgency and make starting less daunting.
+
+**Choose Flowtime if** you regularly enter deep flow states and find fixed timers disruptive. Just be honest with yourself about when your focus genuinely fades versus when you're drifting.
+
+**Choose 52/17 if** you do sustained knowledge work and find 25-minute sessions too choppy. The longer work interval suits tasks that require significant context-loading.
+
+#### You can mix methods
+
+There's no rule that says you have to pick one technique forever. Many productive people use Pomodoro for tasks they procrastinate on and Flowtime for creative work they enjoy.
+
+The important thing isn't the specific intervals — it's the principle: **focused work with intentional breaks** beats continuous, unfocused grinding.
+
+#### Try it with Tempo
+
+Tempo supports customizable work and break durations, making it easy to use any of these techniques. Set 25/5 for Pomodoro, 52/17 for the longer method, or any custom interval that suits your workflow.
+
+Every session is tracked automatically — so you can experiment with different durations and see which produces your best work. Try it free at https://usetempo.app/app — no sign-up required.
