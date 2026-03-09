@@ -8,6 +8,8 @@ import DailyProgress from "@/components/DailyProgress";
 import SettingsPanel from "@/components/SettingsPanel";
 import TaskList from "@/components/TaskList";
 import Navbar from "@/components/Navbar";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
+import OnboardingTour from "@/components/OnboardingTour";
 import { useAuth } from "@/components/AuthProvider";
 import { loadTasks, saveTasks } from "@/lib/storage";
 
@@ -71,7 +73,7 @@ export default function AppPage() {
     }
   }, [timer]);
 
-  /** Complete the active task: save elapsed time, stop the timer, deselect */
+  /** Complete the active task: save elapsed time, pause the timer, deselect */
   const handleCompleteTask = useCallback((taskId: string) => {
     const elapsed = timer.getElapsedWorkTime();
     if (elapsed > 0) {
@@ -83,8 +85,8 @@ export default function AppPage() {
         window.dispatchEvent(new Event("tempo-tasks-updated"));
       });
     }
-    if (timer.status === "running" || timer.status === "paused") {
-      timer.reset();
+    if (timer.status === "running") {
+      timer.pause();
     }
     setActiveTaskId(null);
   }, [timer]);
@@ -228,6 +230,9 @@ export default function AppPage() {
           onClose={() => setShowSettings(false)}
         />
       )}
+
+      <PWAInstallPrompt />
+      <OnboardingTour />
     </div>
   );
 }

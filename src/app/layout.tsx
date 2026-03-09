@@ -211,6 +211,9 @@ const faqJsonLd = {
 };
 
 import { AuthProvider } from "@/components/AuthProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
+
+const themeScript = `(function(){try{var t=localStorage.getItem("tempo_theme");if(t==="dark"||(t!=="light"&&matchMedia("(prefers-color-scheme:dark)").matches))document.documentElement.classList.add("dark")}catch(e){}})()`;
 
 export default function RootLayout({
   children,
@@ -218,8 +221,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="help" href="/llms.txt" type="text/plain" />
         <script
           type="application/ld+json"
@@ -235,7 +239,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-slate-50 dark:bg-[#0b1121]">
-        <AuthProvider>{children}</AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

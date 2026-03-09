@@ -48,6 +48,9 @@ export default function TaskList({
   const [newSubtaskTitle, setNewSubtaskTitle] = useState("");
   const [editingSubtaskId, setEditingSubtaskId] = useState<string | null>(null);
   const [editSubtaskTitle, setEditSubtaskTitle] = useState("");
+  const [showArchived, setShowArchived] = useState(false);
+  const [dragTaskId, setDragTaskId] = useState<string | null>(null);
+  const [dragOverTaskId, setDragOverTaskId] = useState<string | null>(null);
   const projectMenuRef = useRef<HTMLDivElement>(null);
   const templateMenuRef = useRef<HTMLDivElement>(null);
 
@@ -217,6 +220,73 @@ export default function TaskList({
     persist(tasks.filter((t) => !(t.completed && t.projectId === selectedProjectId)));
   };
 
+  const archiveCompleted = () => {
+    const now = Date.now();
+    const updated = tasks.map((t) =>
+      t.completed && t.projectId === selectedProjectId && !t.archivedAt
+        ? { ...t, archivedAt: now }
+        : t
+    );
+    persist(updated);
+  };
+
+  const unarchiveTask = (id: string) => {
+    const updated = tasks.map((t) =>
+      t.id === id ? { ...t, archivedAt: undefined } : t
+    );
+    persist(updated);
+  };
+
+  const deleteArchivedTasks = () => {
+    persist(tasks.filter((t) => !(t.archivedAt && t.projectId === selectedProjectId)));
+  };
+
+  const handleDragStart = (taskId: string) => {
+    setDragTaskId(taskId);
+  };
+
+  const handleDragOver = (e: React.DragEvent, taskId: string) => {
+    e.preventDefault();
+    setDragOverTaskId(taskId);
+  };
+
+  const handleDrop = (targetId: string) => {
+    if (!dragTaskId || dragTaskId === targetId) {
+      setDragTaskId(null);
+      setDragOverTaskId(null);
+      return;
+    }
+
+    // Reorder within pendingTasks
+    const ordered = [...pendingTasks];
+    const fromIdx = ordered.findIndex((t) => t.id === dragTaskId);
+    const toIdx = ordered.findIndex((t) => t.id === targetId);
+    if (fromIdx === -1 || toIdx === -1) {
+      setDragTaskId(null);
+      setDragOverTaskId(null);
+      return;
+    }
+
+    const [moved] = ordered.splice(fromIdx, 1);
+    ordered.splice(toIdx, 0, moved);
+
+    // Assign order values
+    const orderMap = new Map<string, number>();
+    ordered.forEach((t, i) => orderMap.set(t.id, i));
+
+    const updated = tasks.map((t) =>
+      orderMap.has(t.id) ? { ...t, order: orderMap.get(t.id)! } : t
+    );
+    persist(updated);
+    setDragTaskId(null);
+    setDragOverTaskId(null);
+  };
+
+  const handleDragEnd = () => {
+    setDragTaskId(null);
+    setDragOverTaskId(null);
+  };
+
   // Subtask helpers
   const addSubtask = (taskId: string) => {
     const title = newSubtaskTitle.trim();
@@ -275,9 +345,12 @@ export default function TaskList({
   };
 
   // Filter tasks for the selected project
-  const projectTasks = tasks.filter((t) => t.projectId === selectedProjectId);
-  const pendingTasks = projectTasks.filter((t) => !t.completed);
+  const projectTasks = tasks.filter((t) => t.projectId === selectedProjectId && !t.archivedAt);
+  const pendingTasks = projectTasks
+    .filter((t) => !t.completed)
+    .sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity));
   const completedTasks = projectTasks.filter((t) => t.completed);
+  const archivedTasks = tasks.filter((t) => t.projectId === selectedProjectId && t.archivedAt);
   const currentProject = projects.find((p) => p.id === selectedProjectId);
 
   return (
@@ -596,12 +669,29 @@ export default function TaskList({
             return (
             <div key={task.id}>
             <div
+              draggable
+              onDragStart={() => handleDragStart(task.id)}
+              onDragOver={(e) => handleDragOver(e, task.id)}
+              onDrop={() => handleDrop(task.id)}
+              onDragEnd={handleDragEnd}
               className={`group flex items-center gap-3 p-3.5 rounded-xl border transition-colors ${
                 activeTaskId === task.id
                   ? "border-blue-300 dark:border-blue-600 bg-blue-50 dark:bg-blue-900/20"
                   : "border-slate-200 dark:border-[#1e3050] hover:bg-slate-50 dark:hover:bg-[#131d30]"
-              } ${isExpanded ? "rounded-b-none" : ""}`}
+              } ${isExpanded ? "rounded-b-none" : ""} ${
+                dragTaskId === task.id ? "opacity-50" : ""
+              } ${
+                dragOverTaskId === task.id && dragTaskId !== task.id
+                  ? "border-t-2 border-t-blue-500"
+                  : ""
+              }`}
             >
+              {/* Drag handle */}
+              <div className="flex-shrink-0 cursor-grab active:cursor-grabbing text-slate-300 dark:text-slate-600 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M7 2a2 2 0 10.001 4.001A2 2 0 007 2zm0 6a2 2 0 10.001 4.001A2 2 0 007 8zm0 6a2 2 0 10.001 4.001A2 2 0 007 14zm6-8a2 2 0 10-.001-4.001A2 2 0 0013 6zm0 2a2 2 0 10.001 4.001A2 2 0 0013 8zm0 6a2 2 0 10.001 4.001A2 2 0 0013 14z" />
+                </svg>
+              </div>
               {/* Checkbox */}
               <button
                 onClick={() => toggleComplete(task.id)}
@@ -840,12 +930,24 @@ export default function TaskList({
               <span className="text-sm font-medium text-slate-400 dark:text-slate-400 uppercase tracking-wide">
                 Completed ({completedTasks.length})
               </span>
-              <button
-                onClick={clearCompleted}
-                className="text-sm text-slate-400 hover:text-red-500 transition-colors"
-              >
-                Clear
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={archiveCompleted}
+                  className="text-sm text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors flex items-center gap-1"
+                  title="Archive completed tasks"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                  </svg>
+                  Archive
+                </button>
+                <button
+                  onClick={clearCompleted}
+                  className="text-sm text-slate-400 hover:text-red-500 transition-colors"
+                >
+                  Clear
+                </button>
+              </div>
             </div>
             <div className="space-y-1">
               {completedTasks.map((task) => (
@@ -883,6 +985,58 @@ export default function TaskList({
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* Archived tasks */}
+        {archivedTasks.length > 0 && (
+          <div className="pt-2 border-t border-slate-100 dark:border-[#1e3050]">
+            <button
+              onClick={() => setShowArchived(!showArchived)}
+              className="flex items-center gap-1.5 text-sm font-medium text-slate-400 dark:text-slate-400 uppercase tracking-wide hover:text-slate-600 dark:hover:text-slate-200 transition-colors w-full"
+            >
+              <svg className={`w-3 h-3 transition-transform ${showArchived ? "rotate-90" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+              </svg>
+              Archived ({archivedTasks.length})
+              <span className="ml-auto">
+                {showArchived && (
+                  <span
+                    onClick={(e) => { e.stopPropagation(); deleteArchivedTasks(); }}
+                    className="text-xs normal-case font-normal text-slate-400 hover:text-red-500 transition-colors cursor-pointer"
+                  >
+                    Delete all
+                  </span>
+                )}
+              </span>
+            </button>
+            {showArchived && (
+              <div className="space-y-1 mt-1.5">
+                {archivedTasks.map((task) => (
+                  <div
+                    key={task.id}
+                    className="group flex items-center gap-2 p-2 rounded-lg"
+                  >
+                    <svg className="w-4 h-4 flex-shrink-0 text-slate-300 dark:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                    </svg>
+                    <span className="text-sm text-slate-400 dark:text-slate-500 line-through truncate">
+                      {task.title}
+                    </span>
+                    <button
+                      onClick={() => unarchiveTask(task.id)}
+                      className="ml-auto flex-shrink-0 text-xs text-slate-400 hover:text-blue-500 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all"
+                      title="Unarchive"
+                    >
+                      Restore
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>

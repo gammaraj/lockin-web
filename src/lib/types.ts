@@ -64,6 +64,8 @@ export interface Task {
   createdAt: number;
   projectId: string; // which project this task belongs to
   subtasks?: Subtask[];
+  archivedAt?: number; // timestamp when archived, undefined = not archived
+  order?: number; // manual sort order for drag-and-drop
 }
 
 export const DEFAULT_SETTINGS: Settings = {
