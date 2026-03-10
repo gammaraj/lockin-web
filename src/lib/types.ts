@@ -41,6 +41,7 @@ export interface Project {
   createdAt: number;
 }
 
+export const ALL_PROJECTS_ID = "__all__";
 export const DEFAULT_PROJECT_ID = "__general__";
 
 export const DEFAULT_PROJECT: Project = {

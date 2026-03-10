@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Task, Project, DEFAULT_PROJECT, DEFAULT_PROJECT_ID, Subtask } from "@/lib/types";
-import { loadTasks, saveTasks, loadProjects, saveProjects, loadSelectedProjectId, saveSelectedProjectId } from "@/lib/storage";
+import { Task, Project, DEFAULT_PROJECT, DEFAULT_PROJECT_ID, ALL_PROJECTS_ID, Subtask } from "@/lib/types";
+import { loadTasks, saveTasks, loadProjects, saveProjects, loadSelectedProjectId, saveSelectedProjectId, deleteTask as removeTaskFromDB, deleteTasks as removeTasksFromDB, deleteProject as removeProjectFromDB } from "@/lib/storage";
 import { TASK_TEMPLATES, templateToTasks } from "@/lib/templates";
 import { useAuth } from "@/components/AuthProvider";
 
@@ -197,6 +197,7 @@ export default function TaskList({
     );
     persist(updated);
     persistProjects(projects.filter((p) => p.id !== id));
+    removeProjectFromDB(id);
     if (selectedProjectId === id) selectProject(DEFAULT_PROJECT_ID);
   };
 
@@ -211,7 +212,7 @@ export default function TaskList({
       sessions: 0,
       timeSpent: 0,
       createdAt: Date.now(),
-      projectId: selectedProjectId,
+      projectId: isAllProjects ? DEFAULT_PROJECT_ID : selectedProjectId,
       subtasks: [],
     };
 
@@ -233,6 +234,7 @@ export default function TaskList({
 
   const deleteTask = (id: string) => {
     persist(tasks.filter((t) => t.id !== id));
+    removeTaskFromDB(id);
     if (activeTaskId === id) onSelectTask(null);
   };
 
@@ -256,7 +258,9 @@ export default function TaskList({
   };
 
   const clearCompleted = () => {
+    const toRemove = tasks.filter((t) => t.completed && t.projectId === selectedProjectId).map((t) => t.id);
     persist(tasks.filter((t) => !(t.completed && t.projectId === selectedProjectId)));
+    removeTasksFromDB(toRemove);
   };
 
   const archiveCompleted = () => {
@@ -277,7 +281,9 @@ export default function TaskList({
   };
 
   const deleteArchivedTasks = () => {
+    const toRemove = tasks.filter((t) => t.archivedAt && t.projectId === selectedProjectId).map((t) => t.id);
     persist(tasks.filter((t) => !(t.archivedAt && t.projectId === selectedProjectId)));
+    removeTasksFromDB(toRemove);
   };
 
   const handleDragStart = (taskId: string) => {
@@ -402,13 +408,20 @@ export default function TaskList({
   };
 
   // Filter tasks for the selected project
-  const projectTasks = tasks.filter((t) => t.projectId === selectedProjectId && !t.archivedAt);
+  const isAllProjects = selectedProjectId === ALL_PROJECTS_ID;
+  const projectTasks = isAllProjects
+    ? tasks.filter((t) => !t.archivedAt)
+    : tasks.filter((t) => t.projectId === selectedProjectId && !t.archivedAt);
   const pendingTasks = projectTasks
     .filter((t) => !t.completed)
     .sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity));
   const completedTasks = projectTasks.filter((t) => t.completed);
-  const archivedTasks = tasks.filter((t) => t.projectId === selectedProjectId && t.archivedAt);
+  const archivedTasks = isAllProjects
+    ? tasks.filter((t) => t.archivedAt)
+    : tasks.filter((t) => t.projectId === selectedProjectId && t.archivedAt);
   const currentProject = projects.find((p) => p.id === selectedProjectId);
+  const getProjectName = (projectId: string) =>
+    projects.find((p) => p.id === projectId)?.name ?? "General";
 
   return (
     <div className="bg-white/80 dark:bg-[#111827] backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-[#1e3050] overflow-visible">
@@ -474,6 +487,24 @@ export default function TaskList({
       {viewMode === "list" && (<>
       <div className="px-4 pt-3 pb-1 relative" ref={projectMenuRef}>
         <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide">
+          {/* All Projects tab */}
+          <button
+            onClick={() => selectProject(ALL_PROJECTS_ID)}
+            className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+              isAllProjects
+                ? "bg-blue-600 text-white"
+                : "text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-[#131d30] hover:bg-slate-200 dark:hover:bg-[#1a2d4a]"
+            }`}
+          >
+            <span className="truncate max-w-[100px]">All</span>
+            <span className={`text-xs ${
+              isAllProjects
+                ? "text-blue-200"
+                : "text-slate-400 dark:text-slate-500"
+            }`}>
+              {tasks.filter((t) => !t.completed && !t.archivedAt).length}
+            </span>
+          </button>
           {projects.slice(0, 5).map((p) => (
             <button
               key={p.id}
@@ -671,7 +702,7 @@ export default function TaskList({
             type="text"
             value={newTaskTitle}
             onChange={(e) => setNewTaskTitle(e.target.value)}
-            placeholder={`Add a task to ${currentProject?.name ?? "General"}...`}
+            placeholder={`Add a task to ${isAllProjects ? "General" : currentProject?.name ?? "General"}...`}
             className="flex-1 px-3 py-2 text-sm border border-slate-200 dark:border-[#243350] rounded-lg bg-white dark:bg-[#131d30] dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
           />
           <button
@@ -704,7 +735,7 @@ export default function TaskList({
                     key={tpl.label}
                     type="button"
                     onClick={() => {
-                      const newTasks = templateToTasks(tpl, selectedProjectId);
+                      const newTasks = templateToTasks(tpl, isAllProjects ? DEFAULT_PROJECT_ID : selectedProjectId);
                       persist([...tasks, ...newTasks]);
                       setShowTemplateMenu(false);
                     }}
@@ -738,7 +769,7 @@ export default function TaskList({
                   key={tpl.label}
                   type="button"
                   onClick={() => {
-                    const newTasks = templateToTasks(tpl, selectedProjectId);
+                    const newTasks = templateToTasks(tpl, isAllProjects ? DEFAULT_PROJECT_ID : selectedProjectId);
                     persist([...tasks, ...newTasks]);
                   }}
                   className="text-left p-3 rounded-xl border border-slate-100 dark:border-[#1e3050] hover:border-purple-200 dark:hover:border-purple-700 hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-all group"
@@ -841,6 +872,11 @@ export default function TaskList({
                     onDoubleClick={() => startEditing(task)}
                   >
                     {task.title}
+                    {isAllProjects && (
+                      <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium rounded bg-slate-100 dark:bg-[#1a2d4a] text-slate-500 dark:text-slate-400 align-middle">
+                        {getProjectName(task.projectId)}
+                      </span>
+                    )}
                   </div>
                 )}
                 <div className="flex items-center gap-2 mt-0.5">
@@ -1164,6 +1200,11 @@ export default function TaskList({
                   </button>
                   <span className="text-sm text-slate-400 dark:text-slate-400 line-through truncate">
                     {task.title}
+                    {isAllProjects && (
+                      <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium rounded bg-slate-100 dark:bg-[#1a2d4a] text-slate-500 dark:text-slate-400 align-middle no-underline">
+                        {getProjectName(task.projectId)}
+                      </span>
+                    )}
                   </span>
                   {((task.timeSpent || 0) > 0 || task.sessions > 0) && (
                     <span className="text-xs text-slate-400 dark:text-slate-400 ml-auto flex-shrink-0">

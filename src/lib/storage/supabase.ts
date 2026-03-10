@@ -233,41 +233,46 @@ export class SupabaseStorageAdapter implements StorageAdapter {
   }
 
   async saveTasks(tasks: Task[]): Promise<void> {
+    if (tasks.length === 0) return;
     const userId = await this.getUserId();
 
-    // Upsert current tasks first to ensure data is safe before deleting stale rows
-    if (tasks.length > 0) {
-      const rows = tasks.map((t) => ({
-        id: t.id,
-        user_id: userId,
-        title: t.title,
-        completed: t.completed,
-        sessions: t.sessions,
-        time_spent: t.timeSpent,
-        created_at: t.createdAt,
-        project_id: t.projectId,
-        subtasks: t.subtasks ?? [],
-        due_date: t.dueDate ?? null,
-      }));
+    const rows = tasks.map((t) => ({
+      id: t.id,
+      user_id: userId,
+      title: t.title,
+      completed: t.completed,
+      sessions: t.sessions,
+      time_spent: t.timeSpent,
+      created_at: t.createdAt,
+      project_id: t.projectId,
+      subtasks: t.subtasks ?? [],
+      due_date: t.dueDate ?? null,
+    }));
 
-      check(await this.supabase.from("tasks").upsert(rows));
-    }
+    check(await this.supabase.from("tasks").upsert(rows));
+  }
 
-    // Remove tasks that are no longer in the list (after upsert succeeds)
-    const keepIds = tasks.map((t) => t.id);
-    if (keepIds.length > 0) {
-      check(
-        await this.supabase
-          .from("tasks")
-          .delete()
-          .eq("user_id", userId)
-          .not("id", "in", `(${keepIds.join(",")})`)
-      );
-    } else {
-      check(
-        await this.supabase.from("tasks").delete().eq("user_id", userId)
-      );
-    }
+  async deleteTask(id: string): Promise<void> {
+    const userId = await this.getUserId();
+    check(
+      await this.supabase
+        .from("tasks")
+        .delete()
+        .eq("user_id", userId)
+        .eq("id", id)
+    );
+  }
+
+  async deleteTasks(ids: string[]): Promise<void> {
+    if (ids.length === 0) return;
+    const userId = await this.getUserId();
+    check(
+      await this.supabase
+        .from("tasks")
+        .delete()
+        .eq("user_id", userId)
+        .in("id", ids)
+    );
   }
 
   // ── Projects ──────────────────────────────────────────
@@ -297,35 +302,28 @@ export class SupabaseStorageAdapter implements StorageAdapter {
   }
 
   async saveProjects(projects: Project[]): Promise<void> {
+    if (projects.length === 0) return;
     const userId = await this.getUserId();
 
-    // Upsert first to ensure data is safe before deleting stale rows
-    if (projects.length > 0) {
-      const rows = projects.map((p) => ({
-        id: p.id,
-        user_id: userId,
-        name: p.name,
-        created_at: p.createdAt,
-      }));
+    const rows = projects.map((p) => ({
+      id: p.id,
+      user_id: userId,
+      name: p.name,
+      created_at: p.createdAt,
+    }));
 
-      check(await this.supabase.from("projects").upsert(rows));
-    }
+    check(await this.supabase.from("projects").upsert(rows));
+  }
 
-    // Remove projects no longer in the list (after upsert succeeds)
-    const keepIds = projects.map((p) => p.id);
-    if (keepIds.length > 0) {
-      check(
-        await this.supabase
-          .from("projects")
-          .delete()
-          .eq("user_id", userId)
-          .not("id", "in", `(${keepIds.join(",")})`)
-      );
-    } else {
-      check(
-        await this.supabase.from("projects").delete().eq("user_id", userId)
-      );
-    }
+  async deleteProject(id: string): Promise<void> {
+    const userId = await this.getUserId();
+    check(
+      await this.supabase
+        .from("projects")
+        .delete()
+        .eq("user_id", userId)
+        .eq("id", id)
+    );
   }
 
   async loadSelectedProjectId(): Promise<string> {

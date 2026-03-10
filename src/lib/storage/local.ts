@@ -199,6 +199,14 @@ export class LocalStorageAdapter implements StorageAdapter {
     } catch { /* quota exceeded */ }
   }
 
+  async deleteTask(_id: string): Promise<void> {
+    // Local adapter handles deletion implicitly via saveTasks
+  }
+
+  async deleteTasks(_ids: string[]): Promise<void> {
+    // Local adapter handles deletion implicitly via saveTasks
+  }
+
   // ── Projects ──────────────────────────────────────────
 
   async loadProjects(): Promise<Project[]> {
@@ -221,6 +229,10 @@ export class LocalStorageAdapter implements StorageAdapter {
     try {
       localStorage.setItem(PROJECTS_KEY, JSON.stringify(projects));
     } catch { /* quota exceeded */ }
+  }
+
+  async deleteProject(_id: string): Promise<void> {
+    // Local adapter handles deletion implicitly via saveProjects
   }
 
   async loadSelectedProjectId(): Promise<string> {

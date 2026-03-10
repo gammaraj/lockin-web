@@ -113,10 +113,16 @@ export const recordDayCompletion = (...args: Parameters<StorageAdapter["recordDa
 export const loadTasks = () => currentAdapter.loadTasks();
 export const saveTasks = (...args: Parameters<StorageAdapter["saveTasks"]>) =>
   currentAdapter.saveTasks(...args);
+export const deleteTask = (...args: Parameters<StorageAdapter["deleteTask"]>) =>
+  currentAdapter.deleteTask(...args);
+export const deleteTasks = (...args: Parameters<StorageAdapter["deleteTasks"]>) =>
+  currentAdapter.deleteTasks(...args);
 
 export const loadProjects = () => currentAdapter.loadProjects();
 export const saveProjects = (...args: Parameters<StorageAdapter["saveProjects"]>) =>
   currentAdapter.saveProjects(...args);
+export const deleteProject = (...args: Parameters<StorageAdapter["deleteProject"]>) =>
+  currentAdapter.deleteProject(...args);
 export const loadSelectedProjectId = () => currentAdapter.loadSelectedProjectId();
 export const saveSelectedProjectId = (...args: Parameters<StorageAdapter["saveSelectedProjectId"]>) =>
   currentAdapter.saveSelectedProjectId(...args);

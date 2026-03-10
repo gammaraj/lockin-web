@@ -34,10 +34,13 @@ export interface StorageAdapter {
   // ── Tasks ─────────────────────────────────────────────
   loadTasks(): Promise<Task[]>;
   saveTasks(tasks: Task[]): Promise<void>;
+  deleteTask(id: string): Promise<void>;
+  deleteTasks(ids: string[]): Promise<void>;
 
   // ── Projects ──────────────────────────────────────────
   loadProjects(): Promise<Project[]>;
   saveProjects(projects: Project[]): Promise<void>;
+  deleteProject(id: string): Promise<void>;
   loadSelectedProjectId(): Promise<string>;
   saveSelectedProjectId(id: string): Promise<void>;
 }
