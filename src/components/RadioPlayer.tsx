@@ -66,18 +66,30 @@ export default function RadioPlayer() {
           )}
         </button>
 
-        {/* Station info */}
-        <div className="flex-1 min-w-0">
+        {/* Station info + nav */}
+        <div className="flex-1 min-w-0 flex items-center gap-1.5">
+          <button
+            onClick={() => setStationIdx((i) => (i - 1 + STATIONS.length) % STATIONS.length)}
+            className="text-purple-400/60 hover:text-purple-300 transition-colors flex-shrink-0"
+            aria-label="Previous station"
+          >
+            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+          </button>
+          <div className="min-w-0">
+            <span className="text-xs font-semibold text-purple-700 dark:text-purple-200 truncate block">
+              {station.name}
+            </span>
+            <span className="text-[10px] text-purple-400/50 dark:text-purple-300/40">
+              SomaFM
+            </span>
+          </div>
           <button
             onClick={nextStation}
-            className="text-xs font-semibold text-purple-700 dark:text-purple-200 hover:text-purple-900 dark:hover:text-purple-100 transition-colors truncate block"
-            title="Click to switch station"
+            className="text-purple-400/60 hover:text-purple-300 transition-colors flex-shrink-0"
+            aria-label="Next station"
           >
-            {station.name}
+            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
           </button>
-          <span className="text-[10px] text-purple-500/70 dark:text-purple-400/50">
-            SomaFM
-          </span>
         </div>
 
         {/* Volume */}

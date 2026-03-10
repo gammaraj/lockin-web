@@ -15,14 +15,14 @@ export default function TimerControls({
 }: TimerControlsProps) {
   return (
     <div
-      className="flex justify-center gap-3 my-3"
+      className="flex justify-center gap-3 my-1"
       role="group"
       aria-label="Timer control buttons"
     >
       {/* Start / Pause */}
       <button
         onClick={onStartPause}
-        className={`pause-button w-14 h-14 ${isRunning ? "running" : ""}`}
+        className={`pause-button w-11 h-11 ${isRunning ? "running" : ""}`}
         aria-label={isRunning ? "Pause timer" : "Start timer"}
         title={isRunning ? "Pause" : "Start focus session"}
       >
@@ -70,7 +70,7 @@ export default function TimerControls({
       {/* Reset */}
       <button
         onClick={onReset}
-        className="reset-button w-14 h-14"
+        className="reset-button w-11 h-11"
         aria-label="Reset timer"
         title="Reset current session"
       >

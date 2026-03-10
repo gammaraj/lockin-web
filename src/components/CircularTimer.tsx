@@ -24,7 +24,7 @@ export default function CircularTimer({
   const offset = circumference - progress * circumference;
 
   return (
-    <div className="relative mx-auto my-2" style={{ width: 'min(280px, 55vw)', height: 'min(280px, 55vw)' }}>
+    <div className="relative mx-auto my-0" style={{ width: 'min(230px, 50vw)', height: 'min(230px, 50vw)' }}>
       {/* SVG ring */}
       <svg
         className="absolute inset-0 w-full h-full"
@@ -59,16 +59,16 @@ export default function CircularTimer({
       <div className="absolute inset-0 flex items-center justify-center">
         <div
           className="rounded-full flex flex-col items-center justify-center text-center bg-white dark:bg-[#131d30] border-2 border-slate-200 dark:border-slate-500 shadow-lg"
-          style={{ width: 'min(200px, 40vw)', height: 'min(200px, 40vw)' }}
+          style={{ width: 'min(165px, 36vw)', height: 'min(165px, 36vw)' }}
         >
-          <div className="text-base font-bold mb-1 text-gray-700 dark:text-gray-100">
+          <div className="text-xs font-bold mb-0.5 text-gray-700 dark:text-gray-100">
             {isBreak ? "🎉 " : ""}
             {label}
           </div>
-          <div className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white leading-none tracking-tight">
+          <div className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white leading-none tracking-tight">
             {displayTime}
           </div>
-          <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-300 mt-1">
+          <div className="text-[11px] text-gray-500 dark:text-gray-300 mt-0.5">
             {statusText}
           </div>
         </div>

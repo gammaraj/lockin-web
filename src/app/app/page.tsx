@@ -165,7 +165,7 @@ export default function AppPage() {
             )}
 
             {/* Main content */}
-            <div className="bg-white/60 dark:bg-[#111827] backdrop-blur-sm p-4">
+            <div className="bg-white/60 dark:bg-[#111827] backdrop-blur-sm px-4 py-2">
               <CircularTimer
                 remainingTime={timer.remainingTime}
                 totalDuration={
