@@ -38,6 +38,13 @@ const SPOTIFY_PLAYLISTS = [
   { uri: "37i9dQZF1DWYoYGBbGKurt", label: "Lofi Chill", desc: "Chill beats to study to" },
 ];
 
+// SoundCloud playlists — full free playback, no login needed
+const SOUNDCLOUD_PLAYLISTS = [
+  { url: "https://soundcloud.com/chilledcow/sets/lofi-hip-hop-music-beats-to", label: "Lo-fi Hip Hop", desc: "Beats to study to" },
+  { url: "https://soundcloud.com/ambientmusicalgenre/sets/ambient-music", label: "Ambient Music", desc: "Deep ambient soundscapes" },
+  { url: "https://soundcloud.com/indian-lofi/sets/indian-lofi-mix", label: "Indian Lo-fi", desc: "Indian chill beats" },
+];
+
 // SomaFM stations for external linking (embedding prohibited by TOS)
 const SOMAFM_STATIONS = [
   { slug: "groovesalad", label: "Groove Salad", desc: "Ambient/downtempo" },
@@ -167,12 +174,13 @@ function startSound(
 }
 
 export default function AmbientSounds() {
-  const [mode, setMode] = useState<"sounds" | "spotify" | "lofi">("spotify");
+  const [mode, setMode] = useState<"sounds" | "spotify" | "soundcloud" | "lofi">("spotify");
   const [activeSound, setActiveSound] = useState<SoundType | null>(null);
   const [volume, setVolume] = useState(0.5);
   const [ytStreamIdx, setYtStreamIdx] = useState(0);
   const [showYt, setShowYt] = useState(false);
   const [spotifyIdx, setSpotifyIdx] = useState(0);
+  const [scIdx, setScIdx] = useState(0);
 
   const ctxRef = useRef<AudioContext | null>(null);
   const gainRef = useRef<GainNode | null>(null);
@@ -236,6 +244,7 @@ export default function AmbientSounds() {
 
   const ytStream = YOUTUBE_STREAMS[ytStreamIdx];
   const spotifyPlaylist = SPOTIFY_PLAYLISTS[spotifyIdx];
+  const scPlaylist = SOUNDCLOUD_PLAYLISTS[scIdx];
 
   return (
     <div className="mx-4 mb-3 space-y-2">
@@ -261,6 +270,16 @@ export default function AmbientSounds() {
         >
           <svg className="inline-block w-3.5 h-3.5 mr-0.5 -mt-px" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
           Spotify
+        </button>
+        <button
+          onClick={() => setMode("soundcloud")}
+          className={`flex-1 text-xs font-medium py-1.5 rounded-md transition-colors ${
+            mode === "soundcloud"
+              ? "bg-white dark:bg-[#1a2d4a] text-slate-800 dark:text-slate-100 shadow-sm"
+              : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+          }`}
+        >
+          ☁️ SoundCloud
         </button>
         <button
           onClick={() => setMode("lofi")}
@@ -421,6 +440,47 @@ export default function AmbientSounds() {
           <p className="text-[10px] text-slate-400 dark:text-slate-500 text-center pb-2 px-3">
             Log in to Spotify for full tracks
           </p>
+        </div>
+      )}
+
+      {/* SoundCloud mode */}
+      {mode === "soundcloud" && (
+        <div className="bg-slate-100 dark:bg-[#131d30] rounded-xl border border-slate-200 dark:border-[#243350] overflow-hidden">
+          <iframe
+            width="100%"
+            height="166"
+            scrolling="no"
+            frameBorder="no"
+            allow="autoplay"
+            src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(scPlaylist.url)}&color=%23334155&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false`}
+            title={scPlaylist.label}
+            className="border-0"
+          />
+          {/* Playlist selector */}
+          <div className="flex items-center justify-between px-3 py-2 border-t border-slate-200 dark:border-[#243350]">
+            <button
+              onClick={() => setScIdx((i) => (i - 1 + SOUNDCLOUD_PLAYLISTS.length) % SOUNDCLOUD_PLAYLISTS.length)}
+              className="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors p-1"
+              aria-label="Previous playlist"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            </button>
+            <div className="text-center min-w-0">
+              <span className="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate block">
+                {scPlaylist.label}
+              </span>
+              <span className="text-[11px] text-slate-400 dark:text-slate-500">
+                {scPlaylist.desc}
+              </span>
+            </div>
+            <button
+              onClick={() => setScIdx((i) => (i + 1) % SOUNDCLOUD_PLAYLISTS.length)}
+              className="text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors p-1"
+              aria-label="Next playlist"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+            </button>
+          </div>
         </div>
       )}
 
