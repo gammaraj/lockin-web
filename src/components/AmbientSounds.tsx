@@ -26,12 +26,24 @@ const YOUTUBE_STREAMS = [
   { id: "4xDzrJKXOOY", label: "synthwave radio", channel: "Lofi Girl" },
 ];
 
-// Spotify focus playlists (official embed — users can log in for full tracks)
+// Spotify playlists curated to match SomaFM station vibes
 const SPOTIFY_PLAYLISTS = [
-  { uri: "37i9dQZF1DWZeKCadgRdKQ", label: "Deep Focus", desc: "Keep calm and focus" },
-  { uri: "37i9dQZF1DX3PFzdbtx1Us", label: "Peaceful Piano", desc: "Relax and indulge" },
-  { uri: "37i9dQZF1DWWQRwui0ExPn", label: "Lo-Fi Beats", desc: "Chill beats to study to" },
-  { uri: "37i9dQZF1DX8Uebhn9WZn4", label: "Chill Lofi Study Beats", desc: "The perfect study companion" },
+  // Groove Salad vibes — ambient/downtempo/chillout
+  { uri: "37i9dQZF1DX3Ogo9pFvBkY", label: "Ambient Relaxation", desc: "Groove Salad vibes" },
+  { uri: "37i9dQZF1DWZeKCadgRdKQ", label: "Deep Focus", desc: "Downtempo focus" },
+  { uri: "37i9dQZF1DX9uKNf5jGX6m", label: "Chill Tracks", desc: "Smooth downtempo grooves" },
+  // Suburbs of Goa vibes — world/Indian electronica/global beats
+  { uri: "37i9dQZF1DX0h0QnLkMBl4", label: "Asian Lounge", desc: "Suburbs of Goa vibes" },
+  { uri: "37i9dQZF1DWYoYGBbGKurt", label: "Global Chill", desc: "World beats & electronica" },
+  { uri: "37i9dQZF1DX2pSTOxoPbx9", label: "Eastern Electronic", desc: "East-meets-West fusion" },
+];
+
+// SomaFM stations for external linking (embedding prohibited by TOS)
+const SOMAFM_STATIONS = [
+  { slug: "groovesalad", label: "Groove Salad", desc: "Ambient/downtempo" },
+  { slug: "suburbsofgoa", label: "Suburbs of Goa", desc: "World/Indian electronica" },
+  { slug: "dronezone", label: "Drone Zone", desc: "Deep ambient" },
+  { slug: "spacestation", label: "Space Station", desc: "Spaced-out tunes" },
 ];
 
 function createRainSound(ctx: AudioContext, dest: AudioNode) {
@@ -413,6 +425,23 @@ export default function AmbientSounds() {
           </p>
         </div>
       )}
+
+      {/* SomaFM external links */}
+      <div className="flex flex-wrap gap-1.5">
+        {SOMAFM_STATIONS.map((s) => (
+          <a
+            key={s.slug}
+            href={`https://somafm.com/player/#/now-playing/${s.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 px-2 py-1 text-[10px] font-medium rounded-md bg-slate-100 dark:bg-[#131d30] border border-slate-200 dark:border-[#243350] text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:border-slate-300 dark:hover:border-[#3a5070] transition-colors"
+            title={s.desc}
+          >
+            <svg className="w-2.5 h-2.5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101M10.172 13.828a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+            {s.label}
+          </a>
+        ))}
+      </div>
     </div>
   );
 }
