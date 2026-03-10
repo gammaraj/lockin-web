@@ -26,24 +26,22 @@ const YOUTUBE_STREAMS = [
   { id: "4xDzrJKXOOY", label: "synthwave radio", channel: "Lofi Girl" },
 ];
 
-// Spotify playlists curated to match SomaFM station vibes
+// Spotify playlists curated to match SomaFM station vibes (all verified working)
 const SPOTIFY_PLAYLISTS = [
   // Groove Salad vibes — ambient/downtempo/chillout
   { uri: "37i9dQZF1DX3Ogo9pFvBkY", label: "Ambient Relaxation", desc: "Groove Salad vibes" },
-  { uri: "37i9dQZF1DWZeKCadgRdKQ", label: "Deep Focus", desc: "Downtempo focus" },
-  { uri: "37i9dQZF1DX9uKNf5jGX6m", label: "Chill Tracks", desc: "Smooth downtempo grooves" },
-  // Suburbs of Goa vibes — world/Indian electronica/global beats
-  { uri: "37i9dQZF1DX0h0QnLkMBl4", label: "Asian Lounge", desc: "Suburbs of Goa vibes" },
-  { uri: "37i9dQZF1DWYoYGBbGKurt", label: "Global Chill", desc: "World beats & electronica" },
-  { uri: "37i9dQZF1DX2pSTOxoPbx9", label: "Eastern Electronic", desc: "East-meets-West fusion" },
+  { uri: "37i9dQZF1DWZeKCadgRdKQ", label: "Deep Focus", desc: "Ambient focus" },
+  { uri: "37i9dQZF1DX1n9whBbBKoL", label: "Floating Through Space", desc: "Deep space ambient" },
+  { uri: "37i9dQZF1DX6VdMW310YC7", label: "Chill Tracks", desc: "Downtempo electronic" },
+  // Suburbs of Goa vibes — Indian indie / lofi
+  { uri: "37i9dQZF1DX5q67ZpWyRrZ", label: "Indie India", desc: "Suburbs of Goa vibes" },
+  { uri: "37i9dQZF1DWYoYGBbGKurt", label: "Lofi Chill", desc: "Chill beats to study to" },
 ];
 
 // SomaFM stations for external linking (embedding prohibited by TOS)
 const SOMAFM_STATIONS = [
   { slug: "groovesalad", label: "Groove Salad", desc: "Ambient/downtempo" },
   { slug: "suburbsofgoa", label: "Suburbs of Goa", desc: "World/Indian electronica" },
-  { slug: "dronezone", label: "Drone Zone", desc: "Deep ambient" },
-  { slug: "spacestation", label: "Space Station", desc: "Spaced-out tunes" },
 ];
 
 function createRainSound(ctx: AudioContext, dest: AudioNode) {
@@ -427,7 +425,8 @@ export default function AmbientSounds() {
       )}
 
       {/* SomaFM external links */}
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex items-center gap-1.5 flex-wrap">
+        <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500">SomaFM:</span>
         {SOMAFM_STATIONS.map((s) => (
           <a
             key={s.slug}
