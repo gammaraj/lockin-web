@@ -241,9 +241,13 @@ export default function TaskList({
     if (activeTaskId === id) onSelectTask(null);
   };
 
-  const deleteTask = (id: string) => {
+  const deleteTask = async (id: string) => {
     persist(tasks.filter((t) => t.id !== id));
-    removeTaskFromDB(id);
+    try {
+      await removeTaskFromDB(id);
+    } catch (err) {
+      console.error("[Tempo] Failed to delete task:", err);
+    }
     if (activeTaskId === id) onSelectTask(null);
   };
 
@@ -266,10 +270,14 @@ export default function TaskList({
     setEditingId(null);
   };
 
-  const clearCompleted = () => {
+  const clearCompleted = async () => {
     const toRemove = tasks.filter((t) => t.completed && t.projectId === selectedProjectId).map((t) => t.id);
     persist(tasks.filter((t) => !(t.completed && t.projectId === selectedProjectId)));
-    removeTasksFromDB(toRemove);
+    try {
+      await removeTasksFromDB(toRemove);
+    } catch (err) {
+      console.error("[Tempo] Failed to clear completed tasks:", err);
+    }
   };
 
   const archiveCompleted = () => {
@@ -289,10 +297,14 @@ export default function TaskList({
     persist(updated);
   };
 
-  const deleteArchivedTasks = () => {
+  const deleteArchivedTasks = async () => {
     const toRemove = tasks.filter((t) => t.archivedAt && t.projectId === selectedProjectId).map((t) => t.id);
     persist(tasks.filter((t) => !(t.archivedAt && t.projectId === selectedProjectId)));
-    removeTasksFromDB(toRemove);
+    try {
+      await removeTasksFromDB(toRemove);
+    } catch (err) {
+      console.error("[Tempo] Failed to delete archived tasks:", err);
+    }
   };
 
   const handleDragStart = (taskId: string) => {

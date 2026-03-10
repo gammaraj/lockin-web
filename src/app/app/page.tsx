@@ -52,8 +52,12 @@ export default function AppPage() {
             ? { ...t, sessions: t.sessions + 1, timeSpent: (t.timeSpent || 0) + elapsed }
             : t
         );
-        saveTasks(updated);
+        saveTasks(updated).catch((err) => {
+          console.error("[Tempo] Failed to save task session data:", err);
+        });
         window.dispatchEvent(new Event("tempo-tasks-updated"));
+      }).catch((err) => {
+        console.error("[Tempo] Failed to load tasks for session update:", err);
       });
     });
     return () => timer.setOnSessionCompleteCallback(null);
@@ -83,8 +87,12 @@ export default function AppPage() {
         const updated = tasks.map((t) =>
           t.id === taskId ? { ...t, timeSpent: (t.timeSpent || 0) + elapsed } : t
         );
-        saveTasks(updated);
+        saveTasks(updated).catch((err) => {
+          console.error("[Tempo] Failed to save task time on complete:", err);
+        });
         window.dispatchEvent(new Event("tempo-tasks-updated"));
+      }).catch((err) => {
+        console.error("[Tempo] Failed to load tasks on complete:", err);
       });
     }
     if (timer.status === "running") {
