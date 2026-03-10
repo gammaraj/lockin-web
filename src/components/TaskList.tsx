@@ -14,6 +14,26 @@ function formatDuration(ms: number): string {
   return m > 0 ? `${h}h ${m}m` : `${h}h`;
 }
 
+function todayDateStr(): string {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+function formatDueDate(iso: string): string {
+  const today = todayDateStr();
+  if (iso === today) return "Today";
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowStr = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth() + 1).padStart(2, "0")}-${String(tomorrow.getDate()).padStart(2, "0")}`;
+  if (iso === tomorrowStr) return "Tomorrow";
+  const d = new Date(iso + "T00:00:00");
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+
+function isDueDateOverdue(iso: string): boolean {
+  return iso < todayDateStr();
+}
+
 interface TaskListProps {
   activeTaskId: string | null;
   onSelectTask: (taskId: string | null) => void;
@@ -212,6 +232,10 @@ export default function TaskList({
   const deleteTask = (id: string) => {
     persist(tasks.filter((t) => t.id !== id));
     if (activeTaskId === id) onSelectTask(null);
+  };
+
+  const setDueDate = (id: string, date: string | undefined) => {
+    persist(tasks.map((t) => (t.id === id ? { ...t, dueDate: date } : t)));
   };
 
   const startEditing = (task: Task) => {
@@ -791,9 +815,43 @@ export default function TaskList({
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                       </svg>
                     </button>
+                    <label
+                      className="flex-shrink-0 p-0.5 text-slate-300 dark:text-slate-600 hover:text-blue-500 dark:hover:text-blue-400 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-all cursor-pointer"
+                      title={task.dueDate ? `Due: ${formatDueDate(task.dueDate)}` : "Set due date"}
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <input
+                        type="date"
+                        className="sr-only"
+                        value={task.dueDate ?? ""}
+                        onChange={(e) => setDueDate(task.id, e.target.value || undefined)}
+                      />
+                    </label>
                   </div>
                 )}
                 <div className="flex items-center gap-2 mt-0.5">
+                  {task.dueDate && (
+                    <span className={`inline-flex items-center gap-1 text-xs font-medium ${
+                      task.completed
+                        ? "text-slate-400 dark:text-slate-500"
+                        : isDueDateOverdue(task.dueDate)
+                          ? "text-red-500 dark:text-red-400"
+                          : task.dueDate === todayDateStr()
+                            ? "text-orange-500 dark:text-orange-400"
+                            : "text-slate-500 dark:text-slate-400"
+                    }`}>
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      {formatDueDate(task.dueDate)}
+                      {!task.completed && isDueDateOverdue(task.dueDate) && " (overdue)"}
+                    </span>
+                  )}
+                  {task.dueDate && hasSubtasks && (
+                    <span className="text-xs text-slate-300 dark:text-slate-600">·</span>
+                  )}
                   {hasSubtasks && (
                     <span className="text-xs text-slate-500 dark:text-slate-400">
                       {completedSubtasks}/{subtasks.length} subtask{subtasks.length !== 1 ? "s" : ""}

@@ -66,6 +66,7 @@ export interface Task {
   subtasks?: Subtask[];
   archivedAt?: number; // timestamp when archived, undefined = not archived
   order?: number; // manual sort order for drag-and-drop
+  dueDate?: string; // ISO date string (YYYY-MM-DD), undefined = no due date
 }
 
 export const DEFAULT_SETTINGS: Settings = {

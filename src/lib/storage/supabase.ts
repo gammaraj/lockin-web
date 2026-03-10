@@ -206,6 +206,7 @@ export class SupabaseStorageAdapter implements StorageAdapter {
       createdAt: row.created_at,
       projectId: row.project_id,
       subtasks: row.subtasks ?? [],
+      ...(row.due_date ? { dueDate: row.due_date } : {}),
     }));
   }
 
@@ -236,6 +237,7 @@ export class SupabaseStorageAdapter implements StorageAdapter {
       created_at: t.createdAt,
       project_id: t.projectId,
       subtasks: t.subtasks ?? [],
+      due_date: t.dueDate ?? null,
     }));
 
     await this.supabase.from("tasks").upsert(rows);
