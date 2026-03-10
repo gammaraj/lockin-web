@@ -52,13 +52,13 @@ export default function DailyProgress({
           <div>
             <h2
               id="daily-progress-heading"
-              className="text-base font-bold text-gray-800 dark:text-gray-50 mb-1"
+              className="text-base font-bold text-slate-800 dark:text-slate-50 mb-1"
             >
               Today&apos;s Sessions
             </h2>
             <div className="text-3xl font-bold text-blue-600 dark:text-blue-300">
               {dailyGoalData.sessionCount}
-              <span className="text-gray-400">/</span>
+              <span className="text-slate-400">/</span>
               {dailyGoal}
             </div>
           </div>
@@ -67,10 +67,10 @@ export default function DailyProgress({
             title="Click to view calendar"
             onClick={() => setShowCalendar(!showCalendar)}
           >
-            <div className="text-sm text-gray-600 dark:text-gray-300 mb-1 font-medium">
+            <div className="text-sm text-slate-600 dark:text-slate-300 mb-1 font-medium">
               Streak
             </div>
-            <div className="bg-gradient-to-r from-slate-50 to-blue-50/50 dark:bg-[#1a2744] dark:from-transparent dark:to-transparent text-slate-700 dark:text-slate-200 px-3 py-1.5 rounded-lg text-sm font-bold border border-slate-200 dark:border-[#2a3f5c] hover:bg-slate-100 dark:hover:bg-[#1e2d48] transition-colors">
+            <div className="bg-gradient-to-r from-slate-50 to-blue-50/50 dark:bg-[#1a2d4a] dark:from-transparent dark:to-transparent text-slate-700 dark:text-slate-200 px-3 py-1.5 rounded-lg text-sm font-bold border border-slate-200 dark:border-[#243350] hover:bg-slate-100 dark:hover:bg-[#1a2d4a] transition-colors">
               🔥 {dailyGoalData.streak} days
             </div>
           </div>
@@ -78,7 +78,7 @@ export default function DailyProgress({
 
         {/* Progress bar */}
         <div
-          className="w-full bg-slate-100 dark:bg-[#1a2744] rounded-full h-3 mb-3 border border-slate-200/80 dark:border-[#243350] overflow-hidden"
+          className="w-full bg-slate-100 dark:bg-[#1a2d4a] rounded-full h-3 mb-3 border border-slate-200/80 dark:border-[#243350] overflow-hidden"
           role="progressbar"
           aria-valuenow={progressPercent}
           aria-valuemin={0}
@@ -97,7 +97,7 @@ export default function DailyProgress({
           className={`text-sm text-center font-medium ${
             goalMet
               ? "text-green-600 dark:text-green-300"
-              : "text-gray-600 dark:text-gray-300"
+              : "text-slate-600 dark:text-slate-300"
           }`}
         >
           {getStatusText()}
@@ -190,25 +190,25 @@ function CalendarView({
   };
 
   return (
-    <div className="mt-4 pt-4 border-t border-gray-200 dark:border-[#243350]">
+    <div className="mt-4 pt-4 border-t border-slate-200 dark:border-[#243350]">
       {/* Month navigation */}
       <div className="flex items-center justify-between mb-3">
         <button
           onClick={prevMonth}
-          className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+          className="p-1 hover:bg-slate-100 dark:hover:bg-[#1a2d4a] rounded-full transition-colors"
         >
-          <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <h3 className="text-base font-bold text-gray-700 dark:text-gray-100">
+        <h3 className="text-base font-bold text-slate-700 dark:text-slate-100">
           {MONTH_NAMES[month]} {year}
         </h3>
         <button
           onClick={nextMonth}
-          className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+          className="p-1 hover:bg-slate-100 dark:hover:bg-[#1a2d4a] rounded-full transition-colors"
         >
-          <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
@@ -219,7 +219,7 @@ function CalendarView({
         {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
           <div
             key={i}
-            className="text-center text-xs font-medium text-gray-500 dark:text-gray-400"
+            className="text-center text-xs font-medium text-slate-500 dark:text-slate-400"
           >
             {d}
           </div>
@@ -229,7 +229,7 @@ function CalendarView({
       {/* Calendar grid */}
       <div className="grid grid-cols-7 gap-1">
         {emptyCells.map((_, i) => (
-          <div key={`empty-${i}`} className="w-8 h-8" />
+          <div key={`empty-${i}`} className="w-11 h-11" />
         ))}
         {dayCells.map((day) => {
           const style = getDayStyle(day);
@@ -247,7 +247,7 @@ function CalendarView({
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mt-3 text-sm text-gray-500 dark:text-gray-300">
+      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mt-3 text-sm text-slate-500 dark:text-slate-300">
         <div className="flex items-center gap-1">
           <div className="w-3 h-3 rounded-full bg-green-500" />
           <span>Goal met</span>
@@ -257,7 +257,7 @@ function CalendarView({
           <span>Partial</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-3 h-3 rounded-full bg-gray-200 dark:bg-gray-600" />
+          <div className="w-3 h-3 rounded-full bg-slate-200 dark:bg-slate-600" />
           <span>No activity</span>
         </div>
       </div>

@@ -12,7 +12,7 @@ const jsonLd = {
   operatingSystem: "Any",
   browserRequirements: "Requires a modern web browser with JavaScript enabled",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  description: "Tempo is a free online Pomodoro focus timer that helps you stay productive with customizable work-break cycles, daily session goals, task tracking, streak stats, and motivational quotes.",
+  description: "Tempo is a free online Pomodoro focus timer with built-in ambient music, customizable work-break cycles, daily session goals, task tracking, streak stats, and motivational quotes.",
   image: `${siteUrl}/opengraph-image`,
   featureList: [
     "Pomodoro focus timer",
@@ -22,6 +22,7 @@ const jsonLd = {
     "Browser notifications",
     "Dark mode support",
     "Cloud sync with Supabase",
+    "Built-in ambient music via SomaFM",
   ],
 };
 
@@ -240,6 +241,12 @@ export default function LandingPage() {
               <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
+              <span>Built-in ambient music</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
               <span>Syncs across devices</span>
             </div>
             <div className="flex items-center gap-2">
@@ -320,9 +327,9 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
               { icon: "🎯", title: "Timer + tasks, same screen", desc: "No more Alt-Tab between your timer and to-do app." },
+              { icon: "🎵", title: "Built-in ambient music", desc: "Stream lo-fi and ambient stations from SomaFM while you focus." },
               { icon: "📊", title: "Automatic time logging", desc: "Every session is tracked per-task. See exactly where your hours go." },
               { icon: "🔥", title: "Streaks that stick", desc: "Daily goals and streak tracking keep you coming back." },
-              { icon: "📱", title: "Works everywhere", desc: "Install as a PWA on any device. Sign in to sync tasks across all your devices." },
             ].map((item, i) => (
               <div key={i} className="flex gap-4 p-4 sm:p-5 rounded-xl bg-white dark:bg-[#0f1b33] border border-gray-200 dark:border-[#1e3355]">
                 <span className="text-2xl flex-shrink-0">{item.icon}</span>

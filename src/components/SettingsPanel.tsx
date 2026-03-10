@@ -64,9 +64,9 @@ export default function SettingsPanel({
       <div className="settings-panel">
         {/* Header */}
         <div
-          className="px-6 py-4 text-white flex justify-between items-center"
+          className="px-6 py-4 text-white flex justify-between items-center rounded-t-[20px]"
           style={{
-            background: "#152238",
+            background: "linear-gradient(135deg, #0f1b33 0%, #1a2d4a 100%)",
           }}
         >
           <h3 className="text-lg font-bold flex items-center gap-2">
@@ -81,7 +81,7 @@ export default function SettingsPanel({
           </h3>
           <button
             onClick={onClose}
-            className="text-white hover:text-gray-200 transition p-1 rounded hover:bg-white/20"
+            className="text-white hover:text-slate-200 transition p-1 rounded hover:bg-white/20"
             aria-label="Close settings"
           >
             <svg
@@ -105,7 +105,7 @@ export default function SettingsPanel({
         <form onSubmit={handleSubmit} className="p-5 space-y-5">
           {/* Quick Presets */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-2 flex items-center">
+            <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2 flex items-center">
               <div className="w-2 h-2 bg-purple-500 rounded-full mr-2" />
               Quick Presets
             </h4>
@@ -123,7 +123,7 @@ export default function SettingsPanel({
                     className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border transition-all ${
                       isActive
                         ? "bg-blue-100 dark:bg-blue-900/40 border-blue-300 dark:border-blue-600 text-blue-700 dark:text-blue-200 ring-1 ring-blue-200 dark:ring-blue-800"
-                        : "bg-slate-50 dark:bg-[#131d30] border-slate-200 dark:border-[#243350] text-slate-600 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#1a2744]"
+                        : "bg-slate-50 dark:bg-[#131d30] border-slate-200 dark:border-[#243350] text-slate-600 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#1a2d4a]"
                     }`}
                     title={preset.description}
                   >
@@ -138,13 +138,13 @@ export default function SettingsPanel({
 
           {/* Timer Settings */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-2 flex items-center">
+            <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2 flex items-center">
               <div className="w-2 h-2 bg-blue-600 rounded-full mr-2" />
               Timer Settings
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {/* Work Duration */}
-            <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900/30 dark:to-slate-800/30 rounded-xl p-3 border border-slate-200 dark:border-slate-700">
+            <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900/30 dark:to-slate-800/30 rounded-xl p-3 border border-slate-200 dark:border-[#243350]">
                 <label
                   htmlFor="workDuration"
                   className="flex text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5 items-center"
@@ -158,17 +158,17 @@ export default function SettingsPanel({
                   max={120}
                   value={workMin}
                   onChange={(e) => setWorkMin(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-gray-800 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-[#243350] rounded-lg text-sm bg-white dark:bg-[#131d30] dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
                 />
               </div>
 
               {/* Break Duration */}
-              <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900/30 dark:to-slate-800/30 rounded-xl p-3 border border-slate-200 dark:border-slate-700">
+              <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900/30 dark:to-slate-800/30 rounded-xl p-3 border border-slate-200 dark:border-[#243350]">
                 <label
                   htmlFor="breakDuration"
                   className="flex text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5 items-center"
                 >
-                  <span className="mr-1.5">🛌</span> Break (min)
+                  <span className="mr-1.5">🛏️</span> Break (min)
                 </label>
                 <input
                   type="number"
@@ -177,12 +177,12 @@ export default function SettingsPanel({
                   max={60}
                   value={breakMin}
                   onChange={(e) => setBreakMin(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-gray-800 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-[#243350] rounded-lg text-sm bg-white dark:bg-[#131d30] dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
                 />
               </div>
 
               {/* Inactivity Threshold */}
-              <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900/30 dark:to-slate-800/30 rounded-xl p-3 border border-slate-200 dark:border-slate-700">
+              <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900/30 dark:to-slate-800/30 rounded-xl p-3 border border-slate-200 dark:border-[#243350]">
                 <label
                   htmlFor="inactivityThreshold"
                   className="flex text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5 items-center"
@@ -195,7 +195,7 @@ export default function SettingsPanel({
                   min={1}
                   value={inactivityMin}
                   onChange={(e) => setInactivityMin(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-gray-800 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-[#243350] rounded-lg text-sm bg-white dark:bg-[#131d30] dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
                 />
                 <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                   Auto-pause when inactive
@@ -203,7 +203,7 @@ export default function SettingsPanel({
               </div>
 
               {/* Daily Goal */}
-              <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900/30 dark:to-slate-800/30 rounded-xl p-3 border border-slate-200 dark:border-slate-700">
+              <div className="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900/30 dark:to-slate-800/30 rounded-xl p-3 border border-slate-200 dark:border-[#243350]">
                 <label
                   htmlFor="dailyGoal"
                   className="flex text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5 items-center"
@@ -217,7 +217,7 @@ export default function SettingsPanel({
                   max={20}
                   value={dailyGoal}
                   onChange={(e) => setDailyGoal(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-gray-800 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
+                  className="w-full px-3 py-2 border border-slate-300 dark:border-[#243350] rounded-lg text-sm bg-white dark:bg-[#131d30] dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-200"
                 />
                 <div className="flex flex-wrap gap-1.5 mt-2">
                   {GOAL_PRESETS.map((gp) => (
@@ -228,7 +228,7 @@ export default function SettingsPanel({
                       className={`flex-1 text-sm py-1 rounded-lg border transition-all ${
                         dailyGoal === gp.sessions
                         ? "bg-blue-100 dark:bg-blue-900/40 border-blue-300 dark:border-blue-600 text-blue-700 dark:text-blue-200"
-                        : "bg-white dark:bg-[#131d30] border-slate-200 dark:border-[#243350] text-slate-500 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-[#1a2744]"
+                        : "bg-white dark:bg-[#131d30] border-slate-200 dark:border-[#243350] text-slate-500 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-[#1a2d4a]"
                       }`}
                       title={gp.description}
                     >
@@ -242,17 +242,17 @@ export default function SettingsPanel({
 
           {/* Preferences */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-2 flex items-center">
-              <div className="w-2 h-2 bg-gray-500 rounded-full mr-2" />
+            <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2 flex items-center">
+              <div className="w-2 h-2 bg-slate-500 rounded-full mr-2" />
               Preferences
             </h4>
-            <div className="bg-gray-50 dark:bg-[#0e1829] rounded-xl p-3 border border-gray-200 dark:border-[#243350] space-y-2">
-              <div className="flex items-center justify-between p-3 bg-white dark:bg-[#131d30] rounded-lg border border-gray-200 dark:border-[#243350]">
+            <div className="bg-slate-50 dark:bg-[#131d30] rounded-xl p-3 border border-slate-200 dark:border-[#243350] space-y-2">
+              <div className="flex items-center justify-between p-3 bg-white dark:bg-[#131d30] rounded-lg border border-slate-200 dark:border-[#243350]">
                 <div className="flex items-center">
                   <span className="text-base mr-2">🚀</span>
                   <label
                     htmlFor="autoStart"
-                    className="text-sm font-medium text-gray-700 dark:text-gray-200"
+                    className="text-sm font-medium text-slate-700 dark:text-slate-200"
                   >
                     Auto-start sessions
                   </label>
@@ -262,7 +262,7 @@ export default function SettingsPanel({
                   id="autoStart"
                   checked={autoStart}
                   onChange={(e) => setAutoStart(e.target.checked)}
-                  className="h-5 w-5 text-blue-600 border-gray-300 rounded"
+                  className="h-5 w-5 text-blue-600 border-slate-300 rounded"
                 />
               </div>
             </div>
@@ -270,17 +270,17 @@ export default function SettingsPanel({
 
           {/* Notifications */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-2 flex items-center">
+            <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2 flex items-center">
               <span className="text-base mr-2">🔔</span>
               Notifications
             </h4>
-            <div className="bg-gray-50 dark:bg-[#0e1829] rounded-xl p-3 border border-gray-200 dark:border-[#243350]">
-              <div className="flex items-center justify-between p-3 bg-white dark:bg-[#131d30] rounded-lg border border-gray-200 dark:border-[#243350]">
+            <div className="bg-slate-50 dark:bg-[#131d30] rounded-xl p-3 border border-slate-200 dark:border-[#243350]">
+              <div className="flex items-center justify-between p-3 bg-white dark:bg-[#131d30] rounded-lg border border-slate-200 dark:border-[#243350]">
                 <div className="flex items-center">
                   <span className="text-base mr-2">💬</span>
                   <label
                     htmlFor="notifications"
-                    className="text-sm font-medium text-gray-700 dark:text-gray-200"
+                    className="text-sm font-medium text-slate-700 dark:text-slate-200"
                   >
                     Show motivational quotes
                   </label>
@@ -290,10 +290,10 @@ export default function SettingsPanel({
                   id="notifications"
                   checked={notifications}
                   onChange={(e) => setNotifications(e.target.checked)}
-                  className="h-5 w-5 text-blue-600 border-gray-300 rounded"
+                  className="h-5 w-5 text-blue-600 border-slate-300 rounded"
                 />
               </div>
-              <p className="text-sm text-gray-500 dark:text-gray-300 mt-2 px-2">
+              <p className="text-sm text-slate-500 dark:text-slate-300 mt-2 px-2">
                 Get inspirational quotes as browser notifications after each work
                 session
               </p>
@@ -303,10 +303,7 @@ export default function SettingsPanel({
           {/* Save Button */}
           <button
             type="submit"
-            className="w-full text-white font-semibold py-3 px-5 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center text-base"
-            style={{
-              background: "#3b82f6",
-            }}
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-5 rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center text-base"
           >
             {saved ? (
               <>

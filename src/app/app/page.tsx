@@ -126,7 +126,7 @@ export default function AppPage() {
               </button>
               <button
                 onClick={() => setShowSettings(true)}
-                className="text-white hover:text-gray-200 transition p-1.5 rounded-full hover:bg-white/10"
+                className="text-white hover:text-slate-200 transition p-1.5 rounded-full hover:bg-white/10"
                 aria-label="Open settings"
               >
                 <svg

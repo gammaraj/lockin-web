@@ -29,7 +29,6 @@ body {
   border-radius: 50%;
   transition: all 0.2s ease;
   border: none;
-  outline: none;
   cursor: pointer;
   background: #475569;
   color: white;
@@ -61,8 +60,6 @@ body {
   padding: 0.75rem;
   border-radius: 50%;
   transition: all 0.2s ease;
-  border: none;
-  outline: none;
   cursor: pointer;
   background: #f8fafc;
   color: #64748b;
@@ -124,13 +121,13 @@ body {
 
 /* ===== Calendar ===== */
 .calendar-day {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   cursor: default;
   transition: all 0.2s;
@@ -138,9 +135,9 @@ body {
 
 @media (max-width: 640px) {
   .calendar-day {
-    width: 28px;
-    height: 28px;
-    font-size: 11px;
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
   }
 }
 
@@ -193,9 +190,9 @@ input:focus-visible {
 }
 
 .dark .reset-button {
-  background: #1e2d44;
+  background: #131d30;
   color: #e2e8f0;
-  border-color: #3b4f6b;
+  border-color: #243350;
 }
 
 .dark .settings-panel {

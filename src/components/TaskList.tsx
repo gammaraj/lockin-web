@@ -481,7 +481,7 @@ export default function TaskList({
               className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
                 p.id === selectedProjectId
                   ? "bg-blue-600 text-white"
-                  : "text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-[#131d30] hover:bg-slate-200 dark:hover:bg-[#1a2744]"
+                  : "text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-[#131d30] hover:bg-slate-200 dark:hover:bg-[#1a2d4a]"
               }`}
             >
               <span className="truncate max-w-[100px]">{p.name}</span>
@@ -515,7 +515,7 @@ export default function TaskList({
             onClick={() => setShowProjectMenu(!showProjectMenu)}
             className={`flex-shrink-0 p-1.5 rounded-lg transition-colors ${
               showProjectMenu
-                ? "bg-slate-200 dark:bg-[#1a2744] text-slate-700 dark:text-slate-200"
+                ? "bg-slate-200 dark:bg-[#1a2d4a] text-slate-700 dark:text-slate-200"
                 : "text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-[#131d30] hover:text-slate-600 dark:hover:text-slate-300"
             }`}
             title="Manage projects"
@@ -541,7 +541,7 @@ export default function TaskList({
               value={newProjectName}
               onChange={(e) => setNewProjectName(e.target.value)}
               placeholder="Project name..."
-              className="flex-1 px-2.5 py-1.5 text-sm border border-slate-200 dark:border-[#2a3f5c] rounded-lg bg-white dark:bg-[#131d30] dark:text-white outline-none focus:border-blue-400"
+              className="flex-1 px-2.5 py-1.5 text-sm border border-slate-200 dark:border-[#243350] rounded-lg bg-white dark:bg-[#131d30] dark:text-white outline-none focus:border-blue-400"
               autoFocus
               onKeyDown={(e) => { if (e.key === "Escape") setShowAddProject(false); }}
             />
@@ -565,7 +565,7 @@ export default function TaskList({
                   className={`group/proj flex items-center gap-2 px-3 py-2 text-sm cursor-pointer transition-colors ${
                     p.id === selectedProjectId
                       ? "bg-blue-50 dark:bg-blue-900/25 text-blue-700 dark:text-blue-200"
-                      : "text-slate-700 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-[#1a2744]"
+                      : "text-slate-700 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-[#1a2d4a]"
                   }`}
                 >
                   {editingProjectId === p.id ? (
@@ -641,7 +641,7 @@ export default function TaskList({
                   value={newProjectName}
                   onChange={(e) => setNewProjectName(e.target.value)}
                   placeholder="New project..."
-                  className="flex-1 px-2 py-1.5 text-sm border border-slate-200 dark:border-[#2a3f5c] rounded bg-white dark:bg-[#131d30] dark:text-white outline-none focus:border-blue-400"
+                  className="flex-1 px-2 py-1.5 text-sm border border-slate-200 dark:border-[#243350] rounded bg-white dark:bg-[#131d30] dark:text-white outline-none focus:border-blue-400"
                 />
                 <button
                   type="submit"
@@ -708,7 +708,7 @@ export default function TaskList({
                       persist([...tasks, ...newTasks]);
                       setShowTemplateMenu(false);
                     }}
-                    className="w-full text-left px-3 py-2.5 hover:bg-slate-50 dark:hover:bg-[#1a2744] transition-colors border-b border-slate-50 dark:border-[#1e3050]/50 last:border-b-0"
+                    className="w-full text-left px-3 py-2.5 hover:bg-slate-50 dark:hover:bg-[#1a2d4a] transition-colors border-b border-slate-50 dark:border-[#1e3050]/50 last:border-b-0"
                   >
                     <div className="flex items-center gap-2">
                       <span className="text-base">{tpl.emoji}</span>
@@ -1015,7 +1015,7 @@ export default function TaskList({
               <div className={`border border-t-0 rounded-b-xl py-3 space-y-1 ${
                 activeTaskId === task.id
                   ? "border-blue-300 dark:border-blue-600 bg-blue-50/50 dark:bg-blue-900/10"
-                  : "border-slate-200 dark:border-[#1e3050] bg-slate-50/50 dark:bg-[#0e1829]/50"
+                  : "border-slate-200 dark:border-[#1e3050] bg-slate-50/50 dark:bg-[#131d30]/50"
               }`}>
                 {/* Existing subtasks */}
                 {subtasks.map((sub) => (
@@ -1298,7 +1298,7 @@ function TaskCalendarView({
       <div className="flex items-center justify-between mb-3">
         <button
           onClick={prevMonth}
-          className="p-1.5 hover:bg-slate-100 dark:hover:bg-[#1a2744] rounded-lg transition-colors"
+          className="p-1.5 hover:bg-slate-100 dark:hover:bg-[#1a2d4a] rounded-lg transition-colors"
         >
           <svg className="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -1317,7 +1317,7 @@ function TaskCalendarView({
         </div>
         <button
           onClick={nextMonth}
-          className="p-1.5 hover:bg-slate-100 dark:hover:bg-[#1a2744] rounded-lg transition-colors"
+          className="p-1.5 hover:bg-slate-100 dark:hover:bg-[#1a2d4a] rounded-lg transition-colors"
         >
           <svg className="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -1356,7 +1356,7 @@ function TaskCalendarView({
                   ? "bg-blue-600 text-white ring-2 ring-blue-400 ring-offset-1 dark:ring-offset-[#111827]"
                   : isToday
                     ? "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 font-bold ring-1 ring-blue-300 dark:ring-blue-700"
-                    : "hover:bg-slate-100 dark:hover:bg-[#1a2744] text-slate-600 dark:text-slate-300"
+                    : "hover:bg-slate-100 dark:hover:bg-[#1a2d4a] text-slate-600 dark:text-slate-300"
               }`}
             >
               <span className={`text-[11px] font-medium ${isSelected ? "text-white" : ""}`}>{day}</span>

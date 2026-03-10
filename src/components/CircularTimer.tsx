@@ -61,14 +61,14 @@ export default function CircularTimer({
           className="rounded-full flex flex-col items-center justify-center text-center bg-white dark:bg-[#131d30] border-2 border-slate-200 dark:border-slate-500 shadow-lg"
           style={{ width: 'min(165px, 36vw)', height: 'min(165px, 36vw)' }}
         >
-          <div className="text-xs font-bold mb-0.5 text-gray-700 dark:text-gray-100">
+          <div className="text-xs font-bold mb-0.5 text-slate-700 dark:text-slate-100">
             {isBreak ? "🎉 " : ""}
             {label}
           </div>
-          <div className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white leading-none tracking-tight">
+          <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white leading-none tracking-tight">
             {displayTime}
           </div>
-          <div className="text-[11px] text-gray-500 dark:text-gray-300 mt-0.5">
+          <div className="text-[11px] text-slate-500 dark:text-slate-300 mt-0.5">
             {statusText}
           </div>
         </div>
