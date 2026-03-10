@@ -22,7 +22,7 @@ export default function TimerControls({
       {/* Start / Pause */}
       <button
         onClick={onStartPause}
-        className={`pause-button w-11 h-11 ${isRunning ? "running" : ""}`}
+        className={`pause-button w-12 h-12 ${isRunning ? "running" : ""}`}
         aria-label={isRunning ? "Pause timer" : "Start timer"}
         title={isRunning ? "Pause" : "Start focus session"}
       >
@@ -70,7 +70,7 @@ export default function TimerControls({
       {/* Reset */}
       <button
         onClick={onReset}
-        className="reset-button w-11 h-11"
+        className="reset-button w-12 h-12"
         aria-label="Reset timer"
         title="Reset current session"
       >

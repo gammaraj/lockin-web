@@ -183,25 +183,23 @@ input:focus-visible {
 }
 
 /* ===== Dark Mode ===== */
-@media (prefers-color-scheme: dark) {
-  .pause-button {
-    background: #4b5e78;
-  }
+.dark .pause-button {
+  background: #4b5e78;
+}
 
-  .pause-button.running {
-    background: #3b82f6;
-    box-shadow: 0 2px 16px rgba(59, 130, 246, 0.4);
-  }
+.dark .pause-button.running {
+  background: #3b82f6;
+  box-shadow: 0 2px 16px rgba(59, 130, 246, 0.4);
+}
 
-  .reset-button {
-    background: #1e2d44;
-    color: #e2e8f0;
-    border-color: #3b4f6b;
-  }
+.dark .reset-button {
+  background: #1e2d44;
+  color: #e2e8f0;
+  border-color: #3b4f6b;
+}
 
-  .settings-panel {
-    background: #131d30;
-    border-color: #243350;
-    box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.6);
-  }
+.dark .settings-panel {
+  background: #131d30;
+  border-color: #243350;
+  box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.6);
 }
