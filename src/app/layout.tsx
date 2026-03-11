@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 const siteUrl = "https://usetempo.app";
-const title = "Tempo – Focus Timer & Pomodoro Productivity App";
+const title = "Tempo – Your Focus System: Timer, Tasks, Goals & Ambient Music";
 const description =
-  "Tempo is a free online Pomodoro focus timer with built-in ambient music, customizable work-break cycles, daily session goals, task tracking, streak stats, and motivational quotes.";
+  "Tempo is a free all-in-one focus system: Pomodoro timer, task tracking, daily goals, streak stats, and built-in ambient music. Everything you need to stay productive, in one window.";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -19,29 +19,30 @@ export const metadata: Metadata = {
   title,
   description,
   keywords: [
+    "focus system",
     "pomodoro timer",
     "focus timer",
     "productivity app",
-    "work break timer",
     "task tracker",
     "daily goals",
     "streak tracker",
+    "ambient music for focus",
+    "lo-fi focus music",
+    "focus sounds",
     "online timer",
     "time management",
     "tempo app",
     "pomodoro technique",
     "study timer",
     "concentration timer",
-    "tomato timer",
     "work session timer",
     "free pomodoro app",
     "focus app",
     "deep work timer",
     "productivity tracker",
-    "time blocking",
-    "ambient music timer",
-    "lo-fi focus music",
-    "focus sounds",
+    "time tracking",
+    "work break timer",
+    "tomato timer",
   ],
   authors: [{ name: "Tempo" }],
   creator: "Tempo",

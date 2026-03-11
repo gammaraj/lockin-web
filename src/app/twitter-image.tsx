@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Tempo – Focus Timer & Pomodoro Productivity App";
+export const alt = "Tempo – Your Focus System: Timer, Tasks, Goals & Ambient Music";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -53,7 +53,7 @@ export default function Image() {
             marginTop: 16,
           }}
         >
-          Focus Timer &amp; Pomodoro Productivity App
+          Your focus system, not just a timer.
         </div>
         <div
           style={{
@@ -64,11 +64,15 @@ export default function Image() {
             fontSize: 18,
           }}
         >
-          <span>Free forever</span>
+          <span>Timer</span>
           <span style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
-          <span>No sign-up required</span>
+          <span>Tasks</span>
           <span style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
-          <span>Works offline</span>
+          <span>Goals</span>
+          <span style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
+          <span>Ambient Music</span>
+          <span style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
+          <span>Free</span>
         </div>
       </div>
     ),

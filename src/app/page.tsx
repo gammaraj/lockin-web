@@ -12,32 +12,33 @@ const jsonLd = {
   operatingSystem: "Any",
   browserRequirements: "Requires a modern web browser with JavaScript enabled",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-  description: "Tempo is a free online Pomodoro focus timer with built-in ambient music, customizable work-break cycles, daily session goals, task tracking, streak stats, and motivational quotes.",
+  description: "Tempo is a free all-in-one focus system: Pomodoro timer, task tracking, daily goals, streak stats, built-in ambient music, and motivational quotes — everything you need to stay productive, in one window.",
   image: `${siteUrl}/opengraph-image`,
   featureList: [
-    "Pomodoro focus timer",
-    "Customizable work and break durations",
-    "Task tracking with time logging",
+    "Pomodoro focus timer with customizable work and break durations",
+    "Task tracking with automatic per-task time logging",
     "Daily session goals and streak tracking",
-    "Browser notifications",
+    "Built-in ambient sounds (rain, café, white noise) and lo-fi radio",
+    "Projects and subtasks for organized workflows",
+    "Browser notifications and motivational quotes",
+    "Installable PWA — works offline",
+    "Cloud sync across devices",
     "Dark mode support",
-    "Cloud sync with Supabase",
-    "Built-in ambient sounds and lo-fi radio",
   ],
 };
 
 const howToJsonLd = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "How to Use the Pomodoro Technique with Tempo",
-  description: "A step-by-step guide to boosting your productivity using the Pomodoro technique with Tempo's free online focus timer.",
+  name: "How to Use Tempo to Stay Focused and Productive",
+  description: "A step-by-step guide to using Tempo — a free all-in-one focus system with a Pomodoro timer, task tracking, ambient music, daily goals, and streak stats.",
   step: [
     { "@type": "HowToStep", name: "Open Tempo", text: "Visit usetempo.app and click 'Try without account' or sign up for free to sync across devices." },
-    { "@type": "HowToStep", name: "Set your durations", text: "Open Settings and configure your work duration (default 25 min), break duration (default 5 min), and daily session goal." },
-    { "@type": "HowToStep", name: "Add your tasks", text: "Create tasks you want to work on. Select a task to associate timer sessions with it." },
-    { "@type": "HowToStep", name: "Start the timer", text: "Press Start to begin your focus session. The circular timer counts down your work duration." },
-    { "@type": "HowToStep", name: "Take a break", text: "When the work session ends, Tempo automatically starts your break. Relax and recharge." },
-    { "@type": "HowToStep", name: "Track your progress", text: "Monitor completed sessions, daily goals, and streaks to build consistent productivity habits." },
+    { "@type": "HowToStep", name: "Add your tasks", text: "Create tasks and organize them into projects. Break larger tasks into subtasks for clarity." },
+    { "@type": "HowToStep", name: "Set your preferences", text: "Open Settings to configure work duration (default 25 min), break duration (default 5 min), daily session goal, and notification preferences." },
+    { "@type": "HowToStep", name: "Pick a task and start", text: "Select a task, turn on ambient music if you like, and press Start. The circular timer counts down your work session." },
+    { "@type": "HowToStep", name: "Take a break", text: "When the session ends, Tempo automatically starts your break. Sessions and time are logged per-task." },
+    { "@type": "HowToStep", name: "Build your streak", text: "Hit your daily session goal and watch your streak grow. Track progress with stats, charts, and a calendar view." },
   ],
 };
 
@@ -45,10 +46,12 @@ const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   mainEntity: [
-    { "@type": "Question", name: "What is Tempo?", acceptedAnswer: { "@type": "Answer", text: "Tempo is a free online Pomodoro-style focus timer that helps you stay productive with customizable work-break cycles, task tracking, daily goals, and streak stats." } },
+    { "@type": "Question", name: "What is Tempo?", acceptedAnswer: { "@type": "Answer", text: "Tempo is a free all-in-one focus system that combines a Pomodoro timer, task tracking, daily goals, streak stats, and built-in ambient music — everything you need to stay productive, in one window." } },
     { "@type": "Question", name: "Is Tempo free to use?", acceptedAnswer: { "@type": "Answer", text: "Yes. Tempo is completely free with no sign-up required. All data is stored locally in your browser. You can optionally create a free account to sync data across devices." } },
     { "@type": "Question", name: "Can I use Tempo without creating an account?", acceptedAnswer: { "@type": "Answer", text: "Absolutely. Click 'Try without account' on the homepage and start using Tempo immediately. Your settings, tasks, and progress are saved locally in your browser." } },
+    { "@type": "Question", name: "Does Tempo have ambient music?", acceptedAnswer: { "@type": "Answer", text: "Yes. Tempo includes built-in ambient sounds like rain, café, white noise, and brown noise that work offline, plus optional lo-fi YouTube radio streams — perfect for getting in the zone." } },
     { "@type": "Question", name: "Can I customize the timer durations?", acceptedAnswer: { "@type": "Answer", text: "Yes. Open the Settings panel to customize your work duration, break duration, and daily session goal to match your preferred workflow." } },
+    { "@type": "Question", name: "How does task tracking work?", acceptedAnswer: { "@type": "Answer", text: "Create tasks in the task list, organize them into projects, and select one before starting the timer. Tempo automatically logs sessions and time spent per-task so you know exactly where your hours go." } },
   ],
 };
 
@@ -197,8 +200,8 @@ export default function LandingPage() {
             </span>
           </h1>
           <p className="mt-5 text-lg sm:text-xl text-neutral-500 dark:text-neutral-400 max-w-lg mx-auto leading-relaxed">
-            Tempo combines a Pomodoro timer, task tracking, daily goals, streaks, and ambient sounds
-            into one distraction-free workspace. Pick a task, start a session, and watch your progress build.
+            Timer. Tasks. Goals. Streaks. Ambient music to stay in the zone — Tempo is everything
+            you need to focus, in one window.
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
