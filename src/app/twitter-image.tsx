@@ -9,7 +9,7 @@ export default function Image() {
     (
       <div
         style={{
-          background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
+          background: "linear-gradient(135deg, #1a1a36 0%, #0c0c18 100%)",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -23,37 +23,37 @@ export default function Image() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            width: 88,
-            height: 88,
-            borderRadius: 22,
-            background: "rgba(255, 255, 255, 0.08)",
-            border: "2px solid rgba(255, 255, 255, 0.15)",
-            marginBottom: 32,
+            width: 96,
+            height: 96,
+            marginBottom: 40,
             position: "relative",
           }}
         >
+          {/* Ambient glow */}
+          <div style={{ position: "absolute", width: 50, height: 50, borderRadius: "50%", background: "radial-gradient(circle, rgba(195,210,255,0.2) 0%, transparent 100%)" }} />
           {/* Outer ring */}
-          <div style={{ position: "absolute", width: 60, height: 60, borderRadius: "50%", border: "3px solid rgba(255,255,255,0.3)" }} />
+          <div style={{ position: "absolute", width: 84, height: 84, borderRadius: "50%", border: "3px solid rgba(255,255,255,0.25)" }} />
           {/* Inner ring */}
-          <div style={{ position: "absolute", width: 38, height: 38, borderRadius: "50%", border: "2px solid rgba(255,255,255,0.55)" }} />
+          <div style={{ position: "absolute", width: 50, height: 50, borderRadius: "50%", border: "2.5px solid rgba(255,255,255,0.5)" }} />
           {/* Focal point */}
-          <div style={{ width: 16, height: 16, borderRadius: "50%", background: "white" }} />
+          <div style={{ width: 18, height: 18, borderRadius: "50%", background: "radial-gradient(circle at 40% 35%, #ffffff, #d0d8ff)" }} />
         </div>
         <div
           style={{
-            fontSize: 72,
-            fontWeight: 800,
+            fontSize: 76,
+            fontWeight: 700,
             color: "white",
-            letterSpacing: -2,
+            letterSpacing: -3,
           }}
         >
           Foci
         </div>
         <div
           style={{
-            fontSize: 28,
-            color: "rgba(255, 255, 255, 0.6)",
+            fontSize: 26,
+            color: "rgba(255, 255, 255, 0.5)",
             marginTop: 16,
+            letterSpacing: -0.5,
           }}
         >
           Your focus system, not just a timer.
@@ -61,20 +61,21 @@ export default function Image() {
         <div
           style={{
             display: "flex",
-            gap: 32,
-            marginTop: 48,
-            color: "rgba(255, 255, 255, 0.4)",
-            fontSize: 18,
+            gap: 28,
+            marginTop: 52,
+            color: "rgba(255, 255, 255, 0.35)",
+            fontSize: 17,
+            letterSpacing: 0.5,
           }}
         >
           <span>Timer</span>
-          <span style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
+          <span style={{ color: "rgba(255,255,255,0.15)" }}>·</span>
           <span>Tasks</span>
-          <span style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
+          <span style={{ color: "rgba(255,255,255,0.15)" }}>·</span>
           <span>Goals</span>
-          <span style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
+          <span style={{ color: "rgba(255,255,255,0.15)" }}>·</span>
           <span>Ambient Music</span>
-          <span style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
+          <span style={{ color: "rgba(255,255,255,0.15)" }}>·</span>
           <span>Free</span>
         </div>
       </div>

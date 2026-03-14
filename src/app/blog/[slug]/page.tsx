@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: meta.description,
       type: "article",
       publishedTime: meta.date,
-      url: `https://usefoci.app/blog/${meta.slug}`,
+      url: `https://usefoci.com/blog/${meta.slug}`,
       tags: meta.tags,
     },
   };
@@ -48,8 +48,8 @@ export default async function BlogPostPage({ params }: Props) {
     dateModified: meta.date,
     author: { "@type": "Organization", name: "Foci" },
     publisher: { "@type": "Organization", name: "Foci" },
-    url: `https://usefoci.app/blog/${meta.slug}`,
-    mainEntityOfPage: `https://usefoci.app/blog/${meta.slug}`,
+    url: `https://usefoci.com/blog/${meta.slug}`,
+    mainEntityOfPage: `https://usefoci.com/blog/${meta.slug}`,
     keywords: meta.tags.join(", "),
   };
 

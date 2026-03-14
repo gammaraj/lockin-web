@@ -23,7 +23,7 @@ Foci is more than a Pomodoro timer. It’s a complete focus system designed for 
 
 ## How to Use Foci
 
-1. Visit https://usefoci.app and click "Try without account" or sign up for free.
+1. Visit https://usefoci.com and click "Try without account" or sign up for free.
 2. Add tasks and organize them into projects.
 3. Open Settings to configure work duration, break duration, and daily session goal.
 4. Select a task, turn on ambient music if you like, and press Start.
@@ -84,10 +84,10 @@ A: Foci works in all modern browsers including Chrome, Firefox, Safari, and Edge
 
 ## URL
 
-- Homepage: https://usefoci.app
-- App: https://usefoci.app/app
-- Blog: https://usefoci.app/blog
-- Login: https://usefoci.app/login
+- Homepage: https://usefoci.com
+- App: https://usefoci.com/app
+- Blog: https://usefoci.com/blog
+- Login: https://usefoci.com/login
 
 ---
 
@@ -95,7 +95,7 @@ A: Foci works in all modern browsers including Chrome, Firefox, Safari, and Edge
 
 ### What Is the Pomodoro Technique? A Complete Guide
 
-> URL: https://usefoci.app/blog/pomodoro-technique-guide
+> URL: https://usefoci.com/blog/pomodoro-technique-guide
 > Date: 2026-03-01 | Reading time: 6 min read
 > Tags: pomodoro, productivity, focus, time management
 
@@ -157,7 +157,7 @@ The best way to start is to commit to three pomodoros tomorrow morning on your m
 
 ### How to Stay Focused While Studying: 7 Proven Strategies
 
-> URL: https://usefoci.app/blog/how-to-stay-focused-while-studying
+> URL: https://usefoci.com/blog/how-to-stay-focused-while-studying
 > Date: 2026-03-04 | Reading time: 7 min read
 > Tags: studying, focus, productivity, students
 
@@ -241,7 +241,7 @@ Those two changes alone will significantly improve your focus. Add the others ov
 
 ### Pomodoro vs. Flowtime vs. 52/17: Which Focus Technique Is Best?
 
-> URL: https://usefoci.app/blog/pomodoro-vs-flowtime-vs-52-17
+> URL: https://usefoci.com/blog/pomodoro-vs-flowtime-vs-52-17
 > Date: 2026-03-07 | Reading time: 5 min read
 > Tags: pomodoro, flowtime, focus, productivity, time management
 
@@ -326,4 +326,4 @@ The important thing isn't the specific intervals — it's the principle: **focus
 
 Foci supports customizable work and break durations, making it easy to use any of these techniques. Set 25/5 for Pomodoro, 52/17 for the longer method, or any custom interval that suits your workflow.
 
-Every session is tracked automatically — so you can experiment with different durations and see which produces your best work. Try it free at https://usefoci.app/app — no sign-up required.
+Every session is tracked automatically — so you can experiment with different durations and see which produces your best work. Try it free at https://usefoci.com/app — no sign-up required.

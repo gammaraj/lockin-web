@@ -4,7 +4,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { ToastProvider } from "@/components/ToastProvider";
 import "./globals.css";
 
-const siteUrl = "https://usefoci.app";
+const siteUrl = "https://usefoci.com";
 const title = "Foci – Your Focus System: Timer, Tasks, Goals & Ambient Music";
 const description =
   "Foci is a free all-in-one focus system: Pomodoro timer, task tracking, daily goals, streak stats, and built-in ambient music. Everything you need to stay productive, in one window.";

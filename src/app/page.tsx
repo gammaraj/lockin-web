@@ -1,7 +1,16 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 
-const siteUrl = "https://usefoci.app";
+const siteUrl = "https://usefoci.com";
+
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Foci",
+  url: siteUrl,
+  logo: `${siteUrl}/logo.svg`,
+  sameAs: [],
+};
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -33,7 +42,7 @@ const howToJsonLd = {
   name: "How to Use Foci to Stay Focused and Productive",
   description: "A step-by-step guide to using Foci — a free all-in-one focus system with a Pomodoro timer, task tracking, ambient music, daily goals, and streak stats.",
   step: [
-    { "@type": "HowToStep", name: "Open Foci", text: "Visit usefoci.app and click 'Try without account' or sign up for free to sync across devices." },
+    { "@type": "HowToStep", name: "Open Foci", text: "Visit usefoci.com and click 'Try without account' or sign up for free to sync across devices." },
     { "@type": "HowToStep", name: "Add your tasks", text: "Create tasks and organize them into projects. Break larger tasks into subtasks for clarity." },
     { "@type": "HowToStep", name: "Set your preferences", text: "Open Settings to configure work duration (default 25 min), break duration (default 5 min), daily session goal, and notification preferences." },
     { "@type": "HowToStep", name: "Pick a task and start", text: "Select a task, turn on ambient music if you like, and press Start. The circular timer counts down your work session." },
@@ -68,7 +77,7 @@ function AppMockup() {
         </div>
         <div className="flex-1 flex justify-center">
           <div className="bg-[#0d1117] rounded-md px-4 py-1 text-xs text-gray-400 font-mono">
-            usefoci.app/app
+            usefoci.com/app
           </div>
         </div>
       </div>
@@ -169,6 +178,10 @@ function AppMockup() {
 export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#0a0f1a]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

@@ -13,26 +13,37 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
+          background: "linear-gradient(135deg, #1a1a36 0%, #0c0c18 100%)",
           borderRadius: 40,
         }}
       >
+        {/* Ambient glow */}
+        <div
+          style={{
+            position: "absolute",
+            width: 80,
+            height: 80,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, rgba(195,210,255,0.15) 0%, transparent 100%)",
+          }}
+        />
         {/* Outer ring */}
         <div
           style={{
             position: "absolute",
-            width: 140,
-            height: 140,
+            width: 142,
+            height: 142,
             borderRadius: "50%",
-            border: "6px solid rgba(255, 255, 255, 0.25)",
+            border: "5px solid rgba(255, 255, 255, 0.25)",
           }}
         />
         {/* Inner ring */}
         <div
           style={{
             position: "absolute",
-            width: 90,
-            height: 90,
+            width: 86,
+            height: 86,
             borderRadius: "50%",
             border: "4px solid rgba(255, 255, 255, 0.5)",
           }}
@@ -40,10 +51,11 @@ export default function Icon() {
         {/* Focal point */}
         <div
           style={{
-            width: 36,
-            height: 36,
+            width: 30,
+            height: 30,
             borderRadius: "50%",
-            background: "white",
+            background:
+              "radial-gradient(circle at 40% 35%, #ffffff, #d0d8ff)",
           }}
         />
       </div>

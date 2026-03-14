@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getAllPosts } from "@/lib/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = "https://usefoci.app";
+  const siteUrl = "https://usefoci.com";
   const now = new Date();
 
   const posts = getAllPosts().map((post) => ({

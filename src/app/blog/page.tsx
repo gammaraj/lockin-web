@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title,
     description,
-    url: "https://usefoci.app/blog",
+    url: "https://usefoci.com/blog",
     type: "website",
   },
 };
