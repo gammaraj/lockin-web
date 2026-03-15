@@ -140,7 +140,8 @@ export function useTimer({ authLoading = false, user }: TimerOptions = {}): Time
                 setIsBreakMode(true);
                 isBreakModeRef.current = true;
                 setLabel("Great work!");
-                setStatusText("Take a well-deserved break");
+                const restoredBreakMins = Math.round(loaded.breakDuration / 60000);
+                setStatusText(`${restoredBreakMins} min break — you earned it!`);
                 setStatus("break");
                 statusRef.current = "break";
                 totalDurationRef.current = loaded.breakDuration;
@@ -340,7 +341,8 @@ export function useTimer({ authLoading = false, user }: TimerOptions = {}): Time
     setIsBreakMode(true);
     isBreakModeRef.current = true;
     setLabel("Great work!");
-    setStatusText("Take a well-deserved break");
+    const breakMins = Math.round(s.breakDuration / 60000);
+    setStatusText(`${breakMins} min break — you earned it!`);
     setStatus("break");
     statusRef.current = "break";
 

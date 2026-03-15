@@ -499,7 +499,12 @@ export default function TaskList({
       : tasks.filter((t) => t.projectId === selectedProjectId && !t.archivedAt);
   const pendingTasks = projectTasks
     .filter((t) => !t.completed)
-    .sort((a, b) => (a.order ?? Infinity) - (b.order ?? Infinity));
+    .sort((a, b) => {
+      // Pin the active task to the top
+      if (a.id === activeTaskId && b.id !== activeTaskId) return -1;
+      if (b.id === activeTaskId && a.id !== activeTaskId) return 1;
+      return (a.order ?? Infinity) - (b.order ?? Infinity);
+    });
   const completedTasks = projectTasks.filter((t) => t.completed);
   const archivedTasks = isAllProjects
     ? tasks.filter((t) => t.archivedAt)

@@ -63,10 +63,13 @@ export default function DailyProgress({
             >
               Today&apos;s Sessions
             </h2>
-            <div className="text-2xl sm:text-3xl font-bold text-blue-600 dark:text-blue-300">
+            <div className="text-2xl sm:text-3xl font-bold text-blue-600 dark:text-blue-300" title={`${dailyGoalData.sessionCount} sessions completed / daily goal: ${dailyGoal}`}>
               {dailyGoalData.sessionCount}
               <span className="text-slate-400">/</span>
               {dailyGoal}
+            </div>
+            <div className="text-[11px] text-slate-400 dark:text-slate-500">
+              sessions / goal: {dailyGoal}
             </div>
           </div>
           <div

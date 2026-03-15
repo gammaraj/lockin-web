@@ -184,13 +184,7 @@ export default function AmbientSounds() {
   const [spotifyIdx, setSpotifyIdx] = useState(0);
   const [scIdx, setScIdx] = useState(3);
   const [scShuffle, setScShuffle] = useState(false);
-  const [collapsed, setCollapsed] = useState(() => {
-    if (typeof window === "undefined") return true;
-    // Default collapsed on mobile to save vertical space
-    const isMobile = window.innerWidth < 640;
-    if (isMobile) return true;
-    return !(localStorage.getItem("foci_music_seen") === "true" || localStorage.getItem("tempo_music_seen") === "true");
-  });
+  const [collapsed, setCollapsed] = useState(true);
 
   // Remember that the user has seen the music section
   useEffect(() => {
