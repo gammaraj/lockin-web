@@ -875,6 +875,7 @@ export default function TaskList({
               <p className="text-slate-500 dark:text-slate-300 text-base mb-1">{isTodayFilter ? "No tasks due today" : "No tasks yet"}</p>
               <p className="text-slate-400 dark:text-slate-400 text-sm">{isTodayFilter ? "Set due dates on tasks to see them here" : "Add a task above or pick a template to get started"}</p>
             </div>
+            {!isTodayFilter && (
             <div className="grid grid-cols-2 gap-2">
               {TASK_TEMPLATES.map((tpl) => (
                 <button
@@ -892,6 +893,7 @@ export default function TaskList({
                 </button>
               ))}
             </div>
+            )}
           </div>
         )}
 
