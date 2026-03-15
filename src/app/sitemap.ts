@@ -16,7 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: siteUrl,
       lastModified: now,
-      changeFrequency: "monthly",
+      changeFrequency: "weekly",
       priority: 1.0,
     },
     {
@@ -30,6 +30,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.8,
+    },
+    {
+      url: `${siteUrl}/login`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
     },
     ...posts,
   ];

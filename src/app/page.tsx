@@ -61,6 +61,10 @@ const faqJsonLd = {
     { "@type": "Question", name: "Does Foci have ambient music?", acceptedAnswer: { "@type": "Answer", text: "Yes. Foci includes built-in ambient sounds like rain, café, white noise, and brown noise that work offline, plus optional lo-fi YouTube radio streams — perfect for getting in the zone." } },
     { "@type": "Question", name: "Can I customize the timer durations?", acceptedAnswer: { "@type": "Answer", text: "Yes. Open the Settings panel to customize your work duration, break duration, and daily session goal to match your preferred workflow." } },
     { "@type": "Question", name: "How does task tracking work?", acceptedAnswer: { "@type": "Answer", text: "Create tasks in the task list, organize them into projects, and select one before starting the timer. Foci automatically logs sessions and time spent per-task so you know exactly where your hours go." } },
+    { "@type": "Question", name: "Does Foci work offline?", acceptedAnswer: { "@type": "Answer", text: "Yes. Foci is a Progressive Web App (PWA) that works fully offline. Your tasks, settings, and progress are stored in your browser's local storage. The built-in ambient sounds also work offline via the Web Audio API." } },
+    { "@type": "Question", name: "Can I use Foci on mobile?", acceptedAnswer: { "@type": "Answer", text: "Yes. Foci works in any modern mobile browser. You can also install it to your home screen on iOS or Android for a native app-like experience via the PWA install prompt." } },
+    { "@type": "Question", name: "How is Foci different from a simple Pomodoro timer?", acceptedAnswer: { "@type": "Answer", text: "A simple Pomodoro timer only counts down time. Foci combines a Pomodoro timer with per-task time tracking, daily session goals, streak tracking, built-in offline ambient music, motivational quotes, and optional cloud sync — all in one window. No tab-switching required." } },
+    { "@type": "Question", name: "What browsers does Foci support?", acceptedAnswer: { "@type": "Answer", text: "Foci works in all modern browsers including Chrome, Firefox, Safari, and Edge on desktop and mobile." } },
   ],
 };
 

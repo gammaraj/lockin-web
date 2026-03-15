@@ -1,8 +1,11 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { AuthProvider } from "@/components/AuthProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { ToastProvider } from "@/components/ToastProvider";
 import "./globals.css";
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 const siteUrl = "https://usefoci.com";
 const title = "Foci – Your Focus System: Timer, Tasks, Goals & Ambient Music";
@@ -19,7 +22,11 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title,
+  title: {
+    default: title,
+    template: "%s – Foci",
+  },
+  applicationName: "Foci",
   description,
   keywords: [
     "focus system",
@@ -92,6 +99,22 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="help" href="/llms.txt" type="text/plain" />
       </head>
+      {GA_ID && (
+        <>
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_ID}');
+            `}
+          </Script>
+        </>
+      )}
       <body className="min-h-screen bg-slate-50 dark:bg-[#0b1121]">
         <ThemeProvider>
           <ToastProvider>

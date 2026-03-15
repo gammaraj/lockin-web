@@ -19,8 +19,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return {};
   const { meta } = post;
   return {
-    title: `${meta.title} – Foci Blog`,
+    title: meta.title,
     description: meta.description,
+    keywords: meta.tags,
+    authors: [{ name: "Foci", url: "https://usefoci.com" }],
     alternates: { canonical: `/blog/${meta.slug}` },
     openGraph: {
       title: meta.title,
@@ -29,6 +31,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       publishedTime: meta.date,
       url: `https://usefoci.com/blog/${meta.slug}`,
       tags: meta.tags,
+      siteName: "Foci",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.title,
+      description: meta.description,
     },
   };
 }

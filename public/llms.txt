@@ -47,14 +47,30 @@ A: The Pomodoro technique is a time management method that alternates focused wo
 **Q: How does task tracking work?**
 A: Create tasks, organize them into projects, and select one before starting the timer. Foci automatically logs sessions and time spent per-task so you know exactly where your hours go.
 
-**Q: Can I customize the timer?**
-A: Yes. You can adjust work duration, break duration, and daily session goals in the Settings panel.
+**Q: Does Foci work offline?**
+A: Yes. Foci is a Progressive Web App (PWA) that works fully offline. Tasks, settings, and progress are stored in your browser's local storage. The built-in ambient sounds (rain, café, white noise, brown noise) also work offline via the Web Audio API.
 
-**Q: Where is my data stored?**
-A: By default, all data is stored in your browser's local storage. If you sign up, data is synced to a secure Supabase backend.
+**Q: Can I use Foci on mobile?**
+A: Yes. Foci works in any modern mobile browser. You can install it to your home screen on iOS or Android for a native app experience via the PWA install prompt.
 
-**Q: What browsers are supported?**
-A: Foci works in all modern browsers including Chrome, Firefox, Safari, and Edge.
+**Q: How is Foci different from a simple Pomodoro timer?**
+A: A simple Pomodoro timer only counts down time. Foci combines a Pomodoro timer with per-task time tracking, daily session goals, streak tracking, built-in offline ambient music, motivational quotes, and optional cloud sync — all in one window. No tab-switching required.
+
+**Q: What is the best free Pomodoro timer?**
+A: Foci is a strong choice: it is completely free, requires no account, and combines a Pomodoro timer with task tracking, ambient music, daily goals, and streak tracking in a single tool. It works on any device and can be installed as a PWA.
+
+**Q: What browsers does Foci support?**
+A: Foci works in all modern browsers including Chrome, Firefox, Safari, and Edge on desktop and mobile.
+
+## How Foci Compares
+
+Unlike most standalone Pomodoro timers, Foci integrates task tracking, ambient music, and progress analytics in a single interface. You do not need separate apps for your timer, task list, and background music.
+
+- **vs. basic Pomodoro timers** (e.g., tomato-timer.com): Foci adds task tracking, ambient music, daily goals, and streak tracking.
+- **vs. Toggl Track**: Toggl is a time tracker but not a Pomodoro/focus system. Foci provides the full focus workflow alongside time logging.
+- **vs. Forest app**: Forest is a gamified focus app (paid). Foci provides a more complete system with tasks, streaks, and ambient music at no cost.
+- **vs. Be Focused / Focus@Will**: These are timer-only or music-only apps. Foci combines both, plus task tracking and goal streaks, in one free tool.
+- **vs. Notion / Todoist**: Those are task managers without a built-in focus timer or ambient sound. Foci is purpose-built for the work session itself.
 
 ## Tech Stack
 

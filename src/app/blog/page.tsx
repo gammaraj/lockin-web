@@ -10,12 +10,19 @@ const description =
 export const metadata: Metadata = {
   title,
   description,
+  keywords: ["pomodoro technique", "focus tips", "productivity guides", "time management", "study strategies", "deep work"],
   alternates: { canonical: "/blog" },
   openGraph: {
     title,
     description,
     url: "https://usefoci.com/blog",
     type: "website",
+    siteName: "Foci",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
   },
 };
 
