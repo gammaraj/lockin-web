@@ -34,6 +34,9 @@ const jsonLd = {
     "Cloud sync across devices",
     "Dark mode support",
     "Brown noise generator for deep focus and ADHD support",
+    "Import tasks from Google Tasks, Todoist, Asana, and Notion",
+    "Export tasks as JSON or CSV for backup and migration",
+    "Today and This Week smart task filters",
   ],
 };
 
@@ -65,6 +68,8 @@ const faqJsonLd = {
     { "@type": "Question", name: "Does Foci work offline?", acceptedAnswer: { "@type": "Answer", text: "Yes. Foci is a Progressive Web App (PWA) that works fully offline. Your tasks, settings, and progress are stored in your browser's local storage. The built-in ambient sounds also work offline via the Web Audio API." } },
     { "@type": "Question", name: "Can I use Foci on mobile?", acceptedAnswer: { "@type": "Answer", text: "Yes. Foci works in any modern mobile browser. You can also install it to your home screen on iOS or Android for a native app-like experience via the PWA install prompt." } },
     { "@type": "Question", name: "How is Foci different from a simple Pomodoro timer?", acceptedAnswer: { "@type": "Answer", text: "A simple Pomodoro timer only counts down time. Foci combines a Pomodoro timer with per-task time tracking, daily session goals, streak tracking, built-in offline ambient music, motivational quotes, and optional cloud sync — all in one window. No tab-switching required." } },
+    { "@type": "Question", name: "Can I import tasks from Google Tasks, Todoist, Asana, or Notion?", acceptedAnswer: { "@type": "Answer", text: "Yes. Foci supports importing tasks from Google Tasks (JSON), Todoist (CSV), Asana (CSV), Notion (CSV), and any generic CSV file with a title column. Go to Settings → Import & Export Tasks to upload your file. Foci auto-detects the format and lets you preview before importing." } },
+    { "@type": "Question", name: "Can I export my tasks from Foci?", acceptedAnswer: { "@type": "Answer", text: "Yes. You can export all your tasks as JSON (for re-importing into Foci) or CSV (for use in spreadsheets or other apps) from the Settings panel under Import & Export Tasks." } },
     { "@type": "Question", name: "What browsers does Foci support?", acceptedAnswer: { "@type": "Answer", text: "Foci works in all modern browsers including Chrome, Firefox, Safari, and Edge on desktop and mobile." } },
     { "@type": "Question", name: "Does Foci have brown noise?", acceptedAnswer: { "@type": "Answer", text: "Yes. Foci includes a built-in brown noise generator that works completely offline using the Web Audio API. Brown noise is a deep, warm sound that's less harsh than white noise — ideal for long study sessions, deep work, and ADHD focus support. You can also use rain, café, and white noise sounds." } },
     { "@type": "Question", name: "Can I use Foci for deep work?", acceptedAnswer: { "@type": "Answer", text: "Yes. Foci is designed for deep work sessions. Set your timer, pick a task, turn on ambient sounds like brown noise or rain, and focus without distraction. Foci tracks your sessions and daily goals so you can build a consistent deep work habit." } },

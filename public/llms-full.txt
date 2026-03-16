@@ -21,6 +21,8 @@ Foci is more than a Pomodoro timer. It’s a complete focus system designed for 
 - **Cloud Sync**: Optionally sign up to sync settings, tasks, and progress across devices via Supabase.
 - **Installable PWA**: Install Foci on your device and use it offline.
 - **Data Privacy**: All data is stored locally by default. No tracking, no ads.
+- **Task Import & Export**: Import tasks from Google Tasks (JSON), Todoist (CSV), Asana (CSV), Notion (CSV), or any CSV file. Export your tasks as JSON or CSV for backup or migration.
+- **Smart Filters**: Filter tasks by Today (due today or overdue) or This Week (due within the current week) for quick prioritization.
 
 ## How to Use Foci
 
@@ -57,6 +59,12 @@ A: Yes. Foci works in any modern mobile browser. You can install it to your home
 **Q: How is Foci different from a simple Pomodoro timer?**
 A: A simple Pomodoro timer only counts down time. Foci combines a Pomodoro timer with per-task time tracking, daily session goals, streak tracking, built-in offline ambient music, motivational quotes, and optional cloud sync — all in one window. No tab-switching required.
 
+**Q: Can I import tasks from Google Tasks, Todoist, Asana, or Notion?**
+A: Yes. Foci supports importing tasks from Google Tasks (JSON), Todoist (CSV), Asana (CSV), Notion (CSV), and any generic CSV file with a title column. Go to Settings → Import & Export Tasks, upload your file, and Foci auto-detects the format.
+
+**Q: Can I export my tasks from Foci?**
+A: Yes. Export all your tasks as JSON (for re-importing into Foci) or CSV (for spreadsheets or other apps) from the Settings panel under Import & Export Tasks.
+
 **Q: Does Foci have brown noise?**
 A: Yes. Foci includes a built-in brown noise generator that works completely offline using the Web Audio API. Brown noise is a deep, warm sound that's less harsh than white noise — ideal for long study sessions, deep work, and ADHD focus support.
 
@@ -83,7 +91,7 @@ Unlike most standalone Pomodoro timers, Foci integrates task tracking, ambient m
 - **vs. Toggl Track**: Toggl is a time tracker but not a Pomodoro/focus system. Foci provides the full focus workflow alongside time logging.
 - **vs. Forest app**: Forest is a gamified focus app (paid). Foci provides a more complete system with tasks, streaks, and ambient music at no cost.
 - **vs. Be Focused / Focus@Will**: These are timer-only or music-only apps. Foci combines both, plus task tracking and goal streaks, in one free tool.
-- **vs. Notion / Todoist**: Those are task managers without a built-in focus timer or ambient sound. Foci is purpose-built for the work session itself.
+- **vs. Notion / Todoist**: Those are task managers without a built-in focus timer or ambient sound. Foci is purpose-built for the work session itself. You can import your tasks from Todoist, Notion, Asana, or Google Tasks into Foci.
 
 ## Tech Stack
 
@@ -103,8 +111,9 @@ Unlike most standalone Pomodoro timers, Foci integrates task tracking, ambient m
 - `src/components/CircularTimer.tsx` – SVG-based circular countdown display.
 - `src/components/TimerControls.tsx` – Start, pause, and reset buttons.
 - `src/components/DailyProgress.tsx` – Daily goal progress bar and streak display.
-- `src/components/SettingsPanel.tsx` – Settings modal for durations, goals, notifications.
-- `src/components/TaskList.tsx` – Task creation, listing, and time tracking.
+- `src/components/SettingsPanel.tsx` – Settings modal for durations, goals, notifications, and task import/export.
+- `src/components/TaskList.tsx` – Task creation, listing, time tracking, Today/This Week filters.
+- `src/components/TaskImportExport.tsx` – Import tasks from Google Tasks, Todoist, Asana, Notion, CSV. Export as JSON/CSV.
 - `src/hooks/useTimer.ts` – Core timer logic hook (work/break cycles, callbacks).
 - `src/lib/types.ts` – TypeScript type definitions (Settings, Task, TimerStatus, etc.).
 - `src/lib/quotes.ts` – Array of motivational quotes.
@@ -436,3 +445,110 @@ AI can support deep work when used intentionally: use AI **before** a focus sess
 #### Try it with Foci
 
 Foci is designed for this workflow. Set your focus duration, pick your task, start your ambient sounds, and let the timer hold you accountable. It tracks your sessions, streaks, and daily goals so you can see your deep work habit building over time. Try it free at https://usefoci.com/app.
+
+---
+
+### How to Migrate from Google Tasks to Foci
+
+> URL: https://usefoci.com/blog/migrate-from-google-tasks-to-foci
+> Date: 2026-03-15 | Reading time: 4 min read
+> Tags: migration, google tasks, import, productivity, task management
+
+Google Tasks is simple and convenient — it lives right inside Gmail and Google Calendar. But if you've been looking for a tool that actually helps you focus on those tasks instead of just listing them, Foci is built for exactly that.
+
+#### Why switch?
+
+Google Tasks is a checklist. Foci is a focus system: built-in Pomodoro timer, per-task time tracking, daily goals and streaks, subtasks and projects, offline support, and no account required.
+
+#### How to export from Google Tasks
+
+1. Go to Google Takeout (takeout.google.com)
+2. Deselect all, then check Tasks
+3. Create and download the export
+4. Unzip — find the JSON file in the Tasks folder
+
+#### How to import into Foci
+
+1. Open Foci → Settings → Import & Export Tasks
+2. Click "Choose file to import" and select the Google Tasks JSON
+3. Foci auto-detects the format and shows a preview
+4. Click Import
+
+Task titles, completion status, and due dates are imported. Notes and list names don't transfer — use Foci projects to reorganize after import.
+
+---
+
+### How to Migrate from Todoist to Foci
+
+> URL: https://usefoci.com/blog/migrate-from-todoist-to-foci
+> Date: 2026-03-15 | Reading time: 4 min read
+> Tags: migration, todoist, import, productivity, task management
+
+Todoist excels at capturing and organizing tasks. Foci excels at executing them with focused, timed work sessions.
+
+#### How to export from Todoist
+
+1. Go to Settings → Backups in Todoist
+2. Create and download a backup (ZIP with CSV)
+3. Or export a specific project via the three-dot menu → Export as CSV
+
+#### How to import into Foci
+
+1. Open Foci → Settings → Import & Export Tasks
+2. Upload the Todoist CSV
+3. Foci auto-detects the format, previews the tasks
+4. Toggle whether to include completed tasks
+5. Click Import
+
+Task names, completion status, and due dates are imported. Priority levels and labels don't transfer — Foci uses a simpler project model.
+
+---
+
+### How to Migrate from Asana to Foci
+
+> URL: https://usefoci.com/blog/migrate-from-asana-to-foci
+> Date: 2026-03-15 | Reading time: 4 min read
+> Tags: migration, asana, import, productivity, task management
+
+Asana is built for team coordination. Foci is built for individual deep work — no dashboards, no teammate notifications, just your tasks and a focus timer.
+
+#### How to export from Asana
+
+1. Open the project in Asana
+2. Click the dropdown/⋯ menu → Export/Print → CSV
+3. Save the CSV file
+
+#### How to import into Foci
+
+1. Open Foci → Settings → Import & Export Tasks
+2. Upload the Asana CSV
+3. Foci auto-detects the Asana format
+4. Preview and import
+
+Task names, completion status, and due dates are imported. Assignees, sections, and dependencies don't transfer.
+
+---
+
+### How to Migrate from Notion to Foci
+
+> URL: https://usefoci.com/blog/migrate-from-notion-to-foci
+> Date: 2026-03-15 | Reading time: 4 min read
+> Tags: migration, notion, import, productivity, task management
+
+Notion is incredibly flexible but its complexity can get in the way of actually doing the work. Foci is a dedicated focus tool — no database schemas, no setup, just tasks and a timer.
+
+#### How to export from Notion
+
+1. Open the task database in Notion
+2. Switch to Table view for the cleanest export
+3. Click ⋯ menu → Export → CSV
+4. Save the CSV file
+
+#### How to import into Foci
+
+1. Open Foci → Settings → Import & Export Tasks
+2. Upload the Notion CSV
+3. Foci maps Name/Title to task title, Status (Done/Completed) to completion, and Due/Date to due date
+4. Preview and import
+
+Relations, rollups, formulas, and multi-select tags don't transfer. Foci's model is intentionally simpler — fewer fields between you and a focus session.

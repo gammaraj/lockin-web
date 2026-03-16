@@ -43,6 +43,7 @@ export interface Project {
 
 export const ALL_PROJECTS_ID = "__all__";
 export const TODAY_FILTER_ID = "__today__";
+export const THIS_WEEK_FILTER_ID = "__this_week__";
 export const DEFAULT_PROJECT_ID = "__general__";
 
 export const DEFAULT_PROJECT: Project = {

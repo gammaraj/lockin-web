@@ -29,6 +29,7 @@ export default function AppPage() {
   const [showSettings, setShowSettings] = useState(false);
   const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
   const activeTaskIdRef = useRef<string | null>(null);
+  const [taskListKey, setTaskListKey] = useState(0);
 
   const isRunning = timer.status === "running";
   const displayTime =
@@ -203,6 +204,7 @@ export default function AppPage() {
         {/* Task list column */}
         <div id="tasks-section" className="w-full lg:flex-1">
           <TaskList
+            key={taskListKey}
             activeTaskId={activeTaskId}
             onSelectTask={setActiveTaskId}
             onStartTask={handleStartTask}
@@ -220,6 +222,7 @@ export default function AppPage() {
           settings={timer.settings}
           onSave={timer.saveSettings}
           onClose={() => setShowSettings(false)}
+          onTasksImported={() => setTaskListKey((k) => k + 1)}
         />
       )}
 

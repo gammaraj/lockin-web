@@ -1,0 +1,103 @@
+---
+title: "How to Migrate from Notion to Foci"
+description: "A practical guide to exporting your Notion task databases and importing them into Foci for distraction-free, timer-driven productivity."
+date: "2026-03-15"
+readingTime: "4 min read"
+tags: ["migration", "notion", "import", "productivity", "task management"]
+---
+
+Notion is incredibly flexible — it can be a wiki, a database, a project tracker, a note-taking app, and a task manager all at once. That flexibility is also its biggest weakness for task execution. When your task list lives inside a workspace with hundreds of pages, databases, and nested views, actually _doing_ the work takes a back seat to organizing it.
+
+If you want a dedicated tool that helps you focus on tasks with a built-in timer and progress tracking, here's how to move your Notion tasks into Foci.
+
+## Why switch?
+
+Notion is a workspace. Foci is a focus tool. They solve different problems:
+
+- **No setup required** — Foci works out of the box, no database schemas or templates to configure
+- **Built-in Pomodoro timer** — start a timed session on any task with one click
+- **Automatic time tracking** — sessions and minutes logged per task, zero manual entry
+- **Daily goals and streaks** — build a focus habit with visual progress tracking
+- **Offline-first** — works instantly without loading a heavy web app
+- **Zero friction** — no account needed, no workspace to set up
+
+Notion is great for knowledge management. Foci is great for getting things done.
+
+## Step 1: Export your tasks from Notion
+
+Notion lets you export any database as CSV:
+
+1. Open the **task database** (or board/table view) you want to export in [Notion](https://notion.so)
+2. Click the **⋯** menu at the top-right of the database view
+3. Select **Export** → choose **CSV** as the format
+4. Click **Export** and save the file
+
+If you use a board view (Kanban), switch to **Table view** first for a cleaner export. Each row becomes a task, and columns become CSV headers.
+
+For exporting your entire workspace:
+
+1. Go to **Settings & Members** → **Settings**
+2. Scroll to **Export all workspace content**
+3. Choose **CSV** format and click **Export**
+
+This gives you a ZIP file with CSV files for each database.
+
+## Step 2: Import into Foci
+
+1. Open [Foci](https://usefoci.com/app)
+2. Click the **Settings** gear icon
+3. Scroll to **Import & Export Tasks**
+4. Click **Choose file to import** and select your Notion CSV
+5. Foci auto-detects the Notion format and maps columns (Name/Title → task title, Status → completion, Due → due date)
+6. Preview the tasks and toggle whether to include completed ones
+7. Click **Import**
+
+That's it — your Notion tasks are now in Foci.
+
+## What gets imported
+
+| Notion field | Foci field |
+|---|---|
+| Name / Title | Title |
+| Status (Done/Completed) | Completed |
+| Due / Date / Deadline | Due date |
+
+Notion-specific properties like Relations, Rollups, Formulas, and multi-select tags don't transfer. Foci uses a simpler model by design — the fewer fields between you and a focus session, the better.
+
+## Step 3: Focus, don't organize
+
+The shift from Notion to Foci is a mindset change: less time building the perfect system, more time doing the work.
+
+In Foci, the workflow is:
+
+1. **Look at your task list** — sorted by project, due date, or custom order
+2. **Pick a task** — tap it to select
+3. **Press Start** — the Pomodoro timer begins
+4. **Work with full focus** until the timer rings
+5. **Take a break** — then repeat
+
+Every session gets logged. You can see exactly how many sessions and minutes you've spent on each task. After a week, you'll have real data on where your time goes — not a beautifully formatted dashboard you spent two hours building.
+
+## Common Notion exports and how Foci handles them
+
+**Board/Kanban view:** Tasks in columns like "To Do," "In Progress," "Done." Foci maps the Status column — tasks marked "Done" or "Completed" import as completed.
+
+**Table with custom properties:** Multi-select tags, people, dates, and formulas. Foci picks up the Name and Date columns and ignores the rest. Keep it simple.
+
+**Linked databases and relations:** These don't export well to CSV even within Notion. Export the source database directly for best results.
+
+## Tips for Notion users
+
+- **Export one database at a time** — it's cleaner than a full workspace export
+- **Use Table view** before exporting for the most reliable CSV
+- **Name your title column "Name" or "Title"** — Foci looks for these headers during auto-detection
+- **Mark your Status column clearly** — use "Done" or "Completed" as values for completed tasks
+- **Don't over-migrate** — bring over active tasks, not your entire archive
+
+## You don't have to choose
+
+Many people keep Notion as their knowledge base and planning tool while using Foci for daily execution. Capture ideas and plan projects in Notion, then export actionable tasks to Foci when it's time to focus.
+
+The tools work well together — Notion for thinking, Foci for doing.
+
+[Try Foci →](https://usefoci.com/app)

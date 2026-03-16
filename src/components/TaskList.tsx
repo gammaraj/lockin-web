@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Task, Project, DEFAULT_PROJECT, DEFAULT_PROJECT_ID, ALL_PROJECTS_ID, TODAY_FILTER_ID, Subtask } from "@/lib/types";
+import { Task, Project, DEFAULT_PROJECT, DEFAULT_PROJECT_ID, ALL_PROJECTS_ID, TODAY_FILTER_ID, THIS_WEEK_FILTER_ID, Subtask } from "@/lib/types";
 import { loadTasks, saveTasks, saveTask as saveOneTask, loadProjects, saveProjects, loadSelectedProjectId, saveSelectedProjectId, deleteTask as removeTaskFromDB, deleteTasks as removeTasksFromDB, deleteProject as removeProjectFromDB } from "@/lib/storage";
 import { TASK_TEMPLATES, templateToTasks } from "@/lib/templates";
 import { useAuth } from "@/components/AuthProvider";
@@ -270,7 +270,7 @@ export default function TaskList({
       sessions: 0,
       timeSpent: 0,
       createdAt: Date.now(),
-      projectId: (isAllProjects || isTodayFilter) ? DEFAULT_PROJECT_ID : selectedProjectId,
+      projectId: (isAllProjects || isTodayFilter || isThisWeekFilter) ? DEFAULT_PROJECT_ID : selectedProjectId,
       subtasks: [],
     };
 
@@ -490,13 +490,24 @@ export default function TaskList({
   // Filter tasks for the selected project
   const isAllProjects = selectedProjectId === ALL_PROJECTS_ID;
   const isTodayFilter = selectedProjectId === TODAY_FILTER_ID;
+  const isThisWeekFilter = selectedProjectId === THIS_WEEK_FILTER_ID;
   const today = getToday();
+  const endOfWeek = (() => {
+    const d = new Date();
+    const day = d.getDay();
+    const diff = day === 0 ? 0 : 7 - day; // days until Sunday
+    d.setDate(d.getDate() + diff);
+    return formatDateLocal(d);
+  })();
   const todayTasks = tasks.filter((t) => !t.archivedAt && !t.completed && t.dueDate && (t.dueDate <= today));
+  const thisWeekTasks = tasks.filter((t) => !t.archivedAt && !t.completed && t.dueDate && (t.dueDate <= endOfWeek));
   const projectTasks = isTodayFilter
     ? todayTasks
-    : isAllProjects
-      ? tasks.filter((t) => !t.archivedAt)
-      : tasks.filter((t) => t.projectId === selectedProjectId && !t.archivedAt);
+    : isThisWeekFilter
+      ? thisWeekTasks
+      : isAllProjects
+        ? tasks.filter((t) => !t.archivedAt)
+        : tasks.filter((t) => t.projectId === selectedProjectId && !t.archivedAt);
   const pendingTasks = projectTasks
     .filter((t) => !t.completed)
     .sort((a, b) => {
@@ -537,25 +548,45 @@ export default function TaskList({
             </svg>
             Tasks
           </h2>
-          <div className="flex items-center gap-1 bg-white/10 rounded-lg p-0.5">
-            <button
-              onClick={() => setViewMode("list")}
-              className={`p-1.5 rounded-md transition-colors ${viewMode === "list" ? "bg-white/20 text-white" : "text-white/50 hover:text-white/80"}`}
-              title="List view"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-            <button
-              onClick={() => setViewMode("calendar")}
-              className={`p-1.5 rounded-md transition-colors ${viewMode === "calendar" ? "bg-white/20 text-white" : "text-white/50 hover:text-white/80"}`}
-              title="Calendar view"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </button>
+          <div className="flex items-center gap-2">
+            {/* Time filters */}
+            <div className="flex items-center gap-1 bg-white/10 rounded-lg p-0.5">
+              <button
+                onClick={() => selectProject(TODAY_FILTER_ID)}
+                className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${isTodayFilter ? "bg-orange-500 text-white" : "text-white/60 hover:text-white/90 hover:bg-white/10"}`}
+                title="Show tasks due today"
+              >
+                Today{todayTasks.length > 0 ? ` ${todayTasks.length}` : ""}
+              </button>
+              <button
+                onClick={() => selectProject(THIS_WEEK_FILTER_ID)}
+                className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${isThisWeekFilter ? "bg-violet-500 text-white" : "text-white/60 hover:text-white/90 hover:bg-white/10"}`}
+                title="Show tasks due this week"
+              >
+                Week{thisWeekTasks.length > 0 ? ` ${thisWeekTasks.length}` : ""}
+              </button>
+            </div>
+            {/* View mode toggles */}
+            <div className="flex items-center gap-1 bg-white/10 rounded-lg p-0.5">
+              <button
+                onClick={() => setViewMode("list")}
+                className={`p-1.5 rounded-md transition-colors ${viewMode === "list" ? "bg-white/20 text-white" : "text-white/50 hover:text-white/80"}`}
+                title="List view"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setViewMode("calendar")}
+                className={`p-1.5 rounded-md transition-colors ${viewMode === "calendar" ? "bg-white/20 text-white" : "text-white/50 hover:text-white/80"}`}
+                title="Calendar view"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -578,26 +609,6 @@ export default function TaskList({
       <div className="px-4 pt-3 pb-1 relative" ref={projectMenuRef}>
         <div className="relative">
           <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide pr-6">
-            {/* Today filter tab */}
-            <button
-              onClick={() => selectProject(TODAY_FILTER_ID)}
-              className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
-                isTodayFilter
-                  ? "bg-orange-500 text-white"
-                  : "text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-[#131d30] hover:bg-slate-200 dark:hover:bg-[#1a2d4a]"
-              }`}
-            >
-              <span className="truncate">Today</span>
-              {todayTasks.length > 0 && (
-                <span className={`text-xs ${
-                  isTodayFilter
-                    ? "text-orange-200"
-                    : "text-orange-500 dark:text-orange-400"
-                }`}>
-                  {todayTasks.length}
-                </span>
-              )}
-            </button>
             {/* All Projects tab */}
           <button
             onClick={() => selectProject(ALL_PROJECTS_ID)}

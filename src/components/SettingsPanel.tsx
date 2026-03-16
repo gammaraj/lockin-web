@@ -3,17 +3,20 @@
 import React, { useState, useEffect } from "react";
 import { Settings } from "@/lib/types";
 import { TIMER_PRESETS, GOAL_PRESETS } from "@/lib/templates";
+import TaskImportExport from "@/components/TaskImportExport";
 
 interface SettingsPanelProps {
   settings: Settings;
   onSave: (s: Settings) => void;
   onClose: () => void;
+  onTasksImported?: () => void;
 }
 
 export default function SettingsPanel({
   settings,
   onSave,
   onClose,
+  onTasksImported,
 }: SettingsPanelProps) {
   const [workMin, setWorkMin] = useState(
     Math.floor(settings.workDuration / 60000)
@@ -331,6 +334,17 @@ export default function SettingsPanel({
                   </button>
                 )}
               </div>
+            </div>
+          </div>
+
+          {/* Import / Export */}
+          <div>
+            <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-2 flex items-center">
+              <span className="text-base mr-2">📦</span>
+              Import &amp; Export Tasks
+            </h4>
+            <div className="bg-slate-50 dark:bg-[#131d30] rounded-xl p-3 border border-slate-200 dark:border-[#243350]">
+              <TaskImportExport onTasksImported={onTasksImported} />
             </div>
           </div>
 

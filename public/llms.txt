@@ -21,6 +21,8 @@ Foci is more than a Pomodoro timer. It’s a complete focus system designed for 
 - **Cloud Sync**: Optionally sign up to sync settings, tasks, and progress across devices via Supabase.
 - **Installable PWA**: Install Foci on your device and use it offline.
 - **Data Privacy**: All data is stored locally by default. No tracking, no ads.
+- **Task Import & Export**: Import tasks from Google Tasks (JSON), Todoist (CSV), Asana (CSV), Notion (CSV), or any CSV file. Export your tasks as JSON or CSV for backup or migration.
+- **Smart Filters**: Filter tasks by Today (due today or overdue) or This Week (due within the current week) for quick prioritization.
 
 ## How to Use Foci
 
@@ -57,6 +59,12 @@ A: Yes. Foci works in any modern mobile browser. You can install it to your home
 **Q: How is Foci different from a simple Pomodoro timer?**
 A: A simple Pomodoro timer only counts down time. Foci combines a Pomodoro timer with per-task time tracking, daily session goals, streak tracking, built-in offline ambient music, motivational quotes, and optional cloud sync — all in one window. No tab-switching required.
 
+**Q: Can I import tasks from Google Tasks, Todoist, Asana, or Notion?**
+A: Yes. Foci supports importing tasks from Google Tasks (JSON), Todoist (CSV), Asana (CSV), Notion (CSV), and any generic CSV file with a title column. Go to Settings → Import & Export Tasks, upload your file, and Foci auto-detects the format.
+
+**Q: Can I export my tasks from Foci?**
+A: Yes. Export all your tasks as JSON (for re-importing into Foci) or CSV (for spreadsheets or other apps) from the Settings panel under Import & Export Tasks.
+
 **Q: Does Foci have brown noise?**
 A: Yes. Foci includes a built-in brown noise generator that works completely offline using the Web Audio API. Brown noise is a deep, warm sound that's less harsh than white noise — ideal for long study sessions, deep work, and ADHD focus support.
 
@@ -77,7 +85,7 @@ Unlike most standalone Pomodoro timers, Foci integrates task tracking, ambient m
 - **vs. Toggl Track**: Toggl is a time tracker but not a Pomodoro/focus system. Foci provides the full focus workflow alongside time logging.
 - **vs. Forest app**: Forest is a gamified focus app (paid). Foci provides a more complete system with tasks, streaks, and ambient music at no cost.
 - **vs. Be Focused / Focus@Will**: These are timer-only or music-only apps. Foci combines both, plus task tracking and goal streaks, in one free tool.
-- **vs. Notion / Todoist**: Those are task managers without a built-in focus timer or ambient sound. Foci is purpose-built for the work session itself.
+- **vs. Notion / Todoist**: Those are task managers without a built-in focus timer or ambient sound. Foci is purpose-built for the work session itself. You can import your tasks from Todoist, Notion, Asana, or Google Tasks into Foci.
 
 ## Tech Stack
 
@@ -97,8 +105,9 @@ Unlike most standalone Pomodoro timers, Foci integrates task tracking, ambient m
 - `src/components/CircularTimer.tsx` – SVG-based circular countdown display.
 - `src/components/TimerControls.tsx` – Start, pause, and reset buttons.
 - `src/components/DailyProgress.tsx` – Daily goal progress bar and streak display.
-- `src/components/SettingsPanel.tsx` – Settings modal for durations, goals, notifications.
-- `src/components/TaskList.tsx` – Task creation, listing, and time tracking.
+- `src/components/SettingsPanel.tsx` – Settings modal for durations, goals, notifications, and task import/export.
+- `src/components/TaskList.tsx` – Task creation, listing, time tracking, Today/This Week filters.
+- `src/components/TaskImportExport.tsx` – Import tasks from Google Tasks, Todoist, Asana, Notion, CSV. Export as JSON/CSV.
 - `src/hooks/useTimer.ts` – Core timer logic hook (work/break cycles, callbacks).
 - `src/lib/types.ts` – TypeScript type definitions (Settings, Task, TimerStatus, etc.).
 - `src/lib/quotes.ts` – Array of motivational quotes.
@@ -119,5 +128,9 @@ Foci publishes articles about the Pomodoro technique, focus strategies, and time
 - [What Is the Pomodoro Technique? A Complete Guide](https://usefoci.com/blog/pomodoro-technique-guide) — 2026-03-01
 - [How to Stay Focused While Studying: 7 Proven Strategies](https://usefoci.com/blog/how-to-stay-focused-while-studying) — 2026-03-04
 - [Pomodoro vs. Flowtime vs. 52/17: Which Focus Technique Is Best?](https://usefoci.com/blog/pomodoro-vs-flowtime-vs-52-17) — 2026-03-07
+- [How to Migrate from Google Tasks to Foci](https://usefoci.com/blog/migrate-from-google-tasks-to-foci) — 2026-03-15
+- [How to Migrate from Todoist to Foci](https://usefoci.com/blog/migrate-from-todoist-to-foci) — 2026-03-15
+- [How to Migrate from Asana to Foci](https://usefoci.com/blog/migrate-from-asana-to-foci) — 2026-03-15
+- [How to Migrate from Notion to Foci](https://usefoci.com/blog/migrate-from-notion-to-foci) — 2026-03-15
 
 For the full text of all blog posts, see: https://usefoci.com/llms-full.txt
