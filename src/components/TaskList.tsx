@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Task, Project, DEFAULT_PROJECT, DEFAULT_PROJECT_ID, ALL_PROJECTS_ID, TODAY_FILTER_ID, THIS_WEEK_FILTER_ID, Subtask } from "@/lib/types";
+import { Task, Project, DEFAULT_PROJECT, DEFAULT_PROJECT_ID, ALL_PROJECTS_ID, TODAY_FILTER_ID, THIS_WEEK_FILTER_ID, THIS_MONTH_FILTER_ID, THIS_YEAR_FILTER_ID, Subtask } from "@/lib/types";
 import { loadTasks, saveTasks, saveTask as saveOneTask, loadProjects, saveProjects, loadSelectedProjectId, saveSelectedProjectId, deleteTask as removeTaskFromDB, deleteTasks as removeTasksFromDB, deleteProject as removeProjectFromDB } from "@/lib/storage";
 import { TASK_TEMPLATES, templateToTasks } from "@/lib/templates";
 import { useAuth } from "@/components/AuthProvider";
@@ -270,7 +270,7 @@ export default function TaskList({
       sessions: 0,
       timeSpent: 0,
       createdAt: Date.now(),
-      projectId: (isAllProjects || isTodayFilter || isThisWeekFilter) ? DEFAULT_PROJECT_ID : selectedProjectId,
+      projectId: (isAllProjects || isTimeFilter) ? DEFAULT_PROJECT_ID : selectedProjectId,
       subtasks: [],
     };
 
@@ -491,23 +491,38 @@ export default function TaskList({
   const isAllProjects = selectedProjectId === ALL_PROJECTS_ID;
   const isTodayFilter = selectedProjectId === TODAY_FILTER_ID;
   const isThisWeekFilter = selectedProjectId === THIS_WEEK_FILTER_ID;
+  const isThisMonthFilter = selectedProjectId === THIS_MONTH_FILTER_ID;
+  const isThisYearFilter = selectedProjectId === THIS_YEAR_FILTER_ID;
+  const isTimeFilter = isTodayFilter || isThisWeekFilter || isThisMonthFilter || isThisYearFilter;
   const today = getToday();
   const endOfWeek = (() => {
     const d = new Date();
     const day = d.getDay();
-    const diff = day === 0 ? 0 : 7 - day; // days until Sunday
+    const diff = day === 0 ? 0 : 7 - day;
     d.setDate(d.getDate() + diff);
     return formatDateLocal(d);
   })();
+  const endOfMonth = (() => {
+    const d = new Date();
+    d.setMonth(d.getMonth() + 1, 0);
+    return formatDateLocal(d);
+  })();
+  const endOfYear = `${new Date().getFullYear()}-12-31`;
   const todayTasks = tasks.filter((t) => !t.archivedAt && !t.completed && t.dueDate && (t.dueDate <= today));
   const thisWeekTasks = tasks.filter((t) => !t.archivedAt && !t.completed && t.dueDate && (t.dueDate <= endOfWeek));
+  const thisMonthTasks = tasks.filter((t) => !t.archivedAt && !t.completed && t.dueDate && (t.dueDate <= endOfMonth));
+  const thisYearTasks = tasks.filter((t) => !t.archivedAt && !t.completed && t.dueDate && (t.dueDate <= endOfYear));
   const projectTasks = isTodayFilter
     ? todayTasks
     : isThisWeekFilter
       ? thisWeekTasks
-      : isAllProjects
-        ? tasks.filter((t) => !t.archivedAt)
-        : tasks.filter((t) => t.projectId === selectedProjectId && !t.archivedAt);
+      : isThisMonthFilter
+        ? thisMonthTasks
+        : isThisYearFilter
+          ? thisYearTasks
+          : isAllProjects
+            ? tasks.filter((t) => !t.archivedAt)
+            : tasks.filter((t) => t.projectId === selectedProjectId && !t.archivedAt);
   const pendingTasks = projectTasks
     .filter((t) => !t.completed)
     .sort((a, b) => {
@@ -564,6 +579,20 @@ export default function TaskList({
                 title="Show tasks due this week"
               >
                 Week{thisWeekTasks.length > 0 ? ` ${thisWeekTasks.length}` : ""}
+              </button>
+              <button
+                onClick={() => selectProject(THIS_MONTH_FILTER_ID)}
+                className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${isThisMonthFilter ? "bg-sky-500 text-white" : "text-white/60 hover:text-white/90 hover:bg-white/10"}`}
+                title="Show tasks due this month"
+              >
+                Month{thisMonthTasks.length > 0 ? ` ${thisMonthTasks.length}` : ""}
+              </button>
+              <button
+                onClick={() => selectProject(THIS_YEAR_FILTER_ID)}
+                className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${isThisYearFilter ? "bg-emerald-500 text-white" : "text-white/60 hover:text-white/90 hover:bg-white/10"}`}
+                title="Show tasks due this year"
+              >
+                Year{thisYearTasks.length > 0 ? ` ${thisYearTasks.length}` : ""}
               </button>
             </div>
             {/* View mode toggles */}
@@ -829,7 +858,7 @@ export default function TaskList({
             type="text"
             value={newTaskTitle}
             onChange={(e) => setNewTaskTitle(e.target.value)}
-            placeholder={`Add a task to ${isAllProjects || isTodayFilter ? "General" : currentProject?.name ?? "General"}...`}
+            placeholder={`Add a task to ${isAllProjects || isTimeFilter ? "General" : currentProject?.name ?? "General"}...`}
             maxLength={MAX_TASK_TITLE}
             className="flex-1 px-3 py-2 text-sm border border-slate-200 dark:border-[#243350] rounded-lg bg-white dark:bg-[#131d30] dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-200 outline-none"
           />
@@ -863,7 +892,7 @@ export default function TaskList({
                     key={tpl.label}
                     type="button"
                     onClick={() => {
-                      const newTasks = templateToTasks(tpl, (isAllProjects || isTodayFilter) ? DEFAULT_PROJECT_ID : selectedProjectId);
+                      const newTasks = templateToTasks(tpl, (isAllProjects || isTimeFilter) ? DEFAULT_PROJECT_ID : selectedProjectId);
                       persist([...tasks, ...newTasks]);
                       setShowTemplateMenu(false);
                     }}
@@ -888,17 +917,17 @@ export default function TaskList({
         {pendingTasks.length === 0 && completedTasks.length === 0 && (
           <div className="py-4">
             <div className="text-center mb-4">
-              <p className="text-slate-500 dark:text-slate-300 text-base mb-1">{isTodayFilter ? "No tasks due today" : "No tasks yet"}</p>
-              <p className="text-slate-400 dark:text-slate-400 text-sm">{isTodayFilter ? "Set due dates on tasks to see them here" : "Add a task above or pick a template to get started"}</p>
+              <p className="text-slate-500 dark:text-slate-300 text-base mb-1">{isTimeFilter ? `No tasks due ${isTodayFilter ? "today" : isThisWeekFilter ? "this week" : isThisMonthFilter ? "this month" : "this year"}` : "No tasks yet"}</p>
+              <p className="text-slate-400 dark:text-slate-400 text-sm">{isTimeFilter ? "Set due dates on tasks to see them here" : "Add a task above or pick a template to get started"}</p>
             </div>
-            {!isTodayFilter && (
+            {!isTimeFilter && (
             <div className="grid grid-cols-2 gap-2">
               {TASK_TEMPLATES.map((tpl) => (
                 <button
                   key={tpl.label}
                   type="button"
                   onClick={() => {
-                    const newTasks = templateToTasks(tpl, (isAllProjects || isTodayFilter) ? DEFAULT_PROJECT_ID : selectedProjectId);
+                    const newTasks = templateToTasks(tpl, (isAllProjects || isTimeFilter) ? DEFAULT_PROJECT_ID : selectedProjectId);
                     persist([...tasks, ...newTasks]);
                   }}
                   className="text-left p-3 rounded-xl border border-slate-100 dark:border-[#1e3050] hover:border-purple-200 dark:hover:border-purple-700 hover:bg-purple-50/50 dark:hover:bg-purple-900/20 transition-all group"
@@ -1002,7 +1031,7 @@ export default function TaskList({
                     onDoubleClick={() => startEditing(task)}
                   >
                     {task.title}
-                    {(isAllProjects || isTodayFilter) && (
+                    {(isAllProjects || isTimeFilter) && (
                       <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium rounded bg-slate-100 dark:bg-[#1a2d4a] text-slate-500 dark:text-slate-400 align-middle">
                         {getProjectName(task.projectId)}
                       </span>
@@ -1332,7 +1361,7 @@ export default function TaskList({
                   </button>
                   <span className="text-sm text-slate-400 dark:text-slate-400 line-through truncate">
                     {task.title}
-                    {(isAllProjects || isTodayFilter) && (
+                    {(isAllProjects || isTimeFilter) && (
                       <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 text-[10px] font-medium rounded bg-slate-100 dark:bg-[#1a2d4a] text-slate-500 dark:text-slate-400 align-middle no-underline">
                         {getProjectName(task.projectId)}
                       </span>
