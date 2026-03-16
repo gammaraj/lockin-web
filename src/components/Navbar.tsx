@@ -40,7 +40,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="relative z-10 px-4 sm:px-6 py-3 sm:py-4 max-w-5xl mx-auto w-full">
+    <nav className="relative z-10 px-4 sm:px-6 py-3 sm:py-4 max-w-[1080px] mx-auto w-full">
       <div className="flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <div className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-xl shadow-sm" style={{ background: "linear-gradient(135deg, #f59e0b, #ea580c)", boxShadow: "0 1px 3px rgba(245,158,11,0.25)" }}>
