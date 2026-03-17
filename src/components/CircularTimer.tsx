@@ -68,7 +68,7 @@ export default function CircularTimer({
           <div className="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white leading-none tracking-tight">
             {displayTime}
           </div>
-          <div className="text-xs text-slate-500 dark:text-slate-300 mt-0.5">
+          <div className="hidden sm:block text-xs text-slate-500 dark:text-slate-300 mt-0.5">
             {statusText}
           </div>
         </div>
