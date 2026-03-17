@@ -156,28 +156,42 @@ export default function AppPage() {
 
             {/* Main content */}
             <div className="bg-white/60 dark:bg-[#111827] backdrop-blur-sm px-4 py-0 sm:py-2">
-              <CircularTimer
-                remainingTime={timer.remainingTime}
-                totalDuration={
-                  timer.isBreakMode
-                    ? timer.settings.breakDuration
-                    : timer.settings.workDuration
-                }
-                label={timer.label}
-                statusText={timer.statusText}
-                displayTime={
-                  timer.status === "break"
-                    ? formatTime(timer.remainingTime)
-                    : displayTime
-                }
-                isBreak={timer.isBreakMode}
-              />
+              <div className="relative pb-6 sm:pb-0">
+                <CircularTimer
+                  remainingTime={timer.remainingTime}
+                  totalDuration={
+                    timer.isBreakMode
+                      ? timer.settings.breakDuration
+                      : timer.settings.workDuration
+                  }
+                  label={timer.label}
+                  statusText={timer.statusText}
+                  displayTime={
+                    timer.status === "break"
+                      ? formatTime(timer.remainingTime)
+                      : displayTime
+                  }
+                  isBreak={timer.isBreakMode}
+                />
 
-              <TimerControls
-                isRunning={isRunning}
-                onStartPause={handleStartPause}
-                onReset={timer.reset}
-              />
+                {/* On mobile: overlay controls at bottom edge of timer */}
+                <div className="sm:hidden absolute bottom-0 left-1/2 -translate-x-1/2 z-10">
+                  <TimerControls
+                    isRunning={isRunning}
+                    onStartPause={handleStartPause}
+                    onReset={timer.reset}
+                  />
+                </div>
+              </div>
+
+              {/* On desktop: controls below timer */}
+              <div className="hidden sm:block">
+                <TimerControls
+                  isRunning={isRunning}
+                  onStartPause={handleStartPause}
+                  onReset={timer.reset}
+                />
+              </div>
             </div>
 
             {timer.lastQuote && (
