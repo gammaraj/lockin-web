@@ -640,7 +640,7 @@ export default function TaskList({
       {viewMode === "list" && (<>
       <div className="px-4 pt-3 pb-1 relative" ref={projectMenuRef}>
         <div className="relative">
-          <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide pr-6">
+          <div className="flex flex-wrap items-center gap-1.5 sm:flex-nowrap sm:overflow-x-auto sm:scrollbar-hide sm:pr-6">
             {/* All Projects tab */}
           <button
             onClick={() => selectProject(ALL_PROJECTS_ID)}
