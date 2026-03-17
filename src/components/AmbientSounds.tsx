@@ -337,7 +337,7 @@ export default function AmbientSounds() {
       {/* Ambient Sounds mode */}
       {mode === "sounds" && (
         <div className="bg-slate-100 dark:bg-[#131d30] rounded-xl px-3 py-3 border border-slate-200 dark:border-[#243350]">
-          <div className="grid grid-cols-4 gap-2 mb-2">
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mb-2">
             {SOUNDS.map((s) => (
               <button
                 key={s.id}

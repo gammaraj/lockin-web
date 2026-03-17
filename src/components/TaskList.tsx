@@ -1055,46 +1055,31 @@ export default function TaskList({
                       </svg>
                       Edit
                     </button>
-                    <button
-                      onClick={() => {
-                        const input = document.getElementById(`due-${task.id}`) as HTMLInputElement;
-                        input?.showPicker();
-                      }}
-                      className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-[#1a2d4a] rounded-md transition-colors"
+                    <label
+                      className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-md transition-colors cursor-pointer ${
+                        task.dueDate && !task.completed && isDueDateOverdue(task.dueDate)
+                          ? "text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
+                          : task.dueDate && !task.completed && task.dueDate === getToday()
+                            ? "text-orange-500 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20"
+                            : "text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-[#1a2d4a]"
+                      }`}
                       title={task.dueDate ? `Due: ${formatDueDate(task.dueDate)}` : "Set due date"}
                     >
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                       {task.dueDate ? formatDueDate(task.dueDate) : "Due date"}
-                    </button>
-                    <input
-                      id={`due-${task.id}`}
-                      type="date"
-                      className="absolute w-0 h-0 opacity-0 pointer-events-none"
-                      value={task.dueDate ?? ""}
-                      onChange={(e) => setDueDate(task.id, e.target.value || undefined)}
-                    />
+                      {task.dueDate && !task.completed && isDueDateOverdue(task.dueDate) && " (overdue)"}
+                      <input
+                        type="date"
+                        className="sr-only"
+                        value={task.dueDate ?? ""}
+                        onChange={(e) => setDueDate(task.id, e.target.value || undefined)}
+                      />
+                    </label>
                   </div>
-                  {(task.dueDate || hasSubtasks || task.sessions > 0 || (task.timeSpent || 0) > 0) && (
+                  {(hasSubtasks || task.sessions > 0 || (task.timeSpent || 0) > 0) && (
                     <span className="text-xs text-slate-400 dark:text-slate-500">·</span>
-                  )}
-                  {task.dueDate && (
-                    <span className={`inline-flex items-center gap-1 text-xs font-medium ${
-                      task.completed
-                        ? "text-slate-400 dark:text-slate-500"
-                        : isDueDateOverdue(task.dueDate)
-                          ? "text-red-500 dark:text-red-400"
-                          : task.dueDate === getToday()
-                            ? "text-orange-500 dark:text-orange-400"
-                            : "text-slate-500 dark:text-slate-400"
-                    }`}>
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      {formatDueDate(task.dueDate)}
-                      {!task.completed && isDueDateOverdue(task.dueDate) && " (overdue)"}
-                    </span>
                   )}
                   {hasSubtasks && (
                     <span className="text-xs text-slate-500 dark:text-slate-400">

@@ -88,7 +88,7 @@ export default function SettingsPanel({
       <div className="settings-panel">
         {/* Header */}
         <div
-          className="px-6 py-4 text-white flex justify-between items-center rounded-t-[20px]"
+          className="px-4 sm:px-6 py-3 sm:py-4 text-white flex justify-between items-center rounded-t-[20px]"
           style={{
             background: "linear-gradient(135deg, #0f1b33 0%, #1a2d4a 100%)",
           }}
@@ -126,7 +126,7 @@ export default function SettingsPanel({
         </div>
 
         {/* Content */}
-        <form onSubmit={handleSubmit} className="p-5 space-y-5">
+        <form onSubmit={handleSubmit} className="p-3 sm:p-5 space-y-5">
           {/* Quick Presets */}
           <div>
             <h4 className="text-base font-semibold text-slate-800 dark:text-slate-100 mb-2 flex items-center">
