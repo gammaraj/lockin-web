@@ -88,7 +88,7 @@ export default function DailyProgress({
 
         {/* Progress bar */}
         <div
-          className="w-full bg-slate-100 dark:bg-[#1a2d4a] rounded-full h-2.5 sm:h-3.5 mb-2 sm:mb-4 border border-slate-200/80 dark:border-[#243350] overflow-hidden"
+          className="w-full bg-slate-100 dark:bg-[#1a2d4a] rounded-full h-2.5 sm:h-3.5 mb-1 sm:mb-4 border border-slate-200/80 dark:border-[#243350] overflow-hidden"
           role="progressbar"
           aria-valuenow={progressPercent}
           aria-valuemin={0}
@@ -104,7 +104,7 @@ export default function DailyProgress({
 
         {/* Status text */}
         <div
-          className={`text-sm text-center font-medium ${
+          className={`hidden sm:block text-sm text-center font-medium ${
             goalMet
               ? "text-green-600 dark:text-green-300"
               : "text-slate-600 dark:text-slate-300"
