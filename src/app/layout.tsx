@@ -118,23 +118,23 @@ export default function RootLayout({
         <link rel="help" href="/llms.txt" type="text/plain" />
         <link rel="alternate" href="/llms-full.txt" type="text/plain" title="LLM-optimized full content" />
       </head>
-      {GA_ID && (
-        <>
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-            strategy="afterInteractive"
-          />
-          <Script id="google-analytics" strategy="afterInteractive">
-            {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${GA_ID}');
-            `}
-          </Script>
-        </>
-      )}
       <body className="min-h-screen bg-slate-50 dark:bg-[#0b1121]">
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}');
+              `}
+            </Script>
+          </>
+        )}
         <ThemeProvider>
           <ToastProvider>
             <AuthProvider>{children}</AuthProvider>
