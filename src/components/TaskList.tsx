@@ -604,13 +604,13 @@ export default function TaskList({
     projects.find((p) => p.id === projectId)?.name ?? "General";
 
   return (
-    <div className="bg-white/80 dark:bg-[#111827] backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-[#1e3050] overflow-visible">
+    <div className="bg-white/80 dark:bg-[#111827] backdrop-blur-sm rounded-2xl shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-[#1e3050] overflow-hidden min-w-0">
       {/* Header */}
       <div
         className="px-4 sm:px-5 py-4 text-white rounded-t-2xl"
         style={{ background: "linear-gradient(135deg, #0f1b33 0%, #1a2d4a 100%)" }}
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between min-w-0 overflow-hidden">
           <h2 className="text-lg font-bold flex items-center gap-2">
             <svg
               className="w-5 h-5"
@@ -679,18 +679,46 @@ export default function TaskList({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
               </button>
-              <button
-                onClick={() => {
-                  setViewMode("plan");
-                  loadSettings().then(setPlanSettings);
-                }}
-                className={`px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-md text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${viewMode === "plan" ? "bg-white/20 text-white" : "text-white/50 hover:text-white/80"}`}
-                title="Smart Plan"
-              >
-                Suggest a plan
-              </button>
             </div>
           </div>
+        </div>
+
+        {/* Suggest a plan button */}
+        <div className="mt-3">
+          <button
+            onClick={() => {
+              setViewMode(viewMode === "plan" ? "list" : "plan");
+              loadSettings().then(setPlanSettings);
+            }}
+            className={`w-full flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
+              viewMode === "plan"
+                ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md shadow-blue-500/20"
+                : "bg-white/10 text-white/80 hover:bg-white/20 hover:text-white"
+            }`}
+          >
+            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            {viewMode === "plan" ? "Viewing Plan" : "Suggest a Plan"}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                const el = e.currentTarget.nextElementSibling;
+                if (el) el.classList.toggle("invisible");
+              }}
+              className="relative"
+              aria-label="What is this?"
+            >
+              <svg className="w-3.5 h-3.5 text-white/50 hover:text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+            <div className="invisible absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 sm:w-56 p-2 sm:p-2.5 bg-slate-900 text-white text-[11px] sm:text-xs rounded-lg shadow-xl z-50 leading-relaxed text-left font-normal">
+              Analyzes your tasks, due dates, and daily goals to create a day-by-day execution plan. Flags overdue and at-risk items.
+              <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-4 border-transparent border-t-slate-900" />
+            </div>
+          </button>
         </div>
         {/* Time filters - mobile: own row below title */}
         <div className="flex sm:hidden items-center gap-1 bg-white/10 rounded-lg p-0.5 mt-3">

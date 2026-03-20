@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import type { Task, Project, Settings } from "@/lib/types";
 import { generateSmartPlan, type ScoredTask, type DayPlan } from "@/lib/smartplan";
 
@@ -28,7 +28,7 @@ function TaskRow({
 
   return (
     <div
-      className={`group flex items-center gap-2.5 px-3 py-2 rounded-lg transition-colors cursor-pointer hover:bg-slate-50 dark:hover:bg-[#1a2d4a] ${
+      className={`group flex items-center gap-2 sm:gap-2.5 px-2.5 sm:px-3 py-2 rounded-lg transition-colors cursor-pointer hover:bg-slate-50 dark:hover:bg-[#1a2d4a] ${
         st.overdue ? "border-l-2 border-red-400" : st.atRisk ? "border-l-2 border-amber-400" : ""
       }`}
       onClick={() => onStartTask(t.id)}
@@ -42,35 +42,35 @@ function TaskRow({
       )}
 
       <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <span className="text-sm font-medium text-slate-800 dark:text-slate-100 truncate">
             {t.title}
           </span>
           {st.overdue && (
-            <span className="text-[10px] font-medium text-red-500 bg-red-50 dark:bg-red-900/20 px-1.5 py-0.5 rounded">
+            <span className="text-[10px] font-medium text-red-500 bg-red-50 dark:bg-red-900/20 px-1.5 py-0.5 rounded flex-shrink-0">
               Overdue
             </span>
           )}
         </div>
-        <div className="flex items-center gap-2 mt-0.5">
+        <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0 mt-0.5">
           <span className="text-[11px] text-slate-400 dark:text-slate-500">{st.projectName}</span>
           {t.sessions > 0 && (
             <span className="text-[11px] text-slate-400 dark:text-slate-500">
-              · {t.sessions} session{t.sessions !== 1 ? "s" : ""} ({formatDuration(t.timeSpent)})
+              · {t.sessions}s ({formatDuration(t.timeSpent)})
             </span>
           )}
           {subtaskProgress && (
             <span className="text-[11px] text-slate-400 dark:text-slate-500">
-              · {subtaskProgress} subtasks
+              · {subtaskProgress}
             </span>
           )}
         </div>
       </div>
 
-      {/* Start button */}
+      {/* Start button — always visible on mobile */}
       <button
         onClick={(e) => { e.stopPropagation(); onStartTask(t.id); }}
-        className="flex-shrink-0 opacity-0 group-hover:opacity-100 p-1.5 text-blue-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all"
+        className="flex-shrink-0 p-1.5 text-blue-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all sm:opacity-0 sm:group-hover:opacity-100"
         title="Start this task"
       >
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -94,17 +94,17 @@ function DaySection({
   const totalTime = day.tasks.length * workDurationMin;
 
   return (
-    <div className="mb-4">
-      <div className="flex items-center justify-between mb-1.5 px-1">
-        <div className="flex items-center gap-2">
-          <h3 className={`text-sm font-semibold ${isToday ? "text-blue-600 dark:text-blue-400" : "text-slate-700 dark:text-slate-200"}`}>
+    <div className="mb-3 sm:mb-4">
+      <div className="flex items-center justify-between mb-1.5 px-1 gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+          <h3 className={`text-sm font-semibold flex-shrink-0 ${isToday ? "text-blue-600 dark:text-blue-400" : "text-slate-700 dark:text-slate-200"}`}>
             {day.label}
           </h3>
-          <span className="text-[11px] text-slate-400 dark:text-slate-500">
+          <span className="text-[11px] text-slate-400 dark:text-slate-500 truncate">
             {day.date}
           </span>
         </div>
-        <span className="text-[11px] text-slate-400 dark:text-slate-500">
+        <span className="text-[11px] text-slate-400 dark:text-slate-500 flex-shrink-0 whitespace-nowrap">
           {day.tasks.length} task{day.tasks.length !== 1 ? "s" : ""} · ~{totalTime}m
         </span>
       </div>
@@ -142,9 +142,9 @@ export default function SmartPlan({
   const workDurationMin = Math.round(settings.workDuration / 60_000);
 
   return (
-    <div className="p-4 space-y-4 overflow-hidden min-w-0">
+    <div className="p-3 sm:p-4 space-y-3 sm:space-y-4 overflow-hidden min-w-0">
       {/* Summary cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 gap-2">
         <div className="bg-slate-50 dark:bg-[#131d30] rounded-xl px-3 py-2.5 text-center">
           <div className="text-lg font-bold text-slate-800 dark:text-white">{plan.summary.totalTasks}</div>
           <div className="text-[11px] text-slate-500 dark:text-slate-400">Open Tasks</div>
