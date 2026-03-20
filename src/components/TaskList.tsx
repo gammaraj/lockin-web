@@ -80,6 +80,7 @@ export default function TaskList({
   const [dragOverTaskId, setDragOverTaskId] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"list" | "calendar" | "plan">("list");
   const [planSettings, setPlanSettings] = useState<Settings>(DEFAULT_SETTINGS);
+  const [showPlanInfo, setShowPlanInfo] = useState(false);
   const [calendarDate, setCalendarDate] = useState(new Date());
   const projectMenuRef = useRef<HTMLDivElement>(null);
   const templateMenuRef = useRef<HTMLDivElement>(null);
@@ -684,41 +685,40 @@ export default function TaskList({
         </div>
 
         {/* Suggest a plan button */}
-        <div className="mt-3">
-          <button
-            onClick={() => {
-              setViewMode(viewMode === "plan" ? "list" : "plan");
-              loadSettings().then(setPlanSettings);
-            }}
-            className={`w-full flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
-              viewMode === "plan"
-                ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md shadow-blue-500/20"
-                : "bg-white/10 text-white/80 hover:bg-white/20 hover:text-white"
-            }`}
-          >
-            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            {viewMode === "plan" ? "Viewing Plan" : "Suggest a Plan"}
+        <div className="mt-3 relative">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                setViewMode(viewMode === "plan" ? "list" : "plan");
+                loadSettings().then(setPlanSettings);
+              }}
+              className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all ${
+                viewMode === "plan"
+                  ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md shadow-blue-500/20"
+                  : "bg-white/10 text-white/80 hover:bg-white/20 hover:text-white"
+              }`}
+            >
+              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              {viewMode === "plan" ? "Viewing Plan" : "Suggest a Plan"}
+            </button>
             <button
               type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                const el = e.currentTarget.nextElementSibling;
-                if (el) el.classList.toggle("invisible");
-              }}
-              className="relative"
-              aria-label="What is this?"
+              onClick={() => setShowPlanInfo(!showPlanInfo)}
+              className="p-2 rounded-lg text-white/50 hover:text-white/80 hover:bg-white/10 transition-colors"
+              aria-label="What is Smart Plan?"
             >
-              <svg className="w-3.5 h-3.5 text-white/50 hover:text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </button>
-            <div className="invisible absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 sm:w-56 p-2 sm:p-2.5 bg-slate-900 text-white text-[11px] sm:text-xs rounded-lg shadow-xl z-50 leading-relaxed text-left font-normal">
+          </div>
+          {showPlanInfo && (
+            <div className="mt-2 p-2.5 bg-slate-900 text-white text-[11px] sm:text-xs rounded-lg shadow-xl leading-relaxed">
               Analyzes your tasks, due dates, and daily goals to create a day-by-day execution plan. Flags overdue and at-risk items.
-              <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-4 border-transparent border-t-slate-900" />
             </div>
-          </button>
+          )}
         </div>
         {/* Time filters - mobile: own row below title */}
         <div className="flex sm:hidden items-center gap-1 bg-white/10 rounded-lg p-0.5 mt-3">

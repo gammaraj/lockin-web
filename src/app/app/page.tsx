@@ -217,7 +217,7 @@ export default function AppPage() {
         </div>
 
         {/* Task list column */}
-        <div id="tasks-section" className="w-full lg:flex-1">
+        <div id="tasks-section" className="w-full lg:flex-1 min-w-0">
           <TaskList
             key={taskListKey}
             activeTaskId={activeTaskId}
