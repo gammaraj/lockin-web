@@ -13,6 +13,7 @@ import AmbientSounds from "@/components/AmbientSounds";
 import OnboardingTour from "@/components/OnboardingTour";
 import NotificationPrompt from "@/components/NotificationPrompt";
 import DueDateReminders from "@/components/DueDateReminders";
+import NotificationBell from "@/components/NotificationBell";
 import { useAuth } from "@/components/AuthProvider";
 import { loadTasks } from "@/lib/storage";
 
@@ -114,6 +115,7 @@ export default function AppPage() {
               >
                 Tasks
               </button>
+              <NotificationBell />
               <button
                 onClick={() => setShowSettings(true)}
                 className="text-white hover:text-slate-200 transition p-2 rounded-full hover:bg-white/10"
