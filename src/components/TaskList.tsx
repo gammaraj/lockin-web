@@ -190,6 +190,7 @@ export default function TaskList({
     setTasks(updated);
     try {
       await saveTasks(updated);
+      window.dispatchEvent(new Event("tempo-tasks-updated"));
     } catch (err) {
       console.error("[Foci] Failed to save tasks:", err);
       showToast("Failed to save tasks. Changes may be lost.", "error");

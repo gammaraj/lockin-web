@@ -44,6 +44,20 @@ export default function SettingsPanel({
     const result = await Notification.requestPermission();
     setBrowserPerm(result);
   };
+
+  // Auto-request browser permission when the user enables notifications
+  useEffect(() => {
+    if (
+      notifications &&
+      typeof window !== "undefined" &&
+      "Notification" in window &&
+      Notification.permission === "default"
+    ) {
+      Notification.requestPermission().then((result) => {
+        setBrowserPerm(result);
+      });
+    }
+  }, [notifications]);
   const [saved, setSaved] = useState(false);
 
   // Close on ESC key

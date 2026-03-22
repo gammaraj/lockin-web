@@ -284,6 +284,7 @@ export function useTimer({ authLoading = false, user }: TimerOptions = {}): Time
     (quote: string, goalMet: boolean, sessionCount: number, dailyGoal: number) => {
       if (!settingsRef.current.notificationsEnabled) return;
       if (typeof window === "undefined" || !("Notification" in window)) return;
+      if (Notification.permission !== "granted") return;
 
       const title = goalMet
         ? "Daily Goal Achieved!"
@@ -292,14 +293,18 @@ export function useTimer({ authLoading = false, user }: TimerOptions = {}): Time
         ? `Congratulations! You've completed ${sessionCount}/${dailyGoal} sessions today!\n\n"${quote}"`
         : `Session ${sessionCount} complete! Keep going to reach your goal of ${dailyGoal}!\n\n"${quote}"`;
 
-      if (Notification.permission === "granted") {
-        new Notification(title, { body, icon: "/icon.png" });
-      } else if (Notification.permission !== "denied") {
-        Notification.requestPermission().then((perm) => {
-          if (perm === "granted") {
-            new Notification(title, { body, icon: "/icon.png" });
-          }
+      const options = { body, icon: "/icon.png" };
+
+      // Prefer ServiceWorkerRegistration.showNotification for reliability
+      // in PWA / background-tab contexts; fall back to Notification constructor.
+      if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.ready.then((reg) => {
+          reg.showNotification(title, options);
+        }).catch(() => {
+          new Notification(title, options);
         });
+      } else {
+        new Notification(title, options);
       }
     },
     []

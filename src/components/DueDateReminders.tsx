@@ -159,9 +159,20 @@ function sendBrowserNotification(lines: string[]) {
   if (Notification.permission !== "granted") return;
 
   const body = lines.join("\n");
-  new Notification("Foci — Task Reminders", {
+  const title = "Foci — Task Reminders";
+  const options = {
     body,
     icon: "/icon.png",
     tag: "foci-due-date-reminder",
-  });
+  };
+
+  if ("serviceWorker" in navigator && navigator.serviceWorker.controller) {
+    navigator.serviceWorker.ready.then((reg) => {
+      reg.showNotification(title, options);
+    }).catch(() => {
+      new Notification(title, options);
+    });
+  } else {
+    new Notification(title, options);
+  }
 }
