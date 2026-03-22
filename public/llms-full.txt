@@ -80,6 +80,12 @@ A: Yes. Foci includes a built-in brown noise generator that works completely off
 **Q: Can I use Foci for deep work?**
 A: Yes. Foci is designed for deep work sessions. Set your timer, pick a task, turn on ambient sounds like brown noise or rain, and focus without distraction. Foci tracks your sessions and daily goals so you can build a consistent deep work habit.
 
+**Q: Can Stoic philosophy help with focus and productivity?**
+A: Yes. Stoic concepts map directly onto focus practice. The dichotomy of control reminds you that only your attention is truly in your control — not interruptions or notifications. Premeditatio malorum helps you plan for distraction before it arrives. Memento mori reframes procrastination as squandering finite time. Amor fati encourages embracing the friction of deep work. These are practical mental moves you can use every session.
+
+**Q: What is premeditatio malorum?**
+A: Premeditatio malorum is a Stoic practice of mentally rehearsing potential obstacles before starting a task. Before a focus session, ask: what will try to pull my attention away? Which distractions can I eliminate now? How will I respond to the rest? This preparation removes surprise and makes you far less likely to be derailed.
+
 **Q: What is the best free Pomodoro timer?**
 A: Foci is a strong choice: it is completely free, requires no account, and combines a Pomodoro timer with task tracking, ambient music, daily goals, and streak tracking in a single tool. It works on any device and can be installed as a PWA.
 
@@ -138,6 +144,16 @@ Unlike most standalone Pomodoro timers, Foci integrates task tracking, ambient m
 - Stats: https://usefoci.com/stats
 - Blog: https://usefoci.com/blog
 - Login: https://usefoci.com/login
+- Blog – Pomodoro Guide: https://usefoci.com/blog/pomodoro-technique-guide
+- Blog – Stay Focused Studying: https://usefoci.com/blog/how-to-stay-focused-while-studying
+- Blog – Pomodoro vs Flowtime vs 52/17: https://usefoci.com/blog/pomodoro-vs-flowtime-vs-52-17
+- Blog – Brown Noise: https://usefoci.com/blog/brown-noise-for-studying-and-focus
+- Blog – Deep Work & AI: https://usefoci.com/blog/deep-work-in-the-age-of-ai
+- Blog – Migrate from Google Tasks: https://usefoci.com/blog/migrate-from-google-tasks-to-foci
+- Blog – Migrate from Todoist: https://usefoci.com/blog/migrate-from-todoist-to-foci
+- Blog – Migrate from Asana: https://usefoci.com/blog/migrate-from-asana-to-foci
+- Blog – Migrate from Notion: https://usefoci.com/blog/migrate-from-notion-to-foci
+- Blog – Stoicism and Focus: https://usefoci.com/blog/stoicism-and-focus
 
 ---
 
@@ -625,3 +641,44 @@ With AI handling routine cognitive tasks, the premium on deep thinking has incre
 Use AI before and after focus sessions (gather context, refine output), but not during. This gives you the speed benefits of AI without sacrificing sustained depth.
 
 Foci is designed for exactly this workflow — set your timer, pick your task, start ambient sounds, and let the timer hold you accountable.
+
+---
+
+### Stoicism and Focus: Ancient Wisdom for the Distracted Modern Mind
+
+> URL: https://usefoci.com/blog/stoicism-and-focus
+> Date: 2026-03-21 | Reading time: 8 min read
+> Tags: stoicism, focus, productivity, philosophy, mindset
+
+Stoicism — the ancient Greek and Roman philosophy practiced by emperors, slaves, and scholars alike — turns out to be one of the most useful frameworks for thinking about focus in the modern world. Not because it offers productivity hacks, but because it asks a more fundamental question: what is actually worth your attention?
+
+#### The dichotomy of control: the Stoic foundation of focus
+
+Epictetus taught that some things are in our control (our opinions, desires, actions) and others are not (reputation, interruptions, other people's behavior). Applied to focus, most of what derails you falls outside your control: a coworker interrupting, a notification arriving, a meeting added to your calendar. The Stoics wouldn't tell you to resist these harder — they'd tell you to stop treating them as threats to begin with. What *is* in your control: where you direct your attention in this moment. That's the whole game.
+
+#### Premeditatio malorum: planning for distraction before it happens
+
+Premeditatio malorum — the premeditation of adversity — is one of the most practical Stoic exercises. Before starting important work, visualize what could go wrong. Ask: What will try to pull my attention away? Which distractions can I eliminate now? How will I respond to the rest? The Stoic who has already imagined interruptions isn't thrown off when they arrive — they've already decided what to do.
+
+#### Memento mori: urgency without anxiety
+
+Memento mori ("remember that you will die") is a Stoic focusing tool, not a source of dread. Seneca wrote: "It is not that we have a short time to live, but that we waste a great deal of it." This is the Stoic answer to procrastination — not "be more disciplined," but: you are spending a finite, irreplaceable resource carelessly. When drifting to distractions, ask: Is this how I want to spend one of my remaining hours?
+
+#### The view from above: deflating false urgency
+
+Marcus Aurelius practiced mentally rising above his immediate situation to see it in larger context. Applied to focus: that urgent email — will it matter in 10 days? The news cycle — will your reading it change anything? Most "urgent" distractions reveal themselves as noise. The work in front of you usually survives the zoom out.
+
+#### Amor fati: embracing friction in focused work
+
+Amor fati ("love of fate") means not just accepting what happens, but embracing it. Applied to focus: embrace the difficulty of deep work rather than resenting it. Concentration is hard. The mind wanders. The Stoic response isn't to wish it were easier — it's to recognize that the friction is the practice. As Marcus Aurelius wrote: "The impediment to action advances action. What stands in the way becomes the way."
+
+#### Practical Stoic habits
+
+- **Morning reflection (5 min)**: What do I intend to accomplish? What might make that hard? How will I respond?
+- **"Is this in my control?" check**: When something disrupts focus, pause and ask. If yes, act. If no, release it and return to work.
+- **Evening review (5 min)**: What did I do well? Where did I fall short? What would I do differently tomorrow?
+- **Attention as a finite resource**: Every low-value thing you attend to is borrowed from something more meaningful.
+
+#### Stoicism isn't about doing more
+
+The Stoics weren't interested in maximizing tasks completed — they were interested in living well, which meant giving full attention to what actually matters. Focus, in the Stoic sense, isn't a productivity strategy. It's an expression of values.

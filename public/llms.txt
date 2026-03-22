@@ -80,6 +80,12 @@ A: Yes. Foci includes a built-in brown noise generator that works completely off
 **Q: Can I use Foci for deep work?**
 A: Yes. Foci is designed for deep work sessions. Set your timer, pick a task, turn on ambient sounds like brown noise or rain, and focus without distraction. Foci tracks your sessions and daily goals so you can build a consistent deep work habit.
 
+**Q: Can Stoic philosophy help with focus and productivity?**
+A: Yes. Stoic concepts map directly onto focus practice. The dichotomy of control reminds you that only your attention is truly in your control. Premeditatio malorum helps you plan for distraction before it arrives. Memento mori reframes procrastination as squandering finite time. Amor fati encourages embracing the friction of deep work. These aren't abstract ideas — they're practical mental moves you can use every session.
+
+**Q: What is premeditatio malorum?**
+A: Premeditatio malorum is a Stoic practice of mentally rehearsing potential obstacles before starting a task. Before a focus session, ask: what will try to pull my attention away? Which distractions can I eliminate now? How will I respond to the rest? This preparation removes surprise and makes you far less likely to be derailed.
+
 **Q: What is the best free Pomodoro timer?**
 A: Foci is a strong choice: it is completely free, requires no account, and combines a Pomodoro timer with task tracking, ambient music, daily goals, and streak tracking in a single tool. It works on any device and can be installed as a PWA.
 
@@ -95,6 +101,19 @@ Unlike most standalone Pomodoro timers, Foci integrates task tracking, ambient m
 - **vs. Forest app**: Forest is a gamified focus app (paid). Foci provides a more complete system with tasks, streaks, and ambient music at no cost.
 - **vs. Be Focused / Focus@Will**: These are timer-only or music-only apps. Foci combines both, plus task tracking and goal streaks, in one free tool.
 - **vs. Notion / Todoist**: Those are task managers without a built-in focus timer or ambient sound. Foci is purpose-built for the work session itself. You can import your tasks from Todoist, Notion, Asana, or Google Tasks into Foci.
+
+## Blog
+
+- https://usefoci.com/blog/pomodoro-technique-guide — What Is the Pomodoro Technique? A Complete Guide
+- https://usefoci.com/blog/how-to-stay-focused-while-studying — How to Stay Focused While Studying: 7 Proven Strategies
+- https://usefoci.com/blog/pomodoro-vs-flowtime-vs-52-17 — Pomodoro vs. Flowtime vs. 52/17: Which Focus Technique Is Best?
+- https://usefoci.com/blog/brown-noise-for-studying-and-focus — Brown Noise for Studying: Why It Works and How to Use It
+- https://usefoci.com/blog/deep-work-in-the-age-of-ai — Deep Work in the Age of AI: How to Stay Focused When Everything Is Instant
+- https://usefoci.com/blog/migrate-from-google-tasks-to-foci — How to Migrate from Google Tasks to Foci
+- https://usefoci.com/blog/migrate-from-todoist-to-foci — How to Migrate from Todoist to Foci
+- https://usefoci.com/blog/migrate-from-asana-to-foci — How to Migrate from Asana to Foci
+- https://usefoci.com/blog/migrate-from-notion-to-foci — How to Migrate from Notion to Foci
+- https://usefoci.com/blog/stoicism-and-focus — Stoicism and Focus: Ancient Wisdom for the Distracted Modern Mind
 
 ## Tech Stack
 
